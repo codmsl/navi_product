@@ -972,6 +972,7 @@ button.more:hover{color:var(--ink)}
 .rstat small{display:block;font-size:11.5px;color:var(--mut)}
 .rstat b{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
 .rstat .bar{height:4px;margin-top:6px}
+.rstat.macro b{font-size:16px;white-space:nowrap}
 .rchart .rsvg svg{display:block;width:100%;height:auto;margin-top:6px;overflow:visible}
 .rchart .gl{stroke:var(--line);stroke-width:1}
 .rchart text{font-size:9.5px;fill:var(--mut);font-family:inherit}
@@ -2716,7 +2717,7 @@ function dayCard(k){
   if(!ml.length){c.append(el('div','card empty',k>TODAY?'아직 오지 않은 날이에요.':'이날은 식단 기록이 없어요.'));return c}
   h.append(el('span','more',`${ml.length}끼`));
   const hr=el('div','rhero'),n=el('div');n.append(el('b','num',tot.toLocaleString()),el('span',null,kcalGoal?`/ ${kcalGoal.toLocaleString()} kcal`:'kcal'));hr.append(n);c.append(hr);
-  const mc=el('div','card rstat');[['탄수화물','c'],['단백질','p'],['지방','f']].forEach(([nm,kk])=>{const v=ml.reduce((a,x)=>a+(x[kk]||0),0),g=macroGoal&&macroGoal[kk],d=el('div');
+  const mc=el('div','card rstat macro');[['탄수화물','c'],['단백질','p'],['지방','f']].forEach(([nm,kk])=>{const v=ml.reduce((a,x)=>a+(x[kk]||0),0),g=macroGoal&&macroGoal[kk],d=el('div');
    d.append(el('small',null,nm),el('b','num',g?`${v} / ${g}g`:`${v}g`));if(g){const b=el('div','bar'),i=el('i');i.style.width=Math.min(100,v/g*100)+'%';b.append(i);d.append(b)}mc.append(d)});c.append(mc);
   const box=el('div','card');box.append(el('h3',null,'먹은 음식'));
   ml.forEach(x=>{const r=el('div','meal-row'),t=el('div');t.append(el('b',null,x.name));if(x.c!=null)t.append(el('small',null,`탄 ${x.c} · 단 ${x.p} · 지 ${x.f}g`));
