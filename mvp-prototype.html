@@ -48,21 +48,24 @@ const PAST_PLANS = [
 ];
 /* 헬스 루틴. last는 같은 운동의 지난번 세트 기록. 오늘 계획은 lower(하체) */
 const ROUTINES = {
-  lower: { title: "하체 루틴", sub: "헬스장 · 4종목", list: [
+  lower: { title: "하체 루틴", sub: "헬스장 · 5종목", list: [
     { id: "squat", name: "바벨 스쿼트", sets: 4, lastDate: "2026-11-05", last: [[40,10],[40,10],[45,8],[45,8]] },
     { id: "rdl", name: "루마니안 데드리프트", sets: 3, lastDate: "2026-11-05", last: [[30,12],[30,12],[35,10]] },
     { id: "press", name: "레그 프레스", sets: 3, lastDate: "2026-11-05", last: [[80,12],[80,12],[90,10]] },
-    { id: "lunge", name: "덤벨 런지", sets: 3, lastDate: "2026-11-05", last: [[10,10],[10,10],[10,10]] } ] },
-  upper: { title: "상체 루틴", sub: "헬스장 · 4종목", list: [
+    { id: "lunge", name: "덤벨 런지", sets: 3, lastDate: "2026-11-05", last: [[10,10],[10,10],[10,10]] },
+    { id: "tread", name: "트레드밀 걷기", sets: 1, lastDate: "2026-11-05", last: [[6,15]] } ] },
+  upper: { title: "상체 루틴", sub: "헬스장 · 5종목", list: [
     { id: "bench", name: "벤치 프레스", sets: 4, lastDate: "2026-11-02", last: [[30,10],[30,10],[35,8],[35,8]] },
     { id: "pulldown", name: "랫 풀다운", sets: 3, lastDate: "2026-11-02", last: [[35,12],[35,12],[40,10]] },
     { id: "shoulder", name: "덤벨 숄더 프레스", sets: 3, lastDate: "2026-11-02", last: [[8,12],[8,12],[10,10]] },
-    { id: "row", name: "시티드 로우", sets: 3, lastDate: "2026-11-02", last: [[30,12],[30,12],[35,10]] } ] },
-  full: { title: "전신 루틴", sub: "홈트 · 4종목 · 덤벨만 있으면 돼요", list: [
+    { id: "row", name: "시티드 로우", sets: 3, lastDate: "2026-11-02", last: [[30,12],[30,12],[35,10]] },
+    { id: "rowm", name: "로잉 머신", sets: 1, lastDate: "2026-11-02", last: [[5,10]] } ] },
+  full: { title: "전신 루틴", sub: "홈트 · 5종목 · 덤벨만 있으면 돼요", list: [
     { id: "gsquat", name: "고블릿 스쿼트", sets: 3, lastDate: "2026-10-31", last: [[10,15],[10,15],[10,12]] },
     { id: "pushup", name: "푸시업", sets: 3, lastDate: "2026-10-31", last: [[0,15],[0,12],[0,10]] },
     { id: "drow", name: "덤벨 로우", sets: 3, lastDate: "2026-10-31", last: [[10,12],[10,12],[10,12]] },
-    { id: "burpee", name: "버피", sets: 3, lastDate: "2026-10-31", last: [[0,10],[0,10],[0,8]] } ] }
+    { id: "burpee", name: "버피", sets: 3, lastDate: "2026-10-31", last: [[0,10],[0,10],[0,8]] },
+    { id: "rope", name: "줄넘기", sets: 1, lastDate: "2026-10-31", last: [[0,10]] } ] }
 };
 /* 종목 교체 후보 (요구사항 54: 기구나 자리가 없을 때 비슷한 운동). [이름, 언제, 추천 무게kg(0=맨몸), 추천 횟수] */
 const SWAPS = {
@@ -93,21 +96,100 @@ const ADS = [
   { em: "👟", title: "러닝화 가을 세일", sub: "스포츠 브랜드 광고 · 예시", bg: "var(--accent-soft)" }
 ];
 /* 운동 탭 상단 ∨ 메뉴에 나오는 '내 운동 종류'. 기본값은 헬스. ⊕로 추가한다.
-   kind는 이번 주 계획(WEEK)과 연결되는 종류. items는 그 종류의 기본 루틴 [동작, 양] (헬스·러닝·단체는 따로 화면이 있다) */
+   kind는 이번 주 계획(WEEK)과 연결되는 종류. items는 그 종류의 기본 루틴 [동작, 양] (헬스·러닝은 따로 화면이 있다).
+   구기 종목(kind meet)은 단체 운동으로 묶지 않고 종목마다 따로 둔다. 스트레칭은 종류가 아니라 모든 운동의 준비·마무리 운동으로 들어간다 */
 const W_TYPES = {
   헬스: { em: "🏋️", kind: "workout", sub: "하체 · 상체 · 전신 루틴" },
   러닝: { em: "🏃", kind: "run", sub: "러닝 목표 계획" },
-  "단체 운동": { em: "⚽", kind: "meet", sub: "풋살 · 농구 · 배드민턴 등", items: [["경기", "60~90분 · 뛴 시간 기록"]] },
-  스트레칭: { em: "🧘", sub: "목 · 허리 · 전신", items: [["턱 당기기", "10회 × 3"], ["목 옆 늘리기", "좌우 30초"], ["고양이-소 자세", "10회"], ["햄스트링 늘리기", "좌우 30초"]] },
+  풋살: { em: "⚽", kind: "meet", sub: "5인제 · 풋살장", items: [["패스 · 슈팅 연습", "10분"], ["경기", "2시간 · 뛴 시간 기록"]] },
+  농구: { em: "🏀", kind: "meet", sub: "3:3 · 5:5", items: [["슈팅 연습", "10분"], ["경기", "1시간 · 뛴 시간 기록"]] },
+  배드민턴: { em: "🏸", kind: "meet", sub: "복식 · 단식", items: [["랠리 연습", "10분"], ["게임", "21점 × 4게임"]] },
+  배구: { em: "🏐", kind: "meet", sub: "6인제 · 체육관", items: [["리시브 연습", "20분"], ["게임", "3세트"]] },
+  족구: { em: "🦶", kind: "meet", sub: "4인제 · 운동장", items: [["게임", "3세트"]] },
+  테니스: { em: "🎾", kind: "meet", sub: "단식 · 복식", items: [["랠리", "15분"], ["게임", "1세트"]] },
   수영: { em: "🏊", sub: "실내 수영장", items: [["자유형", "500m"], ["평영", "200m"], ["킥판 발차기", "100m"]] },
   요가: { em: "🧎", sub: "매트 · 30분", items: [["태양 경배", "5회"], ["전사 자세", "좌우 30초"], ["나무 자세", "좌우 30초"], ["사바아사나", "3분"]] },
   등산: { em: "⛰️", sub: "주말 산행", items: [["코스", "북한산 백운대"], ["예상 시간", "4시간"]] },
   자전거: { em: "🚴", sub: "한강 라이딩", items: [["거리", "20km"], ["예상 시간", "1시간 10분"]] },
   클라이밍: { em: "🧗", sub: "실내 클라이밍짐", items: [["볼더링", "V1~V2 10문제"], ["지구력", "20분"]] },
-  축구: { em: "🥅", sub: "11인제 · 운동장", items: [["패스·트래핑 연습", "15분"], ["경기", "전후반 각 30분"]] },
+  축구: { em: "🥅", kind: "meet", sub: "11인제 · 운동장", items: [["패스·트래핑 연습", "15분"], ["경기", "전후반 각 30분"]] },
   복싱: { em: "🥊", sub: "복싱짐 · 1시간", items: [["줄넘기", "3분 × 3라운드"], ["섀도복싱", "3분 × 3라운드"], ["샌드백", "3분 × 4라운드"], ["미트 치기", "3분 × 2라운드"], ["코어 운동", "10분"]] }
 };
 /* 준비(동적)·마무리(정적) 스트레칭. 헬스는 루틴 종목이 쓰는 근육(EX_INFO)으로 고르고, 나머지는 종목마다 정해 둔다. 운동 탭에서 루틴처럼 고칠 수 있다 */
+/* 스트레칭 동작 사전: [이름, 부위, 기구, 그림, warm 준비/cool 마무리/gen 가벼운 몸풀기(자세 없음), 쓰는 근육, 자세 포인트, 기본 양] */
+const ST_PARTS=['목·어깨','가슴·등','팔','허리·코어','엉덩이·고관절','다리','전신'],ST_EQUIP=['맨몸','고무 밴드','폼롤러','마사지볼','벽·문틀','의자·벤치'];
+const ST_DB = [
+  ["맨몸 스쿼트 천천히","다리","맨몸","squat","warm",["quad","glute"],["발은 어깨너비로 서요","천천히 앉았다 일어나며 무릎을 데워요"],"10회"],
+  ["고관절 돌리기","엉덩이·고관절","맨몸","st_hip","warm",["glute"],["한 손으로 벽이나 의자를 짚어요","무릎을 들어 바깥으로 크게 원을 그려요"],"좌우 8회"],
+  ["레그 스윙 (앞뒤)","다리","벽·문틀","st_swing","warm",["ham","glute"],["벽을 짚고 한 다리로 서요","다리에 힘을 빼고 앞뒤로 흔들어요"],"좌우 10회"],
+  ["레그 스윙 (앞뒤·옆)","다리","벽·문틀","st_swing","warm",["ham","glute"],["앞뒤로 10번, 몸 앞을 가로질러 옆으로 10번","허리는 세운 채 다리만 흔들어요"],"좌우 10회"],
+  ["레그 스윙 (옆)","엉덩이·고관절","벽·문틀","st_swing","warm",["glute"],["벽을 마주 보고 두 손으로 짚어요","다리를 몸 앞에서 좌우로 흔들어요"],"좌우 10회"],
+  ["발목 돌리기 · 까치발","다리","맨몸","st_calf","warm",["calf"],["발끝을 바닥에 대고 발목을 돌려요","까치발로 올라갔다 천천히 내려와요"],"15회"],
+  ["발목 돌리기","다리","맨몸","st_calf","warm",["calf"],["발끝을 바닥에 대고 서요","안쪽·바깥쪽으로 크게 돌려요"],"좌우 10회"],
+  ["발목 · 무릎 돌리기","다리","맨몸","st_calf","warm",["calf","quad"],["무릎을 모으고 손을 무릎에 올려요","무릎을 원 그리듯 돌린 뒤 발목도 돌려요"],"각 10회"],
+  ["무릎 돌리기","다리","맨몸","st_calf","warm",["quad"],["발을 모으고 무릎에 손을 올려요","작은 원부터 천천히 크게 돌려요"],"10회"],
+  ["고양이-소 자세","허리·코어","맨몸","st_cat","warm",["lowback","abs"],["손은 어깨 아래, 무릎은 엉덩이 아래","숨을 내쉬며 등을 둥글게, 들이쉬며 가슴을 내밀어요"],"10회"],
+  ["몸통 돌리기","허리·코어","맨몸","st_twist","warm",["obl"],["발은 어깨너비, 무릎은 살짝 굽혀요","골반은 앞을 본 채 상체만 돌려요"],"좌우 10회"],
+  ["몸통 비틀기","허리·코어","맨몸","st_twist","warm",["obl"],["팔을 가슴 앞에 모아요","시선과 함께 상체를 좌우로 돌려요"],"좌우 10회"],
+  ["허리 돌리기","허리·코어","맨몸","st_twist","warm",["lowback"],["손을 허리에 올려요","골반으로 천천히 큰 원을 그려요"],"10회"],
+  ["팔 벌려 가슴 열기","가슴·등","맨몸","st_open","warm",["chest"],["팔을 앞으로 모았다가","어깨뼈를 모으며 양옆으로 활짝 벌려요"],"10회"],
+  ["팔 돌리기 (앞뒤)","목·어깨","맨몸","st_arm","warm",["delt"],["팔을 쭉 펴고 어깨에서부터 돌려요","작은 원에서 큰 원으로 키워요"],"각 10회"],
+  ["어깨 크게 돌리기","목·어깨","맨몸","st_arm","warm",["delt"],["손끝을 어깨에 올려요","팔꿈치로 큰 원을 그려요"],"앞뒤 10회"],
+  ["어깨 · 팔 돌리기","목·어깨","맨몸","st_arm","warm",["delt"],["어깨를 먼저 돌리고","팔을 펴서 크게 돌려요"],"각 10회"],
+  ["팔 크게 휘두르기","목·어깨","맨몸","st_arm","warm",["delt","chest"],["팔을 가슴 앞에서 교차했다가","뒤로 크게 벌려요"],"15회"],
+  ["어깨뼈 모았다 펴기","가슴·등","맨몸","st_open","warm",["trap","lat"],["팔을 앞으로 뻗어요","팔은 편 채 어깨뼈만 모았다 벌려요"],"15회"],
+  ["어깨 으쓱 돌리기","목·어깨","맨몸","st_arm","warm",["trap"],["어깨를 귀 쪽으로 올렸다가","뒤로 돌리며 내려요"],"10회"],
+  ["목 돌리기","목·어깨","맨몸","st_neck","warm",["trap"],["어깨는 내린 채","턱을 당기고 천천히 반원을 그려요"],"좌우 5회"],
+  ["손목 · 팔꿈치 돌리기","팔","맨몸","st_wrist","warm",["fore"],["깍지를 끼고 손목을 돌려요","팔꿈치도 안팎으로 돌려요"],"각 10회"],
+  ["손목 돌리기","팔","맨몸","st_wrist","warm",["fore"],["깍지를 끼고","8자를 그리듯 돌려요"],"15회"],
+  ["손목 · 손가락 풀기","팔","맨몸","st_wrist","warm",["fore"],["손가락을 쫙 폈다 주먹을 쥐어요","손목을 위아래로 젖혀요"],"1분"],
+  ["손가락 · 손목 풀기","팔","맨몸","st_wrist","warm",["fore"],["손가락을 하나씩 뒤로 살짝 젖혀요","손목을 털어 줘요"],"20초"],
+  ["제자리 무릎 높이 올리기","다리","맨몸","st_knee","warm",["quad"],["허리를 세우고","무릎을 골반 높이까지 번갈아 올려요"],"20회"],
+  ["엉덩이 차기","다리","맨몸","st_kick","warm",["ham"],["제자리에서 가볍게 뛰며","발뒤꿈치로 엉덩이를 차요"],"20회"],
+  ["런지 걷기","다리","맨몸","lunge","warm",["quad","glute"],["크게 한 걸음 내딛고 내려가요","뒷무릎이 바닥에 닿기 직전까지"],"10걸음"],
+  ["사이드 스텝","다리","맨몸","st_side","warm",["glute"],["무릎을 굽힌 낮은 자세로","발을 모으지 않고 옆으로 이동해요"],"2왕복"],
+  ["사이드 스텝 · 크로스 스텝","다리","맨몸","st_side","warm",["glute","obl"],["옆으로 가다가","뒷발을 앞뒤로 엇갈려 딛어요"],"2왕복"],
+  ["제자리 점프","전신","맨몸","jump","warm",["calf","quad"],["발 앞쪽으로 착지해요","무릎을 부드럽게 굽혀 충격을 받아요"],"10회"],
+  ["밴드 벌리기","가슴·등","고무 밴드","raise","warm",["rdelt","trap"],["팔을 앞으로 뻗어 밴드를 잡아요","어깨뼈를 모으며 양옆으로 벌려요"],"15회"],
+  ["밴드 어깨 넘기기","목·어깨","고무 밴드","st_arm","warm",["delt","chest"],["밴드를 넓게 잡아요","팔을 편 채 머리 위로 넘겼다 돌아와요"],"10회"],
+  ["밴드 옆걸음","엉덩이·고관절","고무 밴드","st_side","warm",["glute"],["무릎 위에 밴드를 걸어요","무릎이 안으로 모이지 않게 옆으로 걸어요"],"좌우 10걸음"],
+  ["폼롤러 허벅지 앞 풀기","다리","폼롤러","st_roll","warm",["quad"],["엎드려 허벅지 앞을 폼롤러에 올려요","골반부터 무릎 위까지 천천히 굴려요"],"좌우 1분"],
+  ["폼롤러 등 풀기","가슴·등","폼롤러","st_roll","warm",["lat","trap"],["등 위쪽에 폼롤러를 대고 누워요","엉덩이를 들고 날개뼈 아래까지 굴려요"],"1분"],
+  ["가볍게 걷기 · 제자리 뛰기","전신","맨몸",null,"gen",[],[],"3분"],
+  ["가볍게 걷기 · 조깅","전신","맨몸",null,"gen",[],[],"5분"],
+  ["가볍게 뛰기","전신","맨몸",null,"gen",[],[],"5분"],
+  ["줄넘기 가볍게","전신","맨몸",null,"gen",[],[],"3분"],
+  ["가볍게 페달 돌리기","전신","맨몸",null,"gen",[],[],"5분"],
+  ["물속에서 가볍게 걷기","전신","맨몸",null,"gen",[],[],"2분"],
+  ["천천히 걷기","전신","맨몸",null,"gen",[],[],"5분"],
+  ["짧게 치고 나가기","전신","맨몸",null,"gen",[],[],"20m × 4"],
+  ["방향 바꿔 달리기","전신","맨몸",null,"gen",[],[],"5m × 6"],
+  ["쉬운 문제 가볍게","전신","맨몸",null,"gen",[],[],"2개"],
+  ["허벅지 앞 늘리기","다리","맨몸","st_quad","cool",["quad"],["벽을 짚고 한 발을 뒤로 잡아요","무릎을 모으고 골반을 앞으로 밀어요"],"좌우 30초"],
+  ["엉덩이 늘리기 (4자 자세)","엉덩이·고관절","맨몸","st_fig4","cool",["glute"],["누워서 발목을 반대 무릎 위에 올려요","아래 다리를 가슴 쪽으로 당겨요"],"좌우 30초"],
+  ["햄스트링 늘리기","다리","맨몸","st_seat","cool",["ham"],["한 다리를 펴고 앉아요","등을 편 채 배꼽을 허벅지 쪽으로 숙여요"],"좌우 30초"],
+  ["종아리 벽 밀기","다리","벽·문틀","st_wall","cool",["calf"],["벽을 밀고 한 발을 뒤로 빼요","뒤꿈치를 바닥에 붙인 채 앞무릎을 굽혀요"],"좌우 30초"],
+  ["무릎 가슴으로 당기기","허리·코어","맨몸","st_lie","cool",["lowback","glute"],["누워서 두 무릎을 안아요","허리가 바닥에 닿게 가슴 쪽으로 당겨요"],"30초"],
+  ["코브라 자세","허리·코어","맨몸","st_cobra","cool",["abs"],["엎드려 손을 가슴 옆에 둬요","골반은 바닥에 붙인 채 상체만 들어요"],"20초"],
+  ["옆구리 늘리기","허리·코어","맨몸","st_bend","cool",["obl","lat"],["한 팔을 머리 위로 올려요","반대쪽으로 천천히 기울여요"],"좌우 20초"],
+  ["문틀 가슴 늘리기","가슴·등","벽·문틀","st_wall","cool",["chest","delt"],["팔꿈치를 어깨 높이로 문틀에 대요","몸을 앞으로 내밀어 가슴을 열어요"],"30초 × 2"],
+  ["팔 가로로 당기기","목·어깨","맨몸","st_cross","cool",["delt","rdelt"],["한 팔을 가슴 앞으로 가로질러요","반대 팔로 팔꿈치 위를 당겨요"],"좌우 30초"],
+  ["벽 짚고 광배 늘리기","가슴·등","벽·문틀","st_wall","cool",["lat"],["두 손을 벽에 높이 짚어요","엉덩이를 뒤로 빼며 겨드랑이를 늘려요"],"좌우 30초"],
+  ["목 옆 늘리기","목·어깨","맨몸","st_neck","cool",["trap"],["반대쪽 어깨를 내려요","손으로 머리를 살짝 옆으로 당겨요"],"좌우 20초"],
+  ["머리 뒤 삼두 늘리기","팔","맨몸","st_tri","cool",["tri"],["한 팔을 머리 뒤로 굽혀요","반대 손으로 팔꿈치를 살짝 눌러요"],"좌우 20초"],
+  ["손목 늘리기","팔","맨몸","st_wrist","cool",["fore","bi"],["팔을 앞으로 펴요","반대 손으로 손가락을 몸 쪽으로 당겨요"],"좌우 20초"],
+  ["고관절 앞 늘리기","엉덩이·고관절","맨몸","lunge","cool",["quad","glute"],["한쪽 무릎을 바닥에 대고 앉아요","골반을 앞으로 밀며 허리를 세워요"],"좌우 30초"],
+  ["사타구니 늘리기 (나비 자세)","엉덩이·고관절","맨몸","st_butterfly","cool",["glute"],["발바닥을 맞대고 앉아요","팔꿈치로 무릎을 천천히 눌러요"],"30초"],
+  ["밴드 햄스트링 늘리기","다리","고무 밴드","st_lie","cool",["ham"],["누워서 발바닥에 밴드를 걸어요","무릎을 편 채 다리를 천천히 당겨요"],"좌우 30초"],
+  ["밴드 어깨 늘리기","목·어깨","고무 밴드","st_tri","cool",["delt","tri"],["밴드 한쪽 끝을 등 뒤로 늘어뜨려요","아래 손으로 밴드를 당겨 위 팔을 늘려요"],"좌우 30초"],
+  ["폼롤러 종아리 풀기","다리","폼롤러","st_roll","cool",["calf"],["앉아서 종아리 아래에 폼롤러를 둬요","엉덩이를 들고 발목부터 무릎 아래까지 굴려요"],"좌우 1분"],
+  ["폼롤러 허벅지 옆 풀기","다리","폼롤러","st_roll","cool",["quad"],["옆으로 누워 허벅지 옆을 올려요","아프면 위 다리를 앞에 딛고 힘을 나눠요"],"좌우 1분"],
+  ["마사지볼 발바닥 풀기","다리","마사지볼","st_ball","cool",["calf"],["의자를 짚고 서요","발바닥 아래 공을 앞뒤로 굴려요"],"좌우 1분"],
+  ["마사지볼 엉덩이 풀기","엉덩이·고관절","마사지볼","st_ball","cool",["glute"],["엉덩이 옆 아래에 공을 두고 앉아요","아픈 곳에서 20초 멈췄다 옮겨요"],"좌우 1분"],
+  ["의자에 앉아 4자 늘리기","엉덩이·고관절","의자·벤치","st_fig4","cool",["glute"],["의자에 앉아 발목을 반대 무릎에 올려요","등을 편 채 상체를 앞으로 숙여요"],"좌우 30초"],
+  ["벤치에 발 올려 햄스트링 늘리기","다리","의자·벤치","st_seat","cool",["ham"],["뒤꿈치를 벤치에 올려요","무릎을 펴고 엉덩이를 뒤로 빼며 숙여요"],"좌우 30초"]
+];
+const stDb=name=>ST_DB.find(x=>x[0]===name);
 const ST_MUSCLE = {   /* 근육 → [준비 동작, 마무리 동작] */
   quad: [["맨몸 스쿼트 천천히", "10회"], ["허벅지 앞 늘리기", "좌우 30초"]],
   glute: [["고관절 돌리기", "좌우 8회"], ["엉덩이 늘리기 (4자 자세)", "좌우 30초"]],
@@ -176,7 +258,7 @@ const GOAL_DEMO = [{ t: "w", target: 60, start: 64.2 }, { t: "fat", target: 22, 
 /* 러닝 목표 계획 */
 const RUN_PLAN = { name: "나의 첫 5K", week: 3, weeks: 5, progress: 0.65, todayKm: 5, paceSec: 370,
   sessions: [["1주차", "3km × 3회", true], ["2주차", "4km × 3회", true], ["3주차", "5km 천천히 × 3회", false], ["4주차", "5km 6'00\" × 3회", false], ["5주차", "5km 기록 도전", false]] };
-const TEAM_SPORTS = ["풋살", "농구", "배드민턴", "배구", "족구", "테니스"];
+const TEAM_SPORTS = ["축구", "풋살", "농구", "배드민턴", "배구", "족구", "테니스"];
 /* 근처 단체 운동 모임 */
 const GROUPS = [
   { id: "g1", sport: "풋살", name: "목요일 저녁 풋살", place: "동네 풋살장", dist: 0.8, date: "2026-11-12", time: "19:00", members: 9, cap: 12, level: "누구나", desc: "골키퍼 돌아가면서 해요. 실내화 챙겨 오세요.", joined: true },
@@ -698,25 +780,39 @@ button.more:hover{color:var(--ink)}
 .edbar{display:flex;gap:6px;margin-top:10px}
 .rrow{grid-template-columns:44px 1fr auto}.rrow b{font-size:13px}.rrow .field,.cedit .field{padding:8px 10px;font-size:14px}
 .cedit{display:grid;grid-template-columns:1.2fr 1fr;gap:6px}
-/* 준비·마무리 스트레칭 */
-.stcard .stnote{margin-top:4px}
-.stcard.in{background:var(--bg);margin-top:14px;padding:14px}
-.stcard.in .rlist .ri{border-color:var(--line2)}
-.stsec{display:flex;align-items:baseline;gap:8px;margin-top:14px;padding-bottom:4px}
-.stsec b{font-size:14px;color:var(--ink)}
-.stsec small{font-size:11.5px;color:var(--mut)}
-.stcard .ri small{color:var(--mut);font-size:12.5px;white-space:nowrap}
-.stline{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:12.5px}
-.stline span{color:var(--mut);font-weight:700;white-space:nowrap}
-.stline b{color:var(--text);font-weight:600}
+/* 준비 운동 / 본 운동 / 마무리 운동 */
+.stsec{border-radius:14px;background:var(--bg);margin-top:10px}
+.stsec .sth{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;padding:12px 14px;text-align:left;color:var(--ink)}
+.stsec .sth b{display:block;font-size:14px}
+.stsec .sth small{display:block;font-size:11.5px;color:var(--mut);margin-top:1px}
+.stsec .chev svg{width:18px;height:18px;color:var(--mut);transition:transform .2s}
+.rcard.open .stsec .chev{transform:none}
+.stsec.open .chev svg{transform:rotate(180deg)}
+.stl{padding:0 14px 10px}
+.sti{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line2)}
+.stsec.ed .sti{grid-template-columns:1fr 92px auto}
+.sti .stn{display:flex;align-items:center;gap:10px;text-align:left;font-size:13.5px;color:var(--ink);min-width:0}
+.sti .exfig{width:34px;height:34px;border-radius:10px;flex:none}
+.sti .exfig svg{width:26px;height:26px}
+.exfig.none{background:none}
+.sti small{font-size:12px;color:var(--mut);white-space:nowrap}
+.sti .field{padding:7px 9px;font-size:13px;background:var(--card)}
+.sti.on .stn{font-weight:700}
+.stpose{padding:4px 0 10px}
+.stpose .fvid{margin-top:4px}
+.stmain{font-size:12px;font-weight:700;color:var(--mut);margin:14px 2px 0}
+.rbody .stmain+.rlist,.card .stmain+.rlist{margin-top:4px}
+.stlive .stck{display:grid;grid-template-columns:28px 1fr auto auto;align-items:center;gap:8px;padding:9px 18px;border-top:1px solid var(--line);font-size:14px;color:var(--ink)}
+.stlive .stcb{width:22px;height:22px;border-radius:50%;border:2px solid var(--line2)}
+.stlive .stck.on .stcb{background:var(--dark);border-color:var(--dark);box-shadow:inset 0 0 0 3px var(--card)}
+.stlive .stck.on>span{color:var(--mut);text-decoration:line-through}
+.stlive .stpz{font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 9px;background:var(--bg);color:var(--text)}
+.stlive .stpz.on{background:var(--dark);color:var(--on-acc)}
+.stlive .stpose{padding:0 18px 8px}
 .stlive{padding:0;overflow:hidden}
 .stlive .sth{display:flex;justify-content:space-between;align-items:center;width:100%;padding:14px 18px;text-align:left}
 .stlive .sth b{font-size:14.5px;color:var(--ink)}
 .stlive .sth span{font-size:12.5px;color:var(--mut);font-variant-numeric:tabular-nums}
-.stlive .stck{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:10px;width:100%;padding:11px 18px;border-top:1px solid var(--line);text-align:left;font-size:14px;color:var(--ink)}
-.stlive .stck i{width:20px;height:20px;border-radius:50%;border:2px solid var(--line2)}
-.stlive .stck.on i{background:var(--dark);border-color:var(--dark);box-shadow:inset 0 0 0 3px var(--card)}
-.stlive .stck.on span{color:var(--mut);text-decoration:line-through}
 .stlive .stck small{font-size:12px;color:var(--mut)}
 .stlive .note{padding:0 18px 14px}
 .rst{font-size:12px;color:var(--mut);margin:-4px 2px 8px}
@@ -1455,7 +1551,7 @@ html.embed .phone.ipad{box-shadow:none}
 <script>
 const $=id=>document.getElementById(id);
 const DOW=['일','월','화','수','목','금','토'];
-const KIND={workout:'헬스',run:'러닝',meal:'식단',meet:'단체',swim:'수영',rest:'휴식'};
+const KIND={workout:'헬스',run:'러닝',meal:'식단',meet:'구기',swim:'수영',rest:'휴식'};
 const MODES={gym:{label:'헬스',kind:'workout'},run:{label:'러닝',kind:'run'},group:{label:'단체',kind:'meet'}};
 const kindMode=k=>({workout:'gym',run:'run',meet:'group'})[k]||'gym';
 const REST_SEC=90,SIM=10; /* SIM: 러닝 시연을 10배 빠르게 */
@@ -1660,7 +1756,8 @@ function renderMotive(t){
 const PLAN0={...WEEK.find(w=>w.date===TODAY),routine:'lower'};
 const CHOICES=[
  {h:'근력',items:[{kind:'workout',routine:'lower'},{kind:'workout',routine:'upper'},{kind:'workout',routine:'full'}]},
- {h:'유산소 · 단체',items:[{kind:'run',title:'러닝 5km',sub:`${RUN_PLAN.name} · 목표 페이스 ${paceTxt(RUN_PLAN.paceSec)}`},{kind:'meet',title:'단체 운동',sub:'풋살·농구·배드민턴 등 종목 골라서 기록'}]}
+ {h:'유산소',items:[{kind:'run',title:'러닝 5km',sub:`${RUN_PLAN.name} · 목표 페이스 ${paceTxt(RUN_PLAN.paceSec)}`}]},
+ {h:'구기 종목',items:TEAM_SPORTS.map(sp=>({kind:'meet',title:sp,sub:`${(W_TYPES[sp]||{}).sub||'경기'} · 뛴 시간 기록`,sport:sp}))}
 ].map(g=>({...g,items:g.items.map(c=>c.routine?{...c,title:ROUTINES[c.routine].title,sub:ROUTINES[c.routine].sub}:c)}));
 /* 계획 아래 줄: 시각 · 설명 · 바뀐 내용 */
 function fillSub(e,p,isT){
@@ -1746,6 +1843,7 @@ function changePlan(c){
  if(sess){toast('진행 중인 운동을 먼저 끝내 주세요');return}
  const tp=todayPlan();Object.assign(tp,{kind:c.kind,title:c.title,sub:c.sub,time:c.kind==='rest'?'':(tp.time||PLAN0.time),note:null});
  if(c.routine&&c.routine!==routineKey){loadRoutine(c.routine);delete doneSum.gym;openEx=0;restEnd=0}
+ if(c.sport)group.sport=c.sport;
  if(c.kind!=='rest')mode=kindMode(c.kind);planDay=TODAY;rOpen=undefined;render();
  toast(c.kind==='rest'?'오늘은 쉬어요. 푹 쉬고 내일 이어가요':c.title===PLAN0.title?'원래 계획으로 돌아왔어요':`오늘은 ${c.title}! 계획을 바꿨어요`);
 }
@@ -1835,7 +1933,7 @@ function renderWMenu(){
  const row=(id,em,name,sub,tag)=>{const b=el('button','wm'+(wView===id?' on':''));b.type='button';const t=el('div');t.append(el('b',null,name),el('small',null,sub));
   b.append(el('span','e',em),t,el('span','tag',tag||''));b.onclick=()=>{wView=id;wMenuOn=false;wEdit=null;renderWorkout();$('s-workout').scrollTop=0};m.append(b)};
  row('today','📅','오늘의 운동',tp?`${tp.title}${tp.time?' · '+tp.time:''}`:'아직 계획이 없어요');
- getTypes().forEach(n=>{const k=W_TYPES[n]&&W_TYPES[n].kind,days=k?WEEK.filter(w=>w.kind===k).length:0;
+ getTypes().forEach(n=>{const days=typeDays(n).length;
   row(n,(W_TYPES[n]||{}).em||'⭐',n,(W_TYPES[n]||{}).sub||'내가 추가한 운동',routineSet&&days?`주 ${days}회`:'')});
  m.append(btn('wadd','+ 운동 종류 추가',addTypeSheet));
 }
@@ -1854,18 +1952,18 @@ function removeType(n){
  openSheet(`${n}를 뺄까요?`,'운동 종류 목록에서만 빠져요. 이번 주 계획과 지난 기록은 그대로예요.',[{label:'빼기',cls:'danger',fn:()=>{setTypes(getTypes().filter(x=>x!==n));wView='today';renderWorkout();toast(`${n}를 목록에서 뺐어요`)}},{label:'취소',cls:'plain'}]);
 }
 /* ---- 종류별 화면: 그 종류에서 정해 둔 루틴을 보고 고친다 ---- */
+const typeDays=n=>{const k=(W_TYPES[n]||{}).kind;return k?WEEK.filter(w=>w.kind===k&&(k!=='meet'||w.title.includes(n)||w.title==='단체 운동')):[]};
 function typeView(b,n){
  const T=W_TYPES[n]||{},k=T.kind;
- const days=k?WEEK.filter(w=>w.kind===k):[];
+ const days=typeDays(n);
  const hero=el('div','card');const h=el('div','card-h');h.append(el('h2',null,`${T.em||'⭐'} ${n}`),el('span','more',T.sub||'내가 추가한 운동'));hero.append(h);
- if(k){const td=el('div','tdays');WEEK.forEach(w=>{const sp=el('span',w.kind===k?'on':null,DOW[pd(w.date).getDay()]);td.append(sp)});hero.append(td,el('div','note',days.length?`이번 주 ${days.map(w=>DOW[pd(w.date).getDay()]).join('·')}요일에 해요.`:'이번 주 계획에는 아직 없어요. 홈의 "오늘 계획 바꾸기"나 루틴 수정하기로 넣을 수 있어요.'))}
+ if(k){const td=el('div','tdays');WEEK.forEach(w=>{const sp=el('span',days.includes(w)?'on':null,DOW[pd(w.date).getDay()]);td.append(sp)});hero.append(td,el('div','note',days.length?`이번 주 ${days.map(w=>DOW[pd(w.date).getDay()]).join('·')}요일에 해요.`:'이번 주 계획에는 아직 없어요. 홈의 "오늘 계획 바꾸기"나 루틴 수정하기로 넣을 수 있어요.'))}
  else hero.append(el('div','note','내가 정해 둔 루틴이에요. 아래에서 동작과 양을 고칠 수 있어요.'));
  b.append(hero);
  if(n==='헬스')gymTypeView(b);
  else if(n==='러닝')runTypeView(b);
- else if(n==='단체 운동')meetTypeView(b);
+ else if(k==='meet')sportTypeView(b,n);
  else customTypeView(b,n);
- if(n!=='헬스'&&n!=='스트레칭'&&n!=='요가')b.append(stretchCard(stKeySport(n),null,n==='단체 운동'?`고른 종목(${group.sport})에 맞춘 스트레칭이에요. 종목을 바꾸면 따라 바뀌어요.`:null));
  if(getTypes().length>1)b.append(btn('smore',`${n} 목록에서 빼기`,()=>removeType(n)));
 }
 function gymTypeView(b){
@@ -1894,9 +1992,9 @@ function gymTypeView(b){
     if(ed){const e=el('div','ed');e.append(btn('','−',()=>{if(ex.sets>1){ex.sets--;gymChanged(k)}},`${ex.name} 세트 줄이기`),el('span','n',`${ex.sets}세트`),btn('','+',()=>{if(ex.sets<10){ex.sets++;gymChanged(k)}},`${ex.name} 세트 늘리기`),
       btn('x','×',()=>{if(r.list.length<=1){toast('종목이 하나는 있어야 해요');return}r.list.splice(i,1);gymChanged(k);toast(`${ex.name}를 뺐어요`)},`${ex.name} 빼기`));row.append(e)}
     l.append(row)});
-   d.append(l);
+   d.append(stSection(stKeyGym(k),'warm',ed),el('div','stmain','본 운동'),l);
    if(ed){const eb=el('div','edbar');eb.append(btn('','+ 종목 추가',()=>addExSheet(k)));d.append(eb)}
-   if(!all){const sc=stretchCard(stKeyGym(k),'준비 · 마무리 스트레칭');sc.classList.add('in');d.append(sc)}
+   d.append(stSection(stKeyGym(k),'cool',ed));if(ed)d.append(stReset(stKeyGym(k)));
    c.append(d)}
   b.append(c)});
  if(all)b.append(btn('cta alt radd','+ 루틴 추가',addRoutine));
@@ -1912,7 +2010,7 @@ function addRoutine(){let n=1;while(Object.values(ROUTINES).some(x=>x.title===`�
 function gymChanged(k){if(k===routineKey&&!sess)loadRoutine(k);renderWorkout()}
 /* 종목 추가 (2026-11-20): 부위별 / 기구별로 나눠 모든 종목을 보여 주고, 누르면 자세 그림과 포인트가 펼쳐진다.
    그림은 동작 모양을 단순하게 그린 것. 실제 앱에서는 동작 영상이 들어간다 */
-const EX_PARTS=['가슴','등','하체','어깨','팔','코어','전신'],EX_EQUIP=['바벨','덤벨','머신','케이블','맨몸','케틀벨','밴드'];
+const EX_PARTS=['가슴','등','하체','어깨','팔','코어','전신','유산소'],EX_EQUIP=['바벨','덤벨','머신','케이블','맨몸','케틀벨','밴드','유산소'];
 const EX_DB=[
  ['벤치 프레스','가슴','바벨','hpush',[30,10],['어깨뼈를 모으고 가슴을 살짝 들어요','바를 가슴 아래쪽으로 내렸다가 밀어 올려요']],
  ['인클라인 덤벨 프레스','가슴','덤벨','hpush',[10,10],['벤치를 30~45도로 세워요','팔꿈치는 몸통과 45도 정도로 벌려요']],
@@ -1959,8 +2057,18 @@ const EX_DB=[
  ['마운틴 클라이머','전신','맨몸','plank',[0,20],['푸시업 자세에서 시작해요','무릎을 가슴 쪽으로 번갈아 빠르게 당겨요']],
  ['버피','전신','맨몸','jump',[0,10],['엎드렸다 일어나며 점프해요','착지할 때 무릎을 부드럽게 굽혀요']],
  ['스러스터','전신','덤벨','vpush',[6,10],['스쿼트로 앉았다가 일어나는 힘으로','덤벨을 머리 위로 밀어 올려요']],
- ['케틀벨 고블릿 스쿼트','전신','케틀벨','squat',[12,12],['케틀벨 손잡이 양쪽을 잡아요','가슴을 세운 채 깊게 앉아요']]
+ ['케틀벨 고블릿 스쿼트','전신','케틀벨','squat',[12,12],['케틀벨 손잡이 양쪽을 잡아요','가슴을 세운 채 깊게 앉아요']],
+ /* 유산소: [강도(속도·레벨), 분]. 무게 대신 강도, 횟수 대신 분으로 기록한다 */
+ ['트레드밀 걷기','유산소','유산소','tread',[6,15],['경사를 3~6%로 올리고 빠르게 걸어요','손잡이를 잡지 않고 팔을 흔들어요']],
+ ['트레드밀 달리기','유산소','유산소','tread',[8,20],['발 앞쪽보다 발 중간으로 착지해요','숨이 차도 대화할 수 있는 속도로']],
+ ['실내 사이클','유산소','유산소','bike',[5,20],['페달이 가장 아래일 때 무릎이 살짝 굽게 안장을 맞춰요','상체는 힘을 빼고 다리로만 밀어요']],
+ ['로잉 머신','유산소','유산소','rowm',[5,10],['다리 → 몸통 → 팔 순서로 당겨요','돌아갈 때는 팔 → 몸통 → 다리 순서로']],
+ ['천국의 계단','유산소','유산소','stair',[6,10],['손잡이에 기대지 않고 몸을 세워요','발 전체로 계단을 밟아요']],
+ ['일립티컬','유산소','유산소','ellip',[6,15],['발뒤꿈치가 뜨지 않게 밀어요','팔과 다리를 함께 써요']],
+ ['줄넘기','유산소','유산소','rope',[0,10],['손목으로 줄을 돌려요','발 앞쪽으로 가볍게 뛰어요']]
 ];
+/* 유산소 종목인지 (세트 표·볼륨·최고 무게 계산에서 따로 다룬다) */
+const isCardio=name=>{const x=EX_DB.find(e=>e[0]===name);return !!x&&x[1]==='유산소'};
 /* 종목별 쓰이는 근육 + 틀린 자세 하나 (2026-11-20, 자세 영상 구조를 흉내 낸 종목 상세용) */
 const MUSCLE_NAME={chest:'가슴',delt:'어깨',rdelt:'어깨 뒤',bi:'이두',tri:'삼두',fore:'전완',abs:'복근',obl:'옆구리',quad:'허벅지 앞',ham:'허벅지 뒤',glute:'엉덩이',calf:'종아리',lat:'광배',trap:'승모',lowback:'허리'};
 const EX_INFO={
@@ -2009,10 +2117,17 @@ const EX_INFO={
  '마운틴 클라이머':[['abs','quad','delt'],'엉덩이가 위로 솟아요'],
  '버피':[['quad','chest','abs','delt'],'엎드릴 때 허리가 처져요'],
  '스러스터':[['quad','glute','delt','tri'],'앉았다 일어나는 힘을 안 쓰고 팔로만 밀어요'],
- '케틀벨 고블릿 스쿼트':[['quad','glute'],'뒤꿈치가 바닥에서 떠요']
+ '케틀벨 고블릿 스쿼트':[['quad','glute'],'뒤꿈치가 바닥에서 떠요'],
+ '트레드밀 걷기':[['quad','glute','calf'],'손잡이를 꽉 잡고 몸을 뒤로 기대요'],
+ '트레드밀 달리기':[['quad','ham','calf'],'뒤꿈치로 쿵쿵 찍으며 달려요'],
+ '실내 사이클':[['quad','glute'],'안장이 낮아 무릎이 많이 굽어요'],
+ '로잉 머신':[['lat','quad','ham','bi'],'팔로만 먼저 당겨요'],
+ '천국의 계단':[['glute','quad','calf'],'손잡이에 매달려 체중을 실어요'],
+ '일립티컬':[['quad','glute','delt'],'발뒤꿈치가 떠서 종아리만 써요'],
+ '줄넘기':[['calf','quad','delt'],'팔 전체로 크게 돌려요']
 };
-const exInfo=name=>EX_INFO[name]||[[],null];
-const exCues=name=>{const x=EX_DB.find(e=>e[0]===name);return x?x[5]:[]};
+const exInfo=name=>{if(EX_INFO[name])return EX_INFO[name];const s=ST_DB.find(x=>x[0]===name);return s?[s[5],null]:[[],null]};
+const exCues=name=>{const x=EX_DB.find(e=>e[0]===name);if(x)return x[5];const s=ST_DB.find(e=>e[0]===name);return s?s[6]:[]};
 /* 앞·뒤 몸 그림에 쓰이는 근육 칠하기 (단순 도형) */
 const BODY_REG={
  f:{chest:'<ellipse cx="23" cy="33" rx="7" ry="5"/><ellipse cx="37" cy="33" rx="7" ry="5"/>',delt:'<circle cx="14.5" cy="28" r="4.5"/><circle cx="45.5" cy="28" r="4.5"/>',
@@ -2031,7 +2146,7 @@ function bodyMap(ms,small){const w=el('div','bmap'+(small?' sm':''));
   const f=el('figure');f.innerHTML=`<svg viewBox="0 0 60 126"><g class="base">${BODY_BASE}</g><g class="mus">${all}</g></svg>`;if(!small)f.append(el('figcaption',null,t));w.append(f)});return w}
 /* 자세 영상 자리 (실제 앱에서는 3D 자세 영상) */
 function formVideo(name,opt={}){const [ms]=exInfo(name),v=el('div','fvid'+(opt.live?' live':''));
- const top=el('div','fv-top');top.append(el('span','fv-tag','자세 영상'),el('span',null,name));
+ const top=el('div','fv-top');top.append(el('span','fv-tag',opt.tag||'자세 영상'),el('span',null,name));
  const play=el('div','fv-play');play.innerHTML=ICON.play;
  const bot=el('div','fv-bot');if(ms.length)bot.append(el('span',null,ms.map(m=>MUSCLE_NAME[m]).join(' · ')));if(opt.cue)bot.append(el('b',null,opt.cue));
  v.append(top,play,bodyMap(ms,true),bot);v.onclick=()=>toast('실제 앱에서는 이 자리에 3D 자세 영상이 재생돼요');return v}
@@ -2059,7 +2174,39 @@ const PSVG={
  legraise:'<circle cx="8" cy="36" r="3.5"/><path d="M12 37h14l8-16M7 41h34"/>',
  kneelcrunch:'<circle cx="15" cy="20" r="3"/><path d="M27 4v12M18 19l9 9v12h8M17 17l7-2M7 41h34"/>',
  twist:'<circle cx="15" cy="16" r="3.5"/><path d="M17 20l7 14 9-6 4 8M18 23l10-2M7 41h34"/>',
- jump:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v14l-6 10M24 26l6 10M24 15l-8-8M24 15l8-8M14 42h6M28 42h6"/>'
+ jump:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v14l-6 10M24 26l6 10M24 15l-8-8M24 15l8-8M14 42h6M28 42h6"/>',
+ /* 유산소 */
+ tread:'<circle cx="22" cy="7" r="3.5"/><path d="M22 11v14l-5 9M22 25l6 9M22 15l-6 6M22 15l6 6M6 38h32l4-10"/>',
+ bike:'<circle cx="12" cy="36" r="5"/><circle cx="36" cy="36" r="5"/><path d="M12 36l8-12h12l4 12M20 24l-2-6M32 24v-6"/><circle cx="20" cy="9" r="3.5"/><path d="M20 13l-2 9"/>',
+ rowm:'<circle cx="14" cy="16" r="3.5"/><path d="M16 20l6 10h8M22 30l6-6 6 4M14 22h12M6 38h36"/>',
+ stair:'<path d="M8 42h8v-8h8v-8h8v-8h8"/><circle cx="22" cy="6" r="3"/><path d="M22 9v12l-4 6M22 21l5 4M22 13l-6 4"/>',
+ ellip:'<circle cx="24" cy="7" r="3.5"/><path d="M24 11v15l-5 10M24 26l6 10M24 15l-6 4M24 15l6-6"/><ellipse cx="24" cy="39" rx="14" ry="3"/>',
+ rope:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v14l-4 11M24 26l4 11M24 16l-8 6M24 16l8 6M16 22q-10 22 8 22q18 0 8-22"/>',
+ /* 스트레칭 */
+ st_arm:'<circle cx="24" cy="9" r="3.5"/><path d="M24 13v15l-3 13M24 28l3 13M24 16l-10-5M24 16l10-5"/><path d="M9 6a5 5 0 1 0 5 0M39 6a5 5 0 1 1-5 0" stroke-dasharray="2 2.5"/>',
+ st_hip:'<circle cx="22" cy="8" r="3.5"/><path d="M22 12v16l-2 13M22 28l8-2 3 6M22 16l-8 4M22 16l9 3M6 41h34"/><path d="M28 36a7 7 0 0 0 11-5" stroke-dasharray="2 2.5"/>',
+ st_swing:'<path d="M8 4v38"/><circle cx="18" cy="8" r="3.5"/><path d="M18 12v16l-1 13M18 28l12 8M18 16l-10 3M6 42h34"/><path d="M32 38a16 16 0 0 0-1-18" stroke-dasharray="2 2.5"/>',
+ st_calf:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v16l-3 11-3 1M24 28l3 11 3 1M24 16l-6 8M24 16l6 8M14 42h8M26 42h8"/>',
+ st_cat:'<circle cx="9" cy="21" r="3.5"/><path d="M12 22q12-12 22 0M14 24v16M34 22l2 18M8 41h32"/>',
+ st_twist:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v16l-4 13M24 28l4 13M14 17l20-2"/><path d="M12 24a14 5 0 0 0 24 0" stroke-dasharray="2 2.5"/>',
+ st_open:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v16l-3 13M24 28l3 13M24 16l-12-2M24 16l12-2M10 20l-3 2M38 20l3 2"/>',
+ st_neck:'<circle cx="27" cy="9" r="3.5"/><path d="M24 14v14l-3 13M24 28l3 13M24 17l-7 9M24 17l5-7"/>',
+ st_wrist:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v16l-3 13M24 28l3 13M24 16l-4 6h8M30 22l6-4M36 18l3 3"/>',
+ st_knee:'<circle cx="24" cy="7" r="3.5"/><path d="M24 11v15l-2 15M24 26h8v8M24 15l-7 6M24 15l7-6"/>',
+ st_kick:'<circle cx="22" cy="7" r="3.5"/><path d="M22 11v15l-2 15M22 26l6 8-8 2M22 15l-7 6M22 15l7 6"/>',
+ st_side:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v14l-9 13M24 26l9 13M24 16l-8 6M24 16l8 6M7 32l-3 3 3 3M41 32l3 3-3 3"/>',
+ st_roll:'<circle cx="9" cy="24" r="3.5"/><path d="M12 26l20 6 6 6M16 27v12M6 41h36"/><circle cx="26" cy="35" r="4"/>',
+ st_quad:'<path d="M8 4v38"/><circle cx="24" cy="7" r="3.5"/><path d="M24 11v16l-1 14M24 27l5 8-6-1M24 15l-14 2M24 15l1 18M6 42h34"/>',
+ st_fig4:'<circle cx="8" cy="34" r="3.5"/><path d="M12 35h12l6-12 4 4M24 35l4-6 10 0M6 41h36"/>',
+ st_seat:'<circle cx="14" cy="21" r="3.5"/><path d="M15 25l5 13h20M17 27l14 8M6 41h36"/>',
+ st_wall:'<path d="M40 4v38"/><circle cx="22" cy="10" r="3.5"/><path d="M23 14l-3 14-6 13M20 28l8 13M23 17l17 1M6 42h34"/>',
+ st_lie:'<circle cx="8" cy="34" r="3.5"/><path d="M12 35h14l6-10 4 6M26 35l-2-9 8-1M6 41h36"/>',
+ st_cobra:'<circle cx="12" cy="16" r="3.5"/><path d="M14 20q2 12 12 18h14M14 22v14M8 41h34"/>',
+ st_bend:'<circle cx="20" cy="8" r="3.5"/><path d="M22 12q4 8 2 16l-3 13M24 28l3 13M21 11l10-7M22 18l-6 6"/>',
+ st_cross:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v16l-3 13M24 28l3 13M24 16H12M24 19h-8"/>',
+ st_tri:'<circle cx="24" cy="9" r="3.5"/><path d="M24 13v15l-3 13M24 28l3 13M24 16l5-10-6-3M24 16l-6-8 4-3"/>',
+ st_butterfly:'<circle cx="24" cy="12" r="3.5"/><path d="M24 16v16M24 32l-12 6 10 2M24 32l12 6-10 2M24 20l-6 10M24 20l6 10M6 41h36"/>',
+ st_ball:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v16l-3 12M24 28l6 6 4 6M24 16l-6 8M24 16l6 8"/><circle cx="34" cy="42" r="2.5"/>'
 };
 const exFig=pat=>{const d=el('div','exfig');d.innerHTML=`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${PSVG[pat]||PSVG.squat}</svg>`;return d};
 function addExSheet(k){
@@ -2067,7 +2214,7 @@ function addExSheet(k){
  const seg=el('div','seg exseg'),chips=el('div','chips exchips'),q=el('input','field');q.placeholder='종목 이름으로 찾기';q.oninput=()=>{st.q=q.value.trim();draw()};
  const list=el('div','exlist'),own=btn('linkish','찾는 종목이 없나요? 직접 적어서 추가',()=>customExSheet(k));
  box.append(seg,chips,q,list,own);
- const add=x=>{const [name,,,,[w,rp]]=x;R.list.push({id:'u'+Date.now(),name,sets:3,lastDate:null,last:[],start:[[w,rp],[w,rp],[w,rp]]});gymChanged(k);toast(`${R.title}에 ${name}를 넣었어요`);draw()};
+ const add=x=>{const [name,,,,[w,rp]]=x,n=isCardio(name)?1:3;R.list.push({id:'u'+Date.now(),name,sets:n,lastDate:null,last:[],start:Array.from({length:n},()=>[w,rp])});gymChanged(k);toast(`${R.title}에 ${name}를 넣었어요`);draw()};
  function draw(){
   seg.textContent='';[['part','부위별'],['equip','기구별']].forEach(([v,t])=>seg.append(btn(st.by===v?'on':'',t,()=>{st.by=v;st.cat='전체';draw()})));
   const cats=['전체',...(st.by==='part'?EX_PARTS:EX_EQUIP)],col=st.by==='part'?1:2;
@@ -2116,47 +2263,77 @@ const stKeyGym=k=>'g:'+k,stKeySport=n=>'s:'+(n==='단체 운동'?group.sport:n);
 function stSave(){setup.stretch=stOv;saveSetup()}
 /* 운동 중에 쓰는 키 */
 function stKeyMode(m){return m==='gym'?stKeyGym(routineKey):m==='run'?'s:러닝':'s:'+group.sport}
-/* 스트레칭 카드: 준비 운동 / 마무리 두 칸. 편집은 루틴 수정과 같은 방식 */
-function stretchCard(key,title,sub){
- const ed=wEdit==='st:'+key,st=stOf(key),c=el('div','card stcard'),h=el('div','card-h');
- h.append(el('h2',null,title||'준비 · 마무리 스트레칭'),btn('dsec-btn'+(ed?' on':''),ed?'완료':'수정',()=>{if(ed){wEdit=null;renderWorkout();toast('스트레칭을 고쳤어요');return}if(sess){toast('운동을 끝낸 뒤 고칠 수 있어요');return}wEdit='st:'+key;renderWorkout()}));c.append(h);
- c.append(el('div','note stnote',sub||(stOv[key]?'직접 고친 스트레칭이에요.':key.startsWith('g:')?'루틴 종목이 쓰는 근육에 맞춰 골랐어요. 종목을 바꾸면 따라 바뀌어요.':'이 종목에 맞춰 골라 둔 스트레칭이에요.')));
- const own=()=>{if(!stOv[key]){stOv[key]=stOf(key);}return stOv[key]};
- [['warm','준비 운동','운동 전 · 몸을 움직이며 풀어요'],['cool','마무리','운동 후 · 멈춰서 천천히 늘려요']].forEach(([w,t,d])=>{
-  const sh=el('div','stsec');sh.append(el('b',null,t),el('small',null,`${st[w].length}동작 · ${d}`));c.append(sh);
-  const l=el('div','rlist');l.style.marginTop='0';
-  if(!st[w].length)l.append(el('div','empty','동작이 없어요.'));
-  st[w].forEach((x,i)=>{const r=el('div','ri sw-row');
-   if(ed){const tt=el('div','cedit'),a=el('input','field'),q=el('input','field');a.value=x[0];q.value=x[1];a.setAttribute('aria-label','동작');q.setAttribute('aria-label','양');
-    a.onchange=()=>{own()[w][i][0]=a.value.trim()||x[0];stSave()};q.onchange=()=>{own()[w][i][1]=q.value.trim()||'-';stSave()};
-    tt.append(a,q);r.append(tt,btn('x','×',()=>{own()[w].splice(i,1);stSave();renderWorkout()},`${x[0]} 빼기`))}
-   else{const tt=el('div',null,x[0]);r.append(tt,el('small',null,x[1]))}
-   l.append(r)});
-  c.append(l);
-  if(ed){const eb=el('div','edbar');eb.append(btn('',`+ ${t} 동작 추가`,()=>stAddSheet(key,w,t)));c.append(eb)}});
- if(ed&&stOv[key])c.append(btn('smore','자동 추천으로 되돌리기',()=>{delete stOv[key];stSave();renderWorkout();toast('자동 추천 스트레칭으로 되돌렸어요')}));
- return c;
+/* 준비 운동 / 마무리 운동 칸: 이름을 누르면 할 동작이 아래로 펼쳐지고, 동작을 누르면 자세 자리가 열린다.
+   ed(루틴 수정 중)이면 펼친 채로 양 고치기·빼기·추가 */
+const stOpenS=new Set(),stPoseS=new Set();
+const stOwn=key=>{if(!stOv[key])stOv[key]=JSON.parse(JSON.stringify(stOf(key)));return stOv[key]};
+const ST_LAB={warm:['준비 운동','운동 전 · 몸을 움직이며 풀어요'],cool:['마무리 운동','운동 후 · 멈춰서 천천히 늘려요']};
+const CHEV_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+function stPose(name){const S=stDb(name),d=el('div','stpose');d.append(formVideo(name,{tag:'스트레칭 자세'}));
+ const ul=el('ul','excues');(S?S[6]:[]).forEach(t=>{const li=el('li','ok');li.append(el('i',null,'✓'),t);ul.append(li)});d.append(ul);return d}
+function stSection(key,w,ed){
+ const list=stOf(key)[w],id=key+'|'+w,open=ed||stOpenS.has(id),c=el('div','stsec'+(open?' open':'')+(ed?' ed':'')+' st-'+w);
+ const h=el(ed?'div':'button','sth');if(!ed){h.type='button';h.setAttribute('aria-expanded',open);h.onclick=()=>{open?stOpenS.delete(id):stOpenS.add(id);renderWorkout()}}
+ const tx=el('div');tx.append(el('b',null,ST_LAB[w][0]),el('small',null,`${list.length}동작 · ${ST_LAB[w][1]}`));h.append(tx);
+ if(!ed){const ch=el('span','chev');ch.innerHTML=CHEV_SVG;h.append(ch)}c.append(h);
+ if(!open)return c;
+ const l=el('div','stl');if(!list.length)l.append(el('div','empty','동작이 없어요.'));
+ list.forEach((x,i)=>{const S=stDb(x[0]),pose=!!(S&&S[3]),pid=id+'|'+x[0],po=!ed&&pose&&stPoseS.has(pid),r=el('div','sti'+(po?' on':''));
+  const nm=el(pose&&!ed?'button':'div','stn');if(pose&&!ed){nm.type='button';nm.setAttribute('aria-expanded',po);nm.onclick=()=>{po?stPoseS.delete(pid):stPoseS.add(pid);renderWorkout()}}
+  nm.append(pose?exFig(S[3]):el('span','exfig none'),el('span',null,x[0]));r.append(nm);
+  if(ed){const q=el('input','field');q.value=x[1];q.setAttribute('aria-label',`${x[0]} 양`);q.onchange=()=>{stOwn(key)[w][i][1]=q.value.trim()||'-';stSave()};
+   r.append(q,btn('x','×',()=>{stOwn(key)[w].splice(i,1);stSave();renderWorkout()},`${x[0]} 빼기`))}
+  else r.append(el('small',null,x[1]));
+  l.append(r);if(po)l.append(stPose(x[0]))});
+ if(ed){const eb=el('div','edbar');eb.append(btn('',`+ ${ST_LAB[w][0]} 추가`,()=>stAddSheet(key,w)));l.append(eb)}
+ c.append(l);return c;
 }
-/* 동작 추가: 추천 목록에서 고르거나 직접 적기 */
-function stAddSheet(key,w,t){
- const j=w==='warm'?0:1,lib=[...new Map([...Object.values(ST_MUSCLE).map(x=>x[j]),...Object.values(ST_SPORT).flatMap(S=>S[w])].map(x=>[x[0],x])).values()];
- const have=()=>stOf(key)[w].map(x=>x[0]),f=el('div'),pk=el('div','addpick'),a=el('input','field'),q=el('input','field');
- const add=x=>{if(!stOv[key])stOv[key]=stOf(key);stOv[key][w].push([...x]);stSave();renderWorkout();draw();toast(`${x[0]}를 넣었어요`)};
- const draw=()=>{pk.textContent='';lib.forEach(x=>{const b=btn('',x[0],()=>add(x));b.disabled=have().includes(x[0]);pk.append(b)})};draw();
- a.placeholder='직접 적기 (예: 손목 털기)';q.placeholder='양 (예: 20초)';const two=el('div','cedit');two.style.marginTop='14px';two.append(a,q);
- f.append(el('div','note',w==='warm'?'운동 전에는 몸을 움직이며 푸는 동작이 좋아요.':'운동 후에는 멈춘 채로 20~30초 늘리는 동작이 좋아요.'),pk,two);f.firstChild.style.cssText='margin:0 0 12px';
- openSheet(`${t} 동작 추가`,f,[{label:'직접 적은 동작 추가',cls:'primary',keep:true,fn:()=>{const v=a.value.trim();if(!v){toast('위에서 고르거나 동작을 적어 주세요');return false}add([v,q.value.trim()||'-']);a.value=q.value=''}},{label:'다 넣었어요',cls:'plain'}]);
+function stReset(key){return stOv[key]?btn('smore','준비·마무리 운동을 자동 추천으로 되돌리기',()=>{delete stOv[key];stSave();renderWorkout();toast('자동 추천으로 되돌렸어요')}):el('span')}
+/* 준비·마무리 운동 추가: 헬스 종목 추가와 같은 화면 (부위별 / 기구별, 누르면 자세 자리와 포인트) */
+function stAddSheet(key,w){
+ const st={by:'part',cat:'전체',q:'',open:null},box=el('div','exlib');
+ const seg=el('div','seg exseg'),chips=el('div','chips exchips'),q=el('input','field');q.placeholder='동작 이름으로 찾기';q.oninput=()=>{st.q=q.value.trim();draw()};
+ const list=el('div','exlist'),own=btn('linkish','찾는 동작이 없나요? 직접 적어서 추가',()=>stCustomSheet(key,w));
+ box.append(seg,chips,q,list,own);
+ const add=x=>{stOwn(key)[w].push([x[0],x[7]]);stSave();renderWorkout();toast(`${ST_LAB[w][0]}에 ${x[0]}를 넣었어요`);draw()};
+ function draw(){
+  seg.textContent='';[['part','부위별'],['equip','기구별']].forEach(([v,t])=>seg.append(btn(st.by===v?'on':'',t,()=>{st.by=v;st.cat='전체';draw()})));
+  const cats=['전체',...(st.by==='part'?ST_PARTS:ST_EQUIP)],col=st.by==='part'?1:2;
+  chips.textContent='';cats.forEach(c=>chips.append(btn('chip'+(st.cat===c?' on':''),c,()=>{st.cat=c;draw()})));
+  list.textContent='';const have=stOf(key)[w].map(x=>x[0]);
+  const rows=ST_DB.filter(x=>(x[4]===w||(w==='warm'&&x[4]==='gen'))&&(st.cat==='전체'||x[col]===st.cat)&&(!st.q||x[0].includes(st.q)));
+  if(!rows.length){list.append(el('div','empty','맞는 동작이 없어요. 아래에서 직접 적어 추가해요.'));return}
+  const groups=st.cat==='전체'?cats.slice(1).map(c=>[c,rows.filter(x=>x[col]===c)]).filter(g=>g[1].length):[[null,rows]];
+  groups.forEach(([g,rs])=>{if(g)list.append(el('div','pick-h',`${g} · ${rs.length}`));
+   rs.forEach(x=>{const [name,part,eq,pat,,ms,cues,amt]=x,on=st.open===name,inR=have.includes(name),row=el('div','exr'+(on?' open':''));
+    const hd=el(pat?'button':'div','exh');if(pat){hd.type='button';hd.setAttribute('aria-expanded',on);hd.onclick=()=>{st.open=on?null:name;draw()}}
+    const tx=el('div');tx.append(el('b',null,name),el('small',null,pat?`${part} · ${eq} · ${amt}`:`가벼운 몸풀기 · ${amt}`));hd.append(pat?exFig(pat):el('span','exfig none'),tx);
+    const ab=btn('exadd'+(inR?' done':''),inR?'추가됨':'+ 추가',()=>{if(!inR)add(x)},inR?`${name} 이미 있어요`:`${name} 추가`);if(inR)ab.disabled=true;
+    row.append(hd,ab);
+    if(on){const d=el('div','exd');d.append(formVideo(name,{tag:'스트레칭 자세'}));
+     const mm=el('div','exmus');mm.append(bodyMap(ms),el('div',null,''));mm.lastChild.append(el('b',null,'늘어나는 근육'),el('span',null,ms.map(m=>MUSCLE_NAME[m]).join(' · ')||'-'));d.append(mm);
+     const ul=el('ul','excues');cues.forEach(c=>{const li=el('li','ok');li.append(el('i',null,'✓'),c);ul.append(li)});d.append(el('b',null,'자세 포인트'),ul);row.append(d)}
+    list.append(row)})});
+ }
+ draw();
+ openSheet(`${ST_LAB[w][0]} 추가`,box,[{label:'다 넣었어요',cls:'primary'}]);
 }
-/* 오늘의 운동 상세에 붙는 한 줄 요약 */
-function stretchLine(key){const st=stOf(key),r=el('div','stline');
- r.append(el('span',null,'준비 운동'),el('b',null,st.warm.map(x=>x[0]).join(' · ')||'-'),el('span',null,'마무리'),el('b',null,st.cool.map(x=>x[0]).join(' · ')||'-'));return r}
-/* 운동 중 체크 카드 (건너뛰어도 된다) */
+function stCustomSheet(key,w){
+ const f=el('div','form'),lab=(t,x)=>{const l=el('label',null,t);l.append(x);return l},a=el('input','field'),q=el('input','field');
+ a.placeholder='예: 손목 털기';q.placeholder='예: 20초, 좌우 10회';f.append(lab('동작',a),lab('양',q));
+ openSheet(`${ST_LAB[w][0]}에 직접 추가`,f,[{label:'추가',cls:'primary',keep:true,fn:()=>{const v=a.value.trim();if(!v){toast('동작 이름을 적어 주세요');return false}stOwn(key)[w].push([v,q.value.trim()||'-']);stSave();renderWorkout();toast(`${v}를 넣었어요`)}},{label:'취소',cls:'plain'}]);
+}
+/* 운동 중 체크 카드 (건너뛰어도 된다). 자세가 있는 동작은 '자세'로 자세 자리를 연다 */
 function stLiveCard(w,open){
- const st=sess.st,list=st[w],done=st[w+'D'],n=done.filter(Boolean).length,c=el('div','card stlive'+(open?' open':''));
- const h=el('button','sth');h.type='button';h.setAttribute('aria-expanded',open);h.append(el('b',null,w==='warm'?'준비 운동':'마무리 스트레칭'),el('span',null,`${n} / ${list.length}${n===list.length&&list.length?' · 다 했어요':''}`));
+ const st=sess.st,list=st[w],done=st[w+'D'],n=done.filter(Boolean).length,c=el('div','card stlive'+(open?' open':''));st.pose=st.pose||{};
+ const h=el('button','sth');h.type='button';h.setAttribute('aria-expanded',open);h.append(el('b',null,ST_LAB[w][0]),el('span',null,`${n} / ${list.length}${n===list.length&&list.length?' · 다 했어요':''}`));
  h.onclick=()=>{st[w+'Open']=!open;renderWorkout()};c.append(h);
- if(open){list.forEach((x,i)=>{const r=btn('stck'+(done[i]?' on':''),'',()=>{done[i]=!done[i];if(done.every(Boolean))st[w+'Open']=false;renderWorkout()});r.append(el('i',null,''),el('span',null,x[0]),el('small',null,x[1]));r.setAttribute('aria-pressed',!!done[i]);c.append(r)});
-  c.append(el('div','note',w==='warm'?'하나씩 누르며 체크해요. 바쁘면 건너뛰어도 돼요.':'운동을 끝내기 전에 천천히 늘려요.'))}
+ if(open){list.forEach((x,i)=>{const S=stDb(x[0]),pk=w+i,r=el('div','stck'+(done[i]?' on':''));
+   const ck=btn('stcb','',()=>{done[i]=!done[i];if(done.every(Boolean))st[w+'Open']=false;renderWorkout()},`${x[0]} ${done[i]?'체크 취소':'했어요'}`);ck.setAttribute('aria-pressed',!!done[i]);
+   r.append(ck,el('span',null,x[0]),el('small',null,x[1]));
+   if(S&&S[3])r.append(btn('stpz'+(st.pose[pk]?' on':''),'자세',()=>{st.pose[pk]=!st.pose[pk];renderWorkout()},`${x[0]} 자세 보기`));
+   c.append(r);if(st.pose[pk])c.append(stPose(x[0]))});
+  c.append(el('div','note',w==='warm'?'하나씩 체크해요. 바쁘면 건너뛰어도 돼요.':'운동을 끝내기 전에 천천히 늘려요.'))}
  return c;
 }
 const stOpen=(w,dflt)=>{const v=sess.st[w+'Open'];return v===undefined?dflt:v};
@@ -2173,8 +2350,8 @@ function runTypeView(b){
   const l=el('div','rlist');RUN_PLAN.sessions.forEach((x,i)=>{const r=el('div','ri sw-row rrow');const w=el('b',null,`${i+1}주차`),inp=el('input','field');inp.value=x[1];inp.setAttribute('aria-label',`${i+1}주차 내용`);
    inp.onchange=()=>{x[1]=inp.value.trim()||x[1]};r.append(w,inp,btn('x','×',()=>{if(RUN_PLAN.sessions.length<=1){toast('주차가 하나는 있어야 해요');return}RUN_PLAN.sessions.splice(i,1);fixRunWeeks();renderWorkout()},`${i+1}주차 빼기`));l.append(r)});
   const eb=el('div','edbar');eb.append(btn('','+ 주차 추가',()=>{const last=RUN_PLAN.sessions[RUN_PLAN.sessions.length-1];RUN_PLAN.sessions.push(['',last?last[1]:'5km × 3회',false]);fixRunWeeks();renderWorkout()}));
-  c.append(f,l,eb,el('div','note','주차마다 거리와 횟수를 적어요. 예: 5km × 3회, 400m × 6'));b.append(c);return}
- const d=el('div','card');runDetail(d,{today:false});b.append(d);
+  c.append(f,stSection('s:러닝','warm',true),el('div','stmain','본 운동'),l,eb,el('div','note','주차마다 거리와 횟수를 적어요. 예: 5km × 3회, 400m × 6'),stSection('s:러닝','cool',true),stReset('s:러닝'));b.append(c);return}
+ const d=el('div','card');d.append(stSection('s:러닝','warm',false),el('div','stmain','본 운동'));runDetail(d,{today:false});d.append(stSection('s:러닝','cool',false));b.append(d);
  const sh=el('div','sec-h');sh.append(el('h2',null,'러닝 목표 바꾸기'),el('span',null,'5주 계획을 다시 짜요'));b.append(sh);
  const pk=el('div','tchips');Object.entries(RUN_GOALS).forEach(([g,[nm,km]])=>{const b2=btn(RUN_PLAN.name===nm?'on':'',g,()=>{
    if(RUN_PLAN.name===nm)return;Object.assign(RUN_PLAN,{name:nm,week:1,progress:0,todayKm:km[0]});
@@ -2182,24 +2359,20 @@ function runTypeView(b){
  b.append(pk,el('div','note','목표를 바꾸면 1주차부터 다시 시작해요. 회차별 거리는 실제 앱에서 지난 기록을 보고 맞춰요.'));
 }
 function fixRunWeeks(){RUN_PLAN.sessions.forEach((x,i)=>x[0]=`${i+1}주차`);RUN_PLAN.weeks=RUN_PLAN.sessions.length;RUN_PLAN.week=Math.min(RUN_PLAN.week,RUN_PLAN.weeks)}
-function meetTypeView(b){
- customTypeView(b,'단체 운동');
- const c=el('div','card');const h=el('div','card-h');h.append(el('h2',null,'자주 하는 종목'),el('span','more','고르면 시작할 때 먼저 나와요'));c.append(h);
- const ed=wEdit==='단체 운동',sc=el('div','sport-chips');
- TEAM_SPORTS.forEach((sp,i)=>{const x=btn(group.sport===sp?'on':'',ed?sp+' ×':sp,()=>{if(ed){if(TEAM_SPORTS.length<=1){toast('종목이 하나는 있어야 해요');return}TEAM_SPORTS.splice(i,1);if(group.sport===sp)group.sport=TEAM_SPORTS[0];renderWorkout();return}group.sport=sp;renderWorkout()});sc.append(x)});
- if(ed)sc.append(btn('','+ 종목',()=>{const f=el('div','form'),a=el('input','field');a.placeholder='예: 핸드볼';const q=el('label',null,'종목 이름');q.append(a);f.append(q);
-  openSheet('자주 하는 종목 추가',f,[{label:'추가',cls:'primary',keep:true,fn:()=>{const v=a.value.trim();if(!v){toast('종목 이름을 적어 주세요');return false}if(!TEAM_SPORTS.includes(v))TEAM_SPORTS.push(v);renderWorkout()}},{label:'취소',cls:'plain'}])}));
- c.append(sc);b.append(c);
- const mine=groups.filter(g=>g.joined).sort((a,b)=>a.date.localeCompare(b.date));
- const sh=el('div','sec-h');sh.append(el('h2',null,'내 모임'),el('span',null,`${mine.length}개`));b.append(sh);
- const l=el('div','card');if(!mine.length)l.append(el('div','empty','참여한 모임이 없어요.'));
+/* 구기 종목 화면: 그 종목의 루틴 + 그 종목 모임 */
+function sportTypeView(b,n){
+ customTypeView(b,n);
+ const mine=groups.filter(g=>g.joined&&g.sport===n).sort((a,b)=>a.date.localeCompare(b.date));
+ const sh=el('div','sec-h');sh.append(el('h2',null,`내 ${n} 모임`),el('span',null,`${mine.length}개`));b.append(sh);
+ const l=el('div','card');if(!mine.length)l.append(el('div','empty',`참여한 ${n} 모임이 없어요.`));
  mine.forEach(g=>{const r=el('div','ri');r.append(el('span',null,g.name),el('small',null,`${mdw(g.date)} ${g.time}`));l.append(r)});
- l.append(btn('smore','모임 찾기 ↗',()=>{gCat='모임';$('gq').value='';go('group')}));b.append(l);
+ l.append(btn('smore','모임 찾기 ↗',()=>{gCat='모임';$('gq').value=n;go('group')}));b.append(l);
 }
 function customTypeView(b,n){
- const list=itemsOf(n),ed=wEdit===n;
+ const list=itemsOf(n),ed=wEdit===n,sk=n==='요가'?null:stKeySport(n);
  b.append(editHead(`내 ${n} 루틴`,n));
  const c=el('div','card'),l=el('div','rlist');l.style.marginTop='0';
+ if(sk)c.append(stSection(sk,'warm',ed),el('div','stmain','본 운동'));
  if(!list.length)l.append(el('div','empty','아직 정한 동작이 없어요. 루틴 수정에서 추가해 보세요.'));
  list.forEach((x,i)=>{const r=el('div','ri sw-row');
   if(ed){const t=el('div','cedit'),a=el('input','field'),q=el('input','field');a.value=x[0];q.value=x[1];a.setAttribute('aria-label','동작');q.setAttribute('aria-label','양');
@@ -2210,7 +2383,7 @@ function customTypeView(b,n){
    const a=el('input','field');a.placeholder='예: 배영';const q=el('input','field');q.placeholder='예: 200m, 좌우 30초, 10회 × 3';f.append(lab('동작',a),lab('양',q));
    openSheet(`${n}에 동작 추가`,f,[{label:'추가',cls:'primary',keep:true,fn:()=>{if(!a.value.trim()){toast('동작 이름을 적어 주세요');return false}list.push([a.value.trim(),q.value.trim()||'-']);setTypes(getTypes());renderWorkout()}},{label:'취소',cls:'plain'}])}),
    )}
- c.append(eb);if(!ed)eb.remove();b.append(c);
+ c.append(eb);if(!ed)eb.remove();if(sk){c.append(stSection(sk,'cool',ed));if(ed)c.append(stReset(sk))}b.append(c);
 }
 /* 오늘 운동: 계획을 보여 주고 바로 시작 */
 function workHero(){
@@ -2234,7 +2407,7 @@ let myTypes=null;   /* null이면 계획에서 정한다 */
 const typeItems={};  /* 직접 추가한 종류의 루틴 (스트레칭·수영 등) */
 function getTypes(){
  if(myTypes)return myTypes;
- const t=['헬스'];if(routineSet){if(WEEK.some(w=>w.kind==='run'))t.push('러닝');if(WEEK.some(w=>w.kind==='meet'))t.push('단체 운동')}
+ const t=['헬스'];if(routineSet){if(WEEK.some(w=>w.kind==='run'))t.push('러닝');if(WEEK.some(w=>w.kind==='meet'))t.push(group.sport)}
  return t;
 }
 function setTypes(t){myTypes=t;setup.wtypes=t;setup.witems=typeItems;saveSetup()}
@@ -2260,8 +2433,8 @@ function routineList(b){
   tx.append(nm,el('small',null,`${it.days.join(' · ')} · ${it.sub}`));
   const ch=el('span','chev');ch.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
   h.append(ic,tx,ch);h.onclick=()=>{rOpen=on?'':it.title;renderWorkout()};c.append(h);
-  if(on){const d=el('div','rbody');({workout:gymDetail,run:runDetail,meet:meetDetail})[it.kind](d,it);
-   const rk=Object.keys(ROUTINES).find(k=>ROUTINES[k].title===it.title);d.append(stretchLine(it.kind==='workout'?(rk?stKeyGym(rk):'s:기본'):it.kind==='run'?'s:러닝':'s:'+group.sport));c.append(d)}
+  if(on){const d=el('div','rbody'),rk=Object.keys(ROUTINES).find(k=>ROUTINES[k].title===it.title),sk=it.kind==='workout'?(rk?stKeyGym(rk):'s:기본'):it.kind==='run'?'s:러닝':'s:'+group.sport;
+   d.append(stSection(sk,'warm',false),el('div','stmain','본 운동'));({workout:gymDetail,run:runDetail,meet:meetDetail})[it.kind](d,it);d.append(stSection(sk,'cool',false));c.append(d)}
   b.append(c)});
 }
 function gymDetail(d,it){
@@ -2290,7 +2463,8 @@ function meetDetail(d,it){
  const r=el('div','ri');const t=el('div',null,mine?mine.name:'참여 중인 모임이 없어요');t.append(el('br'),el('small',null,mine?`${mdw(mine.date)} ${mine.time} · ${mine.place}`:'근처 모임을 찾아 함께 해 보세요'));
  r.append(t,btn('more','모임 찾기 ↗',()=>{gCat='모임';$('gq').value='';go('group')}));if(!it.today)r.style.borderTop='0';d.append(r);
 }
-const lastTxt=ex=>ex.last.length?`지난번 ${md(ex.lastDate)} · ${ex.last.map(([w,r])=>`${w}×${r}`).join(' · ')}`
+const cardioTxt=(w,r)=>`${w?`강도 ${w} · `:''}${r}분`;
+const lastTxt=ex=>isCardio(ex.name)?(ex.last.length?`지난번 ${md(ex.lastDate)} · ${cardioTxt(...ex.last[0])}`:`처음 해요 · 추천 ${cardioTxt(...ex.start[0])}`):ex.last.length?`지난번 ${md(ex.lastDate)} · ${ex.last.map(([w,r])=>`${w}×${r}`).join(' · ')}`
  :`처음 해요 · 추천 ${ex.start[0][0]?ex.start[0][0]+'kg':'맨몸'} × ${ex.start[0][1]}회`;
 function swapSheet(i){
  const ex=ROUTINE[i],orig=ex.orig||ex,box=el('div');
@@ -2342,10 +2516,11 @@ function gymLive(b){
  {const c=exCues(ex.name),[,bad]=exInfo(ex.name),cue=cs<0?'이 운동은 끝났어요':(c[cs%Math.max(1,c.length)]||bad||'자세를 확인하며 천천히');
   b.append(formVideo(ex.name,{live:true,cue:cs<0?cue:`${cs+1}세트 · ${cue}`}))}
  const card=el('div','card');card.id='setCard';const tb=el('div','tbl');tb.id='setTable';
- const th=el('div','tr th');['세트','지난 기록','kg','횟수','완료'].forEach(t=>th.append(el('span',null,t)));tb.append(th);
+ const ca=isCardio(ex.name),th=el('div','tr th');(ca?['세트','지난 기록','강도','분','완료']:['세트','지난 기록','kg','횟수','완료']).forEach(t=>th.append(el('span',null,t)));tb.append(th);
  sets.forEach((s,j)=>{
   const row=el('div','tr'+(s.done?' done':'')+(j===cs?' cur':'')),prev=ex.last[j];
-  row.append(el('div','no num',j+1),el('div','lastc num',prev?`${prev[0]} × ${prev[1]}`:'—'),inp(s,'w',`${j+1}세트 무게(kg)`),inp(s,'r',`${j+1}세트 횟수`));
+  const iw=inp(s,'w',ca?'강도 (속도·레벨)':`${j+1}세트 무게(kg)`);if(ca)iw.step='0.5';
+  row.append(el('div','no num',j+1),el('div','lastc num',prev?(ca?cardioTxt(...prev):`${prev[0]} × ${prev[1]}`):'—'),iw,inp(s,'r',ca?'운동 시간(분)':`${j+1}세트 횟수`));
   const c=btn('chk','<span></span>'+ICON.check,()=>s.done?(s.done=false,renderWorkout()):complete(openEx,j),`${j+1}세트 ${s.done?'완료 취소':'완료'}`);c.disabled=paused;
   row.append(c);tb.append(row);
  });
@@ -3035,11 +3210,11 @@ function recDetail(r){const box=el('div','rdet'),hd=el('div','rhd');hd.append(el
   if(S.st.length)box.append(barChart('영법별 거리','m',S.st.map(([n,v])=>[n,v,`${v}m`])));
   const pv=prevOf(r);if(pv){const P=swimStats(pv),dm=S.m-P.m,dp=P.pace-S.pace;
    box.append(cmpCard(`지난 수영 ${md(pv.date)}와 비교`,`거리 ${dm>=0?'+':'−'}${Math.abs(dm)}m · 100m ${dp>=0?`${dp}초 빨라짐`:`${-dp}초 느려짐`}`))}
- }else if(r.kind==='workout'){const ex=exDetail(r),vol=ex.reduce((a,[,ss])=>a+ss.reduce((b,[w,rp])=>b+w*rp,0),0),sets=ex.reduce((a,[,ss])=>a+ss.length,0),m=r.meta.match(/(\d+)분/);
+ }else if(r.kind==='workout'){const ex=exDetail(r),vol=ex.reduce((a,[n,ss])=>a+setVol(n,ss),0),sets=ex.reduce((a,[,ss])=>a+ss.length,0),m=r.meta.match(/(\d+)분/);
   box.append(hero(Math.round(vol).toLocaleString(),'kg','총 볼륨 (무게 × 횟수)'),statRow([['운동 시간',m?`${m[1]}분`:'-'],['종목',`${ex.length}개`],['세트',`${sets}세트`]]));
-  if(ex.length)box.append(barChart('종목별 볼륨','kg',ex.map(([n,ss])=>{const v=ss.reduce((b,[w,rp])=>b+w*rp,0);return [n,v,v?Math.round(v).toLocaleString():`${ss.reduce((b,[,rp])=>b+rp,0)}회`]})));
-  const sl=el('div','card');const ul=el('ul','sets');ex.forEach(([n,ss])=>{const li=el('li');li.append(el('span',null,n),el('span',null,ss.map(([w,rp])=>w?`${w}kg×${rp}`:`${rp}회`).join(' · ')));ul.append(li)});sl.append(el('h3',null,'세트 기록'),ul);box.append(sl);
-  const pv=prevOf(r,true);if(pv){const pvol=exDetail(pv).reduce((a,[,ss])=>a+ss.reduce((b,[w,rp])=>b+w*rp,0),0);if(pvol){const d=Math.round((vol-pvol)/pvol*100);
+  if(ex.length)box.append(barChart('종목별 볼륨','kg',ex.map(([n,ss])=>{const v=setVol(n,ss),sm=ss.reduce((b,[,rp])=>b+rp,0);return [n,v,v?Math.round(v).toLocaleString():isCardio(n)?`${sm}분`:`${sm}회`]})));
+  const sl=el('div','card');const ul=el('ul','sets');ex.forEach(([n,ss])=>{const li=el('li');li.append(el('span',null,n),el('span',null,ss.map(([w,rp])=>isCardio(n)?cardioTxt(w,rp):w?`${w}kg×${rp}`:`${rp}회`).join(' · ')));ul.append(li)});sl.append(el('h3',null,'세트 기록'),ul);box.append(sl);
+  const pv=prevOf(r,true);if(pv){const pvol=exVol(pv);if(pvol){const d=Math.round((vol-pvol)/pvol*100);
    box.append(cmpCard(`지난 ${r.title} ${md(pv.date)}와 비교`,`총 볼륨 ${Math.round(pvol).toLocaleString()}kg → ${Math.round(vol).toLocaleString()}kg`,`${d>=0?'+':''}${d}%`))}}
  }else{const num=(re)=>{const x=r.meta.match(re);return x?+x[1]:null},tot=num(/^(\d+)분/)||(num(/^(\d+)시간/)||0)*60,pl=num(/뛴 시간\s*(\d+)/),mv=r.meta.match(/이동\s*([\d.]+)/);
   box.append(hero(pl!=null?pl:'-','분','뛴 시간'),statRow([['총 시간',tot?`${tot}분`:'-'],['쉰 시간',tot&&pl!=null?`${tot-pl}분`:'-'],['이동 거리',mv?`${mv[1]}km`:'-']]));
@@ -3075,7 +3250,8 @@ const XM={
  meet:{vol:['뛴 시간',v=>`${Math.round(v)}분`,v=>Math.round(v)],skill:['이동 거리',v=>`${+v.toFixed(1)}km`,false,'이동 거리'],axis:'분'},
  workout:{vol:['볼륨',v=>`${Math.round(v).toLocaleString()}kg`,v=>v>=1e3?`${+(v/1e3).toFixed(1)}k`:Math.round(v)],axis:'kg · 무게×횟수'}
 };
-const exVol=r=>exDetail(r).reduce((a,[,ss])=>a+ss.reduce((b,[w,rp])=>b+w*rp,0),0);
+const setVol=(n,ss)=>isCardio(n)?0:ss.reduce((b,[w,rp])=>b+w*rp,0);
+const exVol=r=>exDetail(r).reduce((a,[n,ss])=>a+setVol(n,ss),0);
 /* 기록 하나 → {vol 운동량, skill 실력(없으면 null)} */
 function xVal(r){
  if(r.kind==='run'){const S=runStats(r),has=/\d+'\d+"/.test(r.meta)||/\d+분/.test(r.meta);return {vol:S.km,skill:has?S.pace:null}}
@@ -3153,7 +3329,7 @@ function weekChart(rs,from,M,col){
 /* C: 헬스 종목별 그날 최고 무게 (맨몸 종목은 최고 횟수). 가로축은 날짜 간격 그대로 */
 function liftCard(rs,col){
  const c=el('div','card trend'),h=el('div','card-h');h.append(el('h3',null,'종목별 최고 무게'));c.append(h);
- const by={};rs.forEach(r=>exDetail(r).forEach(([n,ss])=>{if(!ss.length)return;const bw=ss.every(x=>!x[0]),top=bw?ss.reduce((a,x)=>x[1]>a[1]?x:a):ss.reduce((a,x)=>x[0]>a[0]||(x[0]===a[0]&&x[1]>a[1])?x:a);
+ const by={};rs.forEach(r=>exDetail(r).forEach(([n,ss])=>{if(!ss.length||isCardio(n))return;const bw=ss.every(x=>!x[0]),top=bw?ss.reduce((a,x)=>x[1]>a[1]?x:a):ss.reduce((a,x)=>x[0]>a[0]||(x[0]===a[0]&&x[1]>a[1])?x:a);
   (by[n]=by[n]||{bw,pts:[]}).pts.push({d:r.date,v:bw?top[1]:top[0],rp:top[1]})}));
  const names=Object.keys(by).sort((a,b)=>by[b].pts.length-by[a].pts.length||(by[a].bw-by[b].bw));
  if(!names.length){c.append(el('div','empty','이 기간에는 헬스 기록이 없어요.'));return c}
@@ -3184,7 +3360,7 @@ function pbCard(kind,all){
  if(kind==='run'){add('가장 긴 거리',best(all,r=>runStats(r).km),v=>`${v.toFixed(1)}km`);add('가장 빠른 평균 페이스',best(all,r=>xVal(r).skill,true),v=>`${paceS(v)}/km`);add('가장 오래 달린 시간',best(all,r=>{const t=r.meta.match(/(\d+)분\s*(\d+)?초?/);return t?+t[1]*60+(+t[2]||0):null}),v=>mmss(v))}
  if(kind==='swim'){add('가장 긴 거리',best(all,r=>swimStats(r).m),v=>`${v.toLocaleString()}m`);add('가장 빠른 100m 페이스',best(all,r=>swimStats(r).pace,true),v=>`${paceS(v)}/100m`);add('가장 오래 수영한 시간',best(all,r=>swimStats(r).min),v=>`${v}분`)}
  if(kind==='meet'){add('가장 오래 뛴 시간',best(all,r=>xVal(r).vol),v=>`${v}분`);add('가장 많이 이동한 거리',best(all,r=>xVal(r).skill),v=>`${v}km`)}
- if(kind==='workout'){const by={};all.forEach(r=>exDetail(r).forEach(([n,ss])=>{ss.forEach(([w,rp])=>{if(!w)return;const b=by[n];if(!b||w>b.v||(w===b.v&&rp>b.rp))by[n]={v:w,rp,r}})}));
+ if(kind==='workout'){const by={};all.forEach(r=>exDetail(r).forEach(([n,ss])=>{ss.forEach(([w,rp])=>{if(!w||isCardio(n))return;const b=by[n];if(!b||w>b.v||(w===b.v&&rp>b.rp))by[n]={v:w,rp,r}})}));
   Object.entries(by).sort((a,b)=>b[1].v-a[1].v).slice(0,4).forEach(([n,b])=>rows.push([n,`${b.v}kg × ${b.rp}회`,b.r.date]));
   add('한 번에 가장 많이 든 총 볼륨',best(all,exVol),v=>`${Math.round(v).toLocaleString()}kg`)}
  if(!rows.length){c.append(el('div','empty','기록이 쌓이면 최고 기록을 모아 보여 드려요.'));return c}
@@ -3222,8 +3398,9 @@ function calScroll(to){setTimeout(()=>{const sc=$('s-cal');if(!sc.classList.cont
  const ph=pad.offsetHeight,end=sc.scrollTop+pad.getBoundingClientRect().top-sTop+parseFloat(getComputedStyle(sc).paddingBottom),need=Math.max(0,Math.ceil(top+sc.clientHeight-end));
  if(need>ph)pad.style.height=need+'px';
  if(up&&sc.scrollTop<=top)return;   /* 운동·식단: 탭 줄보다 아래에 있을 때만 탭 줄 위치까지 올린다 */
- const tok=calScroll.tok=(calScroll.tok||0)+1;
- smoothTo(sc,top,()=>{if(calScroll.tok===tok)pad.style.height=need+'px'})},0)}
+ const tok=calScroll.tok=(calScroll.tok||0)+1,fin=()=>{if(calScroll.tok===tok)pad.style.height=need+'px'};
+ if(top<sc.scrollTop){cancelAnimationFrame(sc._anim);sc.scrollTop=top;fin();stuckMark();return}   /* 위로 갈 때는 움직이지 않고 바로 바뀐다 */
+ smoothTo(sc,top,fin)},0)}
 /* 부드러운 이동: 거리에 따라 0.35~0.75초, 천천히 출발해 천천히 멈춘다. 손가락·휠로 움직이면 바로 멈춘다 */
 function smoothTo(sc,top,done){cancelAnimationFrame(sc._anim);const from=sc.scrollTop,d=top-from;if(Math.abs(d)<1){sc.scrollTop=top;done&&done();return}
  const dur=Math.min(750,Math.max(350,Math.abs(d)*.55)),ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,t0=performance.now();
@@ -3655,7 +3832,7 @@ function initSetup(){
  if(setup.drink){const d=JSON.parse(JSON.stringify(setup.drink));if((d.day||DEMO_BASE)!==TODAY){d.log=[];(d.supps||[]).forEach(x=>x.took=null)}delete d.day;Object.assign(drink,d)}   /* 물·영양제는 하루 단위 */
  if(setup.bodyrec)bodyRecs.splice(0,bodyRecs.length,...setup.bodyrec);if(setup.goals)goals.splice(0,goals.length,...setup.goals);
  if(setup.stretch)Object.assign(stOv,setup.stretch);
- if(setup.wtypes)myTypes=setup.wtypes;if(setup.witems)Object.assign(typeItems,setup.witems);
+ if(setup.wtypes)myTypes=[...new Set(setup.wtypes.map(n=>n==='단체 운동'?group.sport:n).filter(n=>n!=='스트레칭'))];   /* 예전 저장값: 단체 운동 → 종목, 스트레칭 종류는 뺀다 */if(setup.witems)Object.assign(typeItems,setup.witems);
 }
 initSetup();
 
