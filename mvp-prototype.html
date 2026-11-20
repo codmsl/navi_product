@@ -110,6 +110,14 @@ const W_TYPES = {
 const RUN_GOALS = { "5K": ["나의 첫 5K", [3, 4, 5, 5, 5]], "10K": ["10K 완주", [5, 6, 8, 9, 10]], "하프": ["하프 마라톤", [8, 10, 13, 16, 21]] };
 /* 체성분(인바디) 기록 예시: w 몸무게 kg, fat 체지방률 %, mus 골격근량 kg */
 const BODY_DEMO = [
+  { date: "2026-06-07", w: 66.8, fat: 30.2, mus: 23.4 }, { date: "2026-06-14", w: 66.5, fat: 30.2, mus: 23.4 },
+  { date: "2026-06-21", w: 66.4, fat: 30.0, mus: 23.4 }, { date: "2026-06-28", w: 66.4, fat: 29.6, mus: 23.4 },
+  { date: "2026-07-05", w: 66.2, fat: 29.8, mus: 23.5 }, { date: "2026-07-12", w: 66.0, fat: 29.5, mus: 23.7 },
+  { date: "2026-07-19", w: 66.0, fat: 29.3, mus: 23.7 }, { date: "2026-07-26", w: 65.6, fat: 29.3, mus: 23.6 },
+  { date: "2026-08-02", w: 65.5, fat: 28.8, mus: 23.7 }, { date: "2026-08-09", w: 65.7, fat: 28.7, mus: 23.8 },
+  { date: "2026-08-16", w: 65.4, fat: 28.6, mus: 23.8 }, { date: "2026-08-23", w: 65.0, fat: 28.3, mus: 23.8 },
+  { date: "2026-08-30", w: 65.1, fat: 28.3, mus: 23.8 }, { date: "2026-09-06", w: 64.9, fat: 28.2, mus: 23.8 },
+  { date: "2026-09-13", w: 64.9, fat: 28.1, mus: 23.9 }, { date: "2026-09-20", w: 64.6, fat: 27.9, mus: 24.0 },
   { date: "2026-09-27", w: 64.2, fat: 27.5, mus: 24.1 }, { date: "2026-10-04", w: 63.9, fat: 27.1, mus: 24.2 },
   { date: "2026-10-11", w: 63.5, fat: 26.6, mus: 24.3 }, { date: "2026-10-18", w: 63.6, fat: 26.5, mus: 24.3 },
   { date: "2026-10-25", w: 63.1, fat: 26.0, mus: 24.5 }, { date: "2026-11-01", w: 62.9, fat: 25.7, mus: 24.6 },
@@ -934,7 +942,7 @@ button.more:hover{color:var(--ink)}
 /* 화면을 내리면 맨 위에 붙는 줄 (기록 탭 운동/식단/체성분 + 운동 종류, 식단 탭 바로가기).
    붙기 전에는 배경 없이 화면에 녹아 있고, 붙으면 뒤 내용이 비치는 반투명 막 + 아래 가는 선 하나만 생긴다 */
 .stickbar{position:sticky;top:-8px;z-index:6;margin-top:4px;padding:10px 0 8px}
-.stickbar::before,.dnav::before{content:'';position:absolute;inset:0 -100vmax;z-index:-1;opacity:0;transition:opacity .18s;background:color-mix(in srgb,var(--bg) 93%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(16px);backdrop-filter:saturate(1.6) blur(16px);box-shadow:0 1px 0 var(--line)}
+.stickbar::before,.dnav::before{content:'';position:absolute;inset:0 -100vmax;z-index:-1;opacity:0;transition:opacity .18s;background:var(--bg);box-shadow:0 1px 0 var(--line)}
 .stickbar.stuck::before,.dnav.stuck::before{opacity:1}
 .phone.ipad .stickbar,.phone.ipad .dnav{top:-16px}
 .phone.ipad .xchart svg{max-height:250px}
@@ -1004,6 +1012,15 @@ button.more:hover{color:var(--ink)}
 .glist .goal small{display:block;font-size:12px;color:var(--mut);font-weight:500}
 .glist .goal .pc{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
 .bhist{margin-top:4px}
+.bhq{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-top:10px}
+.bhq::-webkit-scrollbar{display:none}
+.bhq button{flex:none;white-space:nowrap;font-size:12px;font-weight:700;border-radius:999px;padding:6px 11px;background:var(--bg);color:var(--text)}
+.bhq button.on{background:var(--dark);color:var(--on-acc)}
+.bhd{display:grid;grid-template-columns:1fr auto 1fr auto;align-items:center;gap:6px;margin-top:10px}
+.bhd .field{padding:9px 10px;font-size:13px;min-width:0}
+.bhd span{color:var(--mut);font-size:13px}
+.bhd .go{font-size:13px;font-weight:700;border-radius:12px;padding:9px 14px;background:var(--dark);color:var(--on-acc)}
+.bhs{font-size:12px;color:var(--mut);margin-top:12px;font-variant-numeric:tabular-nums}
 .bhist .br{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:6px;padding:9px 0;border-top:1px solid var(--line);font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums}
 .bhist .br:first-child{border-top:0;font-size:11.5px;color:var(--mut);padding-bottom:4px}
 .bhist .br span:not(:first-child){text-align:right}
@@ -2727,14 +2744,25 @@ function bodyTrend(){
  if(!box.children.length)box.append(el('div','empty',bodyRecs.length?'이 기간에는 비교할 기록이 2번 이상 없어요. 기간을 넓혀 보세요.':'인바디를 2번 이상 등록하면 변화를 보여 드려요.'));
  c.append(box,btn('cta','+ 인바디 등록',bodySheet));return c;
 }
-/* 측정 기록: 달력이 없으니 언제 쟀는지 여기서 본다 (고른 기간, 최근 순) */
+/* 측정 기록: 기본은 최근 5회. 쇼핑몰 주문 내역처럼 기간 버튼(1·3·6개월·1년)이나 직접 날짜를 정해 조회한다 */
+let bh={k:'recent',from:null,to:null};
+const BH_Q=[['recent','최근 5회'],['1m','1개월',-30],['3m','3개월',-91],['6m','6개월',-182],['1y','1년',-365],['custom','직접 설정']];
+const ymdDot=k=>k.replace(/-/g,'.');
 function bodyHist(){
  const c=el('div','card'),h=el('div','card-h');h.append(el('h3',null,'측정 기록'));c.append(h);
- const rs=bodyRecs.filter(b=>b.date>=perFrom()).slice().reverse();
- if(!rs.length){c.append(el('div','empty',bodyRecs.length?'이 기간에는 측정 기록이 없어요.':'아직 측정 기록이 없어요.'));return c}
- h.append(el('span','more',`${rs.length}회`));
+ if(!bodyRecs.length){c.append(el('div','empty','아직 측정 기록이 없어요.'));return c}
+ const q=el('div','bhq');BH_Q.forEach(([k,t,dd])=>{const b=btn(bh.k===k?'on':'',t,()=>{
+   if(k==='custom'){bh={k,from:bh.from||addDays(TODAY,-91),to:bh.to||TODAY}}else bh={k,from:dd?addDays(TODAY,dd):null,to:dd?TODAY:null};renderCal()});
+  b.setAttribute('aria-pressed',bh.k===k);q.append(b)});c.append(q);
+ if(bh.k==='custom'){const f=el('div','bhd'),i1=el('input','field'),i2=el('input','field');i1.type=i2.type='date';i1.value=bh.from;i2.value=bh.to;i1.max=i2.max=TODAY;i1.min=i2.min=bodyRecs[0].date;
+  i1.setAttribute('aria-label','시작 날짜');i2.setAttribute('aria-label','끝 날짜');
+  f.append(i1,el('span',null,'~'),i2,btn('go','조회',()=>{if(!i1.value||!i2.value){toast('날짜를 골라 주세요');return}if(i1.value>i2.value){toast('시작 날짜가 끝 날짜보다 늦어요');return}bh.from=i1.value;bh.to=i2.value;renderCal()}));c.append(f)}
+ const all=bodyRecs.slice().reverse(),rs=bh.k==='recent'?all.slice(0,5):all.filter(b=>b.date>=bh.from&&b.date<=bh.to);
+ c.append(el('div','bhs',bh.k==='recent'?`최근 5회 · 전체 ${bodyRecs.length}회 중`:`${ymdDot(bh.from)} ~ ${ymdDot(bh.to)} · ${rs.length}회`));
+ if(!rs.length){c.append(el('div','empty','이 기간에는 측정 기록이 없어요.'));return c}
+ const ty=TODAY.slice(0,4),dt=k=>k.slice(0,4)===ty?mdw(k):`${k.slice(2,4)}.${md(k)}`;
  const t=el('div','bhist'),row=a=>{const r=el('div','br');a.forEach(x=>r.append(el('span',null,x)));t.append(r)};
- row(['날짜','몸무게','체지방률','골격근량']);rs.forEach(b=>row([mdw(b.date),`${b.w}kg`,b.fat==null?'-':`${b.fat}%`,b.mus==null?'-':`${b.mus}kg`]));
+ row(['날짜','몸무게','체지방률','골격근량']);const f1=v=>(+v).toFixed(1);rs.forEach(b=>row([dt(b.date),`${f1(b.w)}kg`,b.fat==null?'-':`${f1(b.fat)}%`,b.mus==null?'-':`${f1(b.mus)}kg`]));
  c.append(t);return c;
 }
 /* 다시 그려도 보던 위치를 지킨다 (내용을 비우는 순간 맨 위로 튀었다가 내려오는 것 방지) */
@@ -3048,8 +3076,9 @@ function sparkRow(l,col){
    아래 내용이 짧으면 맨 아래 빈 자리(calPad)를 늘려 끝까지 올라가게 하고, 다 내려간 뒤 필요한 만큼만 남긴다 */
 function calScroll(to){setTimeout(()=>{const sc=$('s-cal');if(!sc.classList.contains('on'))return;
  const sTop=sc.getBoundingClientRect().top,bar=$('calBar'),pad=$('calPad');
- const top=to==='top'?0:Math.max(0,Math.round(to==='bar'?sc.scrollTop+$('calBarAt').getBoundingClientRect().top-sTop:sc.scrollTop+$(to).getBoundingClientRect().top-sTop-bar.offsetHeight-8));
- const ph=pad.offsetHeight,need=Math.max(0,Math.ceil(top+sc.clientHeight-(sc.scrollHeight-ph)));
+ const top=to==='top'?0:Math.max(0,Math.round(to==='bar'?sc.scrollTop+$('calBarAt').getBoundingClientRect().top-sTop+2:sc.scrollTop+$(to).getBoundingClientRect().top-sTop-bar.offsetHeight-8));
+ /* 빈 자리 없이 내용이 끝나는 위치(빈 자리 윗변 + 화면 아래 여백)로 필요한 높이를 바로 구한다. 줄였다 재면 그 순간 위치가 튄다 */
+ const ph=pad.offsetHeight,end=sc.scrollTop+pad.getBoundingClientRect().top-sTop+parseFloat(getComputedStyle(sc).paddingBottom),need=Math.max(0,Math.ceil(top+sc.clientHeight-end));
  if(need>ph)pad.style.height=need+'px';
  const tok=calScroll.tok=(calScroll.tok||0)+1,fin=()=>{if(calScroll.tok===tok)pad.style.height=need+'px'};
  sc.addEventListener('scrollend',fin,{once:true});setTimeout(fin,1000);
