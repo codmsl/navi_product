@@ -465,8 +465,9 @@ button.more:hover{color:var(--ink)}
 .k-meal{color:var(--tan);background:var(--tan-soft)}
 .k-meet{color:var(--purple);background:var(--purple-soft)}
 .k-swim{color:var(--blue);background:var(--blue-soft)}
+.k-etc{color:var(--tan);background:var(--tan-soft)}
 .k-rest{color:var(--mut);background:var(--line)}
-.dot-workout{background:var(--green)}.dot-run{background:var(--run)}.dot-meal{background:var(--tan)}.dot-meet{background:var(--purple)}.dot-swim{background:var(--blue)}.dot-rest{background:var(--mut)}
+.dot-workout{background:var(--green)}.dot-run{background:var(--run)}.dot-meal{background:var(--tan)}.dot-meet{background:var(--purple)}.dot-swim{background:var(--blue)}.dot-etc{background:var(--tan)}.dot-rest{background:var(--mut)}
 .cta{width:100%;margin-top:14px;background:var(--dark);color:var(--on-acc);font-weight:700;border-radius:18px;padding:16px;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px}
 .cta:hover:not(:disabled){filter:brightness(.96)}
 .cta svg{width:18px;height:18px}
@@ -771,8 +772,14 @@ button.more:hover{color:var(--ink)}
 .wmenu .wm .tag{font-size:10.5px;font-weight:700;color:var(--mut)}
 .wmenu .wadd{width:100%;padding:11px;border-radius:12px;font-size:13.5px;font-weight:700;color:var(--ink);border-top:1px solid var(--line);margin-top:4px}
 .tdays{display:flex;gap:4px;margin-top:10px;flex-wrap:wrap}
-.tdays span{font-size:12px;font-weight:700;border-radius:999px;padding:4px 10px;background:var(--bg);color:var(--mut)}
-.tdays span.on{background:var(--dark);color:var(--on-acc)}
+.tdh{font-size:12px;font-weight:700;color:var(--mut);margin-top:10px}
+.tdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:6px}
+.tdays button{font-size:12.5px;font-weight:700;border-radius:10px;padding:8px 0;background:var(--bg);color:var(--mut)}
+.tdays button.on{background:var(--dark);color:var(--on-acc)}
+.tdays button.td{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.rt-step{padding:4px 2px 2px}
+.rt-sh{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--mut);margin:6px 0 2px}
+.rt-back{font-size:12px;font-weight:700;color:var(--ink);background:var(--bg);border-radius:999px;padding:4px 10px}
 .ri .ed{display:flex;align-items:center;gap:4px}
 .ri .ed button{width:28px;height:28px;border-radius:9px;background:var(--bg);font-size:15px;font-weight:700;color:var(--ink)}
 .ri .ed .n{min-width:44px;text-align:center;font-size:13px;font-weight:700}
@@ -864,23 +871,8 @@ button.more:hover{color:var(--ink)}
 .fvid.live{margin-top:12px}
 .fv-top{position:absolute;left:12px;right:12px;top:10px;display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700}
 .fv-tag{font-size:10.5px;background:rgba(255,255,255,.14);border-radius:6px;padding:2px 7px;font-weight:700}
-.fv-anim{position:absolute;left:50%;top:48%;width:96px;height:96px;margin:-48px 0 0 -48px;color:#EEF1EA;transform-origin:50% 100%}
+.fv-anim{position:absolute;left:50%;top:48%;width:96px;height:96px;margin:-48px 0 0 -48px;color:#EEF1EA;opacity:.85}
 .fv-anim svg{width:100%;height:100%;display:block}
-.mv-updown .fv-anim{animation:mvUp 2.4s ease-in-out infinite}
-.mv-bob .fv-anim{animation:mvBob .6s ease-in-out infinite}
-.mv-sway .fv-anim{animation:mvSway 1.6s ease-in-out infinite;transform-origin:50% 60%}
-.mv-hold .fv-anim{animation:mvHold 4s ease-in-out infinite}
-@keyframes mvUp{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.78) translateY(4px)}}
-@keyframes mvBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-@keyframes mvSway{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
-@keyframes mvHold{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-.fv-beat{position:absolute;left:12px;right:12px;bottom:52px;display:flex;align-items:center;gap:8px;font-size:11px;color:#C9CEC6}
-.fv-beat i{position:relative;flex:none;width:56px;height:4px;border-radius:2px;background:rgba(255,255,255,.18);overflow:hidden}
-.fv-beat i::after{content:'';position:absolute;inset:0;width:30%;border-radius:2px;background:#FF8A4C;animation:mvBeat 2.4s linear infinite}
-.mv-bob .fv-beat i::after{animation-duration:.6s}.mv-sway .fv-beat i::after{animation-duration:1.6s}.mv-hold .fv-beat i::after{animation-duration:4s}
-@keyframes mvBeat{from{transform:translateX(-100%)}to{transform:translateX(340%)}}
-.fvid.still .fv-anim,.fvid.still .fv-beat i::after{animation-play-state:paused}
-@media (prefers-reduced-motion:reduce){.fv-anim,.fv-beat i::after{animation-duration:6s}}
 .fv-play{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center}
 .fv-play svg{width:22px;height:22px;color:#fff}
 .fvid .bmap{position:absolute;right:10px;top:34px;background:rgba(0,0,0,.35);border-radius:10px;padding:5px 6px}
@@ -1583,9 +1575,9 @@ html.embed .phone.ipad{box-shadow:none}
 <script>
 const $=id=>document.getElementById(id);
 const DOW=['일','월','화','수','목','금','토'];
-const KIND={workout:'헬스',run:'러닝',meal:'식단',meet:'구기',swim:'수영',rest:'휴식'};
+const KIND={workout:'헬스',run:'러닝',meal:'식단',meet:'구기',swim:'수영',etc:'기타',rest:'휴식'};
 const MODES={gym:{label:'헬스',kind:'workout'},run:{label:'러닝',kind:'run'},group:{label:'단체',kind:'meet'}};
-const kindMode=k=>({workout:'gym',run:'run',meet:'group'})[k]||'gym';
+const kindMode=k=>({workout:'gym',run:'run',meet:'group',etc:'etc'})[k]||'gym';
 const REST_SEC=90,SIM=10; /* SIM: 러닝 시연을 10배 빠르게 */
 const pad=n=>String(n).padStart(2,'0');
 const ymd=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
@@ -1595,7 +1587,7 @@ const mdw=k=>`${md(k)} ${DOW[pd(k).getDay()]}`;
 const addDays=(k,n)=>{const d=pd(k);d.setDate(d.getDate()+n);return ymd(d)};
 const dayDiff=(a,b)=>Math.round((pd(b)-pd(a))/864e5);
 /* 요일별 계획 틀 (0=일요일). 저장하는 계획(setup.plan)도 이 순서다 */
-const WEEK_TPL=WEEK.map(w=>({kind:w.kind,time:w.time,title:w.title,sub:w.sub}));
+const WEEK_TPL=WEEK.map(w=>({kind:w.kind,time:w.time,title:w.title,sub:w.sub,...(w.kind==='meet'?{sport:'풋살'}:{})}));
 /* 이번 주 = 오늘부터 7일. 요일에 맞는 틀을 넣는다 */
 WEEK.forEach((w,i)=>{const date=addDays(TODAY,i);Object.keys(w).forEach(k=>delete w[k]);Object.assign(w,{date},WEEK_TPL[pd(date).getDay()])});
 /* 예시 날짜를 오늘 기준으로 옮긴다. 지난 계획은 그 요일의 계획 이름으로, 모임은 같은 요일의 다가오는 날로 */
@@ -1609,7 +1601,7 @@ const mmss=s=>s>=3600?`${Math.floor(s/3600)}:${pad(Math.floor(s%3600/60))}:${pad
 const paceTxt=sec=>!isFinite(sec)||sec<=0?`-'--"`:`${Math.floor(sec/60)}'${pad(Math.round(sec%60))}"`;
 function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
 function btn(cls,html,fn,label){const b=el('button',cls);b.type='button';b.innerHTML=html;if(fn)b.onclick=fn;if(label)b.setAttribute('aria-label',label);return b}
-const kindTag=k=>el('span','kind k-'+k,KIND[k]);
+const kindTag=(k,lab)=>el('span','kind k-'+k,lab||KIND[k]);
 const ICON={
  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
  pause:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>',
@@ -1670,7 +1662,8 @@ document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{if(b.dataset.go
 
 /* ---- 계획 달성 ---- */
 const todayPlan=()=>WEEK.find(w=>w.date===TODAY);
-const todayDone=()=>{const p=todayPlan();return p.kind==='rest'||records.some(r=>r.date===TODAY&&r.kind===p.kind)};
+const recFits=(r,p)=>p.kind==='etc'?(r.kind==='etc'&&r.type===p.type)||(p.type==='수영'&&r.kind==='swim'):r.kind===p.kind;
+const todayDone=()=>{const p=todayPlan();return p.kind==='rest'||records.some(r=>r.date===TODAY&&recFits(r,p))};
 function streakInfo(){
  const days=[...PAST_PLANS.map(p=>({date:p.date,title:p.title,done:p.done})),{date:TODAY,title:todayPlan().title,done:todayDone(),today:true}];
  let cur=0;for(let i=days.length-1;i>=0;i--){if(days[i].today&&!days[i].done)continue;if(days[i].done)cur++;else break}
@@ -1719,7 +1712,7 @@ function renderKcalCard(){
 function renderPlanCard(t){
  const p=WEEK.find(w=>w.date===planDay),isT=planDay===TODAY;
  $('planLabel').textContent=isT?"TODAY'S PLAN":`${mdw(planDay)}요일 계획`;
- const pt=$('planTitle');pt.textContent=p.title;pt.append(kindTag(p.kind));
+ const pt=$('planTitle');pt.textContent=p.title;pt.append(kindTag(p.kind,p.kind==='etc'?p.type:p.kind==='meet'?planType(p):null));
  const tm=kindMode(p.kind),live=sess&&sess.mode===tm;
  fillSub($('planSub'),p,isT);
  $('changeBtn').hidden=!isT||!!sess||(todayDone()&&p.kind!=='rest');
@@ -1761,7 +1754,7 @@ function renderWeekCard(){
  if(moving)return;
  const w=WEEK.find(x=>x.date===weekSel),dt=el('div','wdetail'),t=el('div');
  t.append(el('b',null,`${w.date===TODAY?'오늘':DOW[pd(w.date).getDay()]+'요일'}${w.time?' '+w.time:''}  ${w.title}`),el('small',null,weekDone(w)?'했어요':(w.sub||'')));
- dt.append(t,kindTag(w.kind));wk.append(dt);
+ dt.append(t,kindTag(w.kind,w.kind==='etc'?w.type:w.kind==='meet'?planType(w):null));wk.append(dt);
  if(w.date===TODAY){const hd=el('div','wsub');const wa=drink.log.reduce((a,x)=>a+x[1],0),tk=drink.supps.filter(x=>x.took).length;
   hd.textContent=`물 ${(wa/1000).toFixed(1)} / ${(drink.goal/1000).toFixed(1)}L · 영양제 ${tk} / ${drink.supps.length}`;wk.append(hd)}
 }
@@ -1836,7 +1829,7 @@ function timeSheet(){
 /* 다른 요일로 옮기기 (요구사항 70·72·73·75). 홈의 이번 주 계획을 펼쳐 옮길 날을 고른다.
    그날 이미 운동이 있으면 오늘이랑 바꾸기 / 그날 운동은 이번 주에 빼기 중에서 고른다 */
 let moving=null;  /* {item: 옮기는 오늘 계획, snap: 되돌리기용 이번 주 계획} */
-const planOf=w=>({kind:w.kind,time:w.time,title:w.title,sub:w.sub});
+const planOf=w=>({kind:w.kind,time:w.time,title:w.title,sub:w.sub,...(w.type?{type:w.type}:{}),...(w.sport?{sport:w.sport}:{})});
 function startMove(){
  closeSheet();
  moving={item:planOf(todayPlan()),snap:WEEK.map(w=>({...w}))};
@@ -1875,7 +1868,7 @@ function changePlan(c){
  if(sess){toast('진행 중인 운동을 먼저 끝내 주세요');return}
  const tp=todayPlan();Object.assign(tp,{kind:c.kind,title:c.title,sub:c.sub,time:c.kind==='rest'?'':(tp.time||PLAN0.time),note:null});
  if(c.routine&&c.routine!==routineKey){loadRoutine(c.routine);delete doneSum.gym;openEx=0;restEnd=0}
- if(c.sport)group.sport=c.sport;
+ if(c.sport)group.sport=c.sport;delete tp.type;delete tp.sport;if(c.sport)tp.sport=c.sport;if(c.type)tp.type=c.type;
  if(c.kind!=='rest')mode=kindMode(c.kind);planDay=TODAY;rOpen=undefined;render();
  toast(c.kind==='rest'?'오늘은 쉬어요. 푹 쉬고 내일 이어가요':c.title===PLAN0.title?'원래 계획으로 돌아왔어요':`오늘은 ${c.title}! 계획을 바꿨어요`);
 }
@@ -1979,18 +1972,35 @@ function addTypeSheet(){
  openSheet('운동 종류 추가',f,[{label:'직접 적은 운동 추가',cls:'primary',keep:true,fn:()=>{const v=inp.value.trim();if(!v){toast('위에서 고르거나 이름을 적어 주세요');return false}
    if(has.includes(v)){toast('이미 있는 운동이에요');return false}addType(v)}},{label:'닫기',cls:'plain'}]);
 }
-function addType(n){const t=[...getTypes(),n];itemsOf(n);setTypes(t);wView=n;wEdit=null;renderWorkout();$('s-workout').scrollTop=0;toast(`${n}를 내 운동에 추가했어요`)}
+function addType(n){const t=[...getTypes(),n];rtList(n);setTypes(t);wView=n;wEdit=null;renderWorkout();$('s-workout').scrollTop=0;toast(`${n}를 내 운동에 추가했어요`)}
 function removeType(n){
  openSheet(`${n}를 뺄까요?`,'운동 종류 목록에서만 빠져요. 이번 주 계획과 지난 기록은 그대로예요.',[{label:'빼기',cls:'danger',fn:()=>{setTypes(getTypes().filter(x=>x!==n));wView='today';renderWorkout();toast(`${n}를 목록에서 뺐어요`)}},{label:'취소',cls:'plain'}]);
 }
 /* ---- 종류별 화면: 그 종류에서 정해 둔 루틴을 보고 고친다 ---- */
-const typeDays=n=>{const k=(W_TYPES[n]||{}).kind;return k?WEEK.filter(w=>w.kind===k&&(k!=='meet'||w.title.includes(n)||w.title==='단체 운동')):[]};
+const typeDays=n=>WEEK.filter(w=>w.kind!=='rest'&&planType(w)===n);
+/* 종류 화면에서 요일을 누르면: 그 종류의 루틴 중에서 고르거나, 이날은 쉬기 */
+function daySheet(n,w){
+ if(sess){toast('운동을 끝낸 뒤 바꿀 수 있어요');return}
+ const d=DOW[pd(w.date).getDay()],cur=planType(w)===n,box=el('div');
+ box.append(el('div',null,w.kind==='rest'?`${d}요일은 지금 쉬는 날이에요.`:cur?`${d}요일에는 지금 ${w.title}${w.time?' · '+w.time:''}`:`${d}요일에는 지금 ${jo(w.title,'이','가')} 있어요. 고르면 ${jo(n,'으로','로')} 바뀌어요.`));
+ box.append(el('div','pick-h',`${n} 루틴`));
+ catalog(n).forEach(c=>{const on=cur&&w.title===c.title,b=el('button','pick'+(on?' on':''));b.type='button';b.setAttribute('aria-pressed',on);
+  const l=el('div');l.append(el('b',null,c.title),el('small',null,c.sub||''));b.append(l);b.onclick=()=>{closeSheet();if(!on)setDayPlan(w,c)};box.append(b)});
+ const acts=[];if(cur)acts.push({label:'이날은 쉬기',cls:'danger',fn:()=>setDayPlan(w,{kind:'rest',title:'쉬는 날',sub:'가볍게 걷기'})});acts.push({label:'닫기',cls:'plain'});
+ openSheet(`${d}요일 계획`,box,acts);
+}
+function setDayPlan(w,c){
+ const d=DOW[pd(w.date).getDay()],t0=w.time;Object.keys(w).forEach(k=>{if(k!=='date')delete w[k]});
+ Object.assign(w,{kind:c.kind,title:c.title,sub:c.sub||'',time:c.kind==='rest'?'':(t0||PLAN0.time||'19:00')},c.type?{type:c.type}:{},c.sport?{sport:c.sport}:{});
+ if(w.date===TODAY){if(c.rk&&c.rk!==routineKey){loadRoutine(c.rk);delete doneSum.gym}if(c.sport)group.sport=c.sport;if(c.kind!=='rest')mode=kindMode(c.kind);rOpen=undefined}
+ savePlan();routineSet=true;render();toast(c.kind==='rest'?`${d}요일은 쉬어요`:`${d}요일에 ${jo(c.title,'을','를')} 넣었어요`);
+}
+function savePlan(){setup.plan=[];WEEK.forEach(x=>setup.plan[pd(x.date).getDay()]=planOf(x));saveSetup()}
 function typeView(b,n){
  const T=W_TYPES[n]||{},k=T.kind;
  const days=typeDays(n);
  const hero=el('div','card');const h=el('div','card-h');h.append(el('h2',null,`${T.em||'⭐'} ${n}`),el('span','more',T.sub||'내가 추가한 운동'));hero.append(h);
- if(k){const td=el('div','tdays');WEEK.forEach(w=>{const sp=el('span',days.includes(w)?'on':null,DOW[pd(w.date).getDay()]);td.append(sp)});hero.append(td,el('div','note',days.length?`이번 주 ${days.map(w=>DOW[pd(w.date).getDay()]).join('·')}요일에 해요.`:'이번 주 계획에는 아직 없어요. 홈의 "오늘 계획 바꾸기"나 루틴 수정하기로 넣을 수 있어요.'))}
- else hero.append(el('div','note','내가 정해 둔 루틴이에요. 아래에서 동작과 양을 고칠 수 있어요.'));
+ {const td=el('div','tdays');WEEK.forEach(w=>{const on=days.includes(w),d=DOW[pd(w.date).getDay()],sp=btn((on?'on':'')+(w.date===TODAY?' td':''),d,()=>daySheet(n,w),`${d}요일 ${on?w.title:'계획'} 바꾸기`);sp.setAttribute('aria-pressed',on);td.append(sp)});hero.append(el('div','tdh','이번 주 계획'),td)}
  b.append(hero);
  if(n==='헬스')gymTypeView(b);
  else if(n==='러닝')runTypeView(b);
@@ -2176,9 +2186,8 @@ const BODY_BASE='<circle cx="30" cy="10" r="7"/><rect x="26" y="16" width="8" he
 function bodyMap(ms,small){const w=el('div','bmap'+(small?' sm':''));
  [['f','앞'],['b','뒤']].forEach(([v,t])=>{const R=BODY_REG[v],all=Object.entries(R).filter(([k])=>!(v==='b'&&k==='delt'&&ms.includes('rdelt'))).map(([k,d])=>`<g class="${ms.includes(k)?'on':''}">${d}</g>`).join('');
   const f=el('figure');f.innerHTML=`<svg viewBox="0 0 60 126"><g class="base">${BODY_BASE}</g><g class="mus">${all}</g></svg>`;if(!small)f.append(el('figcaption',null,t));w.append(f)});return w}
-/* 자세 애니메이션 자리 (실제 앱에서는 3D 자세 애니메이션).
-   재생 버튼 없이 항상 반복 재생된다: 화면 속 동작에 맞춰 운동 속도를 맞추는 게 목적이라서.
-   움직임 종류마다 박자: updown 내려갔다 올라오기(2.4초), bob 제자리 반복(0.6초), sway 크게 돌리기·흔들기(1.6초), hold 멈춰서 늘리기(숨 4초) */
+/* 자세 애니메이션 자리 (지금은 자리만. 실제 앱에서는 재생 버튼 없이 3D 자세 애니메이션이 자동으로 반복되고, 사람이 화면 속 동작에 속도를 맞춘다).
+   MOVE는 나중에 넣을 애니메이션의 박자 구분: updown 2.4초 / bob 0.6초 / sway 1.6초 / hold 숨 4초 */
 const MOVE={bob:['tread','bike','ellip','rope','stair','jump','st_knee','st_kick','st_side','st_walk','st_jog','st_calf'],
  sway:['fly','raise','twist','st_arm','st_hip','st_swing','st_twist','st_open','st_neck','st_wrist','st_cat','st_roll','st_climb','rowm'],
  hold:['plank','st_quad','st_fig4','st_seat','st_wall','st_lie','st_cobra','st_bend','st_cross','st_tri','st_butterfly','st_ball']};
@@ -2188,9 +2197,9 @@ const moveOf=pat=>Object.keys(MOVE).find(k=>MOVE[k].includes(pat))||'updown';
 function formVideo(name,opt={}){const [ms]=exInfo(name),pat=patOf(name),mv=moveOf(pat),v=el('div','fvid mv-'+mv+(opt.live?' live':'')+(opt.live&&sess&&sess.state==='paused'?' still':''));
  const top=el('div','fv-top');top.append(el('span','fv-tag',opt.tag||'자세 애니메이션'),el('span',null,name));
  const play=el('div','fv-anim');play.innerHTML=`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${PSVG[pat]||PSVG.squat}</svg>`;
- const beat=el('div','fv-beat');beat.append(el('i'),el('span',null,MOVE_TXT[mv]));
+
  const bot=el('div','fv-bot');if(ms.length)bot.append(el('span',null,ms.map(m=>MUSCLE_NAME[m]).join(' · ')));if(opt.cue)bot.append(el('b',null,opt.cue));
- v.append(top,play,bodyMap(ms,true),beat,bot);v.onclick=()=>toast('실제 앱에서는 이 자리에 3D 자세 애니메이션이 계속 반복돼요');return v}
+ v.append(top,play,bodyMap(ms,true),bot);v.onclick=()=>toast('실제 앱에서는 이 자리에 3D 자세 애니메이션이 자동으로 반복돼요');return v}
 /* 동작 모양 그림 (48×48, 막대 사람) */
 const PSVG={
  squat:'<circle cx="19" cy="9" r="3.5"/><path d="M19 13l4 12h9l-2 13h5M20 16l11 2M7 41h34"/>',
@@ -2313,7 +2322,7 @@ const stOpenS=new Set(),stPoseS=new Set();
 const stOwn=key=>{if(!stOv[key])stOv[key]=JSON.parse(JSON.stringify(stOf(key)));return stOv[key]};
 const ST_LAB={warm:['준비 운동','운동 전 · 몸을 움직이며 풀어요'],cool:['마무리 운동','운동 후 · 멈춰서 천천히 늘려요']};
 const CHEV_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
-function stPose(name){const S=stDb(name),d=el('div','stpose');d.append(formVideo(name,{tag:'스트레칭 자세'}));
+function stPose(name){const S=stDb(name),d=el('div','stpose');d.append(formVideo(name,{tag:'자세 애니메이션'}));
  const ul=el('ul','excues');(S?S[6]:[]).forEach(t=>{const li=el('li','ok');li.append(el('i',null,'✓'),t);ul.append(li)});d.append(ul);return d}
 function stSection(key,w,ed,flat){
  const list=stOf(key)[w],id=key+'|'+w,open=ed||flat||stOpenS.has(id),c=el('div','stsec'+(open?' open':'')+(ed?' ed':'')+(flat?' flat':'')+' st-'+w);
@@ -2377,11 +2386,12 @@ function stLiveCard(w,open){
  const st=sess.st,list=st[w],done=st[w+'D'],n=done.filter(Boolean).length,c=el('div','card stlive'+(open?' open':''));st.pose=st.pose||{};
  const h=el('button','sth');h.type='button';h.setAttribute('aria-expanded',open);h.append(el('b',null,ST_LAB[w][0]),el('span',null,`${n} / ${list.length}${n===list.length&&list.length?' · 다 했어요':''}`));
  h.onclick=()=>{st[w+'Open']=!open;renderWorkout()};c.append(h);
+ const cur=done.findIndex(x=>!x),shown=i=>st.pose[w+i]!==undefined?st.pose[w+i]:i===cur;   /* 지금 할 동작(첫 번째로 안 한 것)은 자세 자리를 기본으로 보여 준다 */
  if(open){list.forEach((x,i)=>{const S=stDb(x[0]),pk=w+i,r=el('div','stck'+(done[i]?' on':''));
    const ck=btn('stcb','',()=>{done[i]=!done[i];if(done.every(Boolean))st[w+'Open']=false;renderWorkout()},`${x[0]} ${done[i]?'체크 취소':'했어요'}`);ck.setAttribute('aria-pressed',!!done[i]);
    r.append(ck,el('span',null,x[0]),el('small',null,x[1]));
-   if(S&&S[3])r.append(btn('stpz'+(st.pose[pk]?' on':''),'자세',()=>{st.pose[pk]=!st.pose[pk];renderWorkout()},`${x[0]} 자세 보기`));
-   c.append(r);if(st.pose[pk])c.append(stPose(x[0]))});
+   if(S&&S[3])r.append(btn('stpz'+(shown(i)?' on':''),'자세',()=>{st.pose[pk]=!shown(i);renderWorkout()},`${x[0]} 자세 보기`));
+   c.append(r);if(S&&S[3]&&shown(i))c.append(stPose(x[0]))});
   c.append(el('div','note',w==='warm'?'하나씩 체크해요. 바쁘면 건너뛰어도 돼요.':'운동을 끝내기 전에 천천히 늘려요.'))}
  return c;
 }
@@ -2399,8 +2409,8 @@ function runTypeView(b){
   const l=el('div','rlist');RUN_PLAN.sessions.forEach((x,i)=>{const r=el('div','ri sw-row rrow');const w=el('b',null,`${i+1}주차`),inp=el('input','field');inp.value=x[1];inp.setAttribute('aria-label',`${i+1}주차 내용`);
    inp.onchange=()=>{x[1]=inp.value.trim()||x[1]};r.append(w,inp,btn('x','×',()=>{if(RUN_PLAN.sessions.length<=1){toast('주차가 하나는 있어야 해요');return}RUN_PLAN.sessions.splice(i,1);fixRunWeeks();renderWorkout()},`${i+1}주차 빼기`));l.append(r)});
   const eb=el('div','edbar');eb.append(btn('','+ 주차 추가',()=>{const last=RUN_PLAN.sessions[RUN_PLAN.sessions.length-1];RUN_PLAN.sessions.push(['',last?last[1]:'5km × 3회',false]);fixRunWeeks();renderWorkout()}));
-  c.append(f,l,eb,el('div','note','주차마다 거리와 횟수를 적어요. 예: 5km × 3회, 400m × 6'));b.append(c,stCard('s:러닝',true));return}
- const d=el('div','card');runDetail(d,{today:false});b.append(d,stCard('s:러닝',false));
+  c.append(f,l,eb,el('div','note','주차마다 거리와 횟수를 적어요. 예: 5km × 3회, 400m × 6'));b.append(c);rtCards(b,'러닝',true);b.append(stCard('s:러닝',true));return}
+ const d=el('div','card');runDetail(d,{today:false});b.append(d);rtCards(b,'러닝',false);b.append(stCard('s:러닝',false));
  const sh=el('div','sec-h');sh.append(el('h2',null,'러닝 목표 바꾸기'),el('span',null,'5주 계획을 다시 짜요'));b.append(sh);
  const pk=el('div','tchips');Object.entries(RUN_GOALS).forEach(([g,[nm,km]])=>{const b2=btn(RUN_PLAN.name===nm?'on':'',g,()=>{
    if(RUN_PLAN.name===nm)return;Object.assign(RUN_PLAN,{name:nm,week:1,progress:0,todayKm:km[0]});
@@ -2418,20 +2428,40 @@ function sportTypeView(b,n){
  l.append(btn('smore','모임 찾기 ↗',()=>{gCat='모임';$('gq').value=n;go('group')}));b.append(l);
 }
 function customTypeView(b,n){
- const list=itemsOf(n),ed=wEdit===n,sk=n==='요가'?null:stKeySport(n);
- b.append(editHead(`내 ${n} 루틴`,n));
- const c=el('div','card'),l=el('div','rlist');l.style.marginTop='0';
- if(!list.length)l.append(el('div','empty','아직 정한 동작이 없어요. 루틴 수정에서 추가해 보세요.'));
- list.forEach((x,i)=>{const r=el('div','ri sw-row');
+ const ed=wEdit===n,sk=n==='요가'?null:stKeySport(n);
+ b.append(editHead(`내 ${n} 루틴`,n));rtCards(b,n,ed);if(sk)b.append(stCard(sk,ed));
+}
+/* 루틴 카드 목록 (헬스 루틴 카드와 같은 모양). 루틴 수정 중이면 이름·동작·양 고치기, 루틴 추가·지우기 */
+const rtOpen={};
+function rtCards(b,n,ed){
+ const rts=rtList(n);rts.forEach((r,ri)=>b.append(rtCard(n,r,ri,ed)));
+ if(ed)b.append(btn('cta alt radd','+ 루틴 추가',()=>{let k=rts.length+1;while(rts.some(x=>x.title===`새 루틴 ${k}`))k++;const t=`새 루틴 ${k}`;rts.push({id:n+'-'+Date.now(),title:t,sub:'',items:[]});saveRts();rtOpen[n]=t;renderWorkout();toast(`${t}를 만들었어요`)}));
+}
+function rtCard(n,r,ri,ed){
+ const rts=rtList(n),on=ed||rtOpen[n]===r.title||(rtOpen[n]===undefined&&ri===0),c=el('div','rcard'+(on?' open':''));
+ const h=el(ed?'div':'button','rhead');if(!ed){h.type='button';h.setAttribute('aria-expanded',on);h.onclick=()=>{rtOpen[n]=on?'':r.title;renderWorkout()}}
+ const k=typeKindOf(n),ic=el('div','ic k-'+k);if(KIND_IC[k])ic.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${KIND_IC[k]}</svg>`;else ic.textContent=(W_TYPES[n]||{}).em||'⭐';
+ const days=typeDays(n).filter(w=>w.title===r.title).map(w=>DOW[pd(w.date).getDay()]),meta=`${days.length?days.join(' · ')+' · ':''}${r.items.length}동작`,tx=el('div');
+ if(ed){const nm=el('input','field rname');nm.value=r.title;nm.maxLength=20;nm.setAttribute('aria-label','루틴 이름');
+  nm.onchange=()=>{const v=nm.value.trim();if(!v||rts.some(x=>x!==r&&x.title===v)){nm.value=r.title;toast(v?'같은 이름의 루틴이 있어요':'루틴 이름을 적어 주세요');return}
+   WEEK.forEach(w=>{if(planType(w)===n&&w.title===r.title)w.title=v});r.title=v;saveRts();savePlan();renderWorkout()};tx.append(nm,el('small',null,meta))}
+ else tx.append(el('b',null,r.title),el('small',null,meta+(r.sub?' · '+r.sub:'')));
+ h.append(ic,tx);
+ if(!ed){const ch=el('span','chev');ch.innerHTML=CHEV_SVG;h.append(ch)}
+ else if(rts.length>1)h.append(btn('x','×',()=>{rts.splice(ri,1);saveRts();renderWorkout();toast(`${r.title}를 지웠어요`)},`${r.title} 지우기`));
+ c.append(h);
+ if(!on)return c;
+ const d=el('div','rbody'),l=el('div','rlist');
+ if(!r.items.length)l.append(el('div','empty','아직 정한 동작이 없어요. 루틴 수정에서 추가해 보세요.'));
+ r.items.forEach((x,i)=>{const row=el('div','ri sw-row');
   if(ed){const t=el('div','cedit'),a=el('input','field'),q=el('input','field');a.value=x[0];q.value=x[1];a.setAttribute('aria-label','동작');q.setAttribute('aria-label','양');
-   a.onchange=()=>{x[0]=a.value.trim()||x[0];setTypes(getTypes())};q.onchange=()=>{x[1]=q.value.trim()||'-';setTypes(getTypes())};t.append(a,q);r.append(t,btn('x','×',()=>{list.splice(i,1);setTypes(getTypes());renderWorkout()},`${x[0]} 빼기`))}
-  else{const t=el('div',null,x[0]);t.append(el('br'),el('small',null,x[1]));r.append(t)}l.append(r)});
- c.append(l);const eb=el('div','edbar');
- if(ed){eb.append(btn('','+ 동작 추가',()=>{const f=el('div','form'),lab=(t,y)=>{const q=el('label',null,t);q.append(y);return q};
-   const a=el('input','field');a.placeholder='예: 배영';const q=el('input','field');q.placeholder='예: 200m, 좌우 30초, 10회 × 3';f.append(lab('동작',a),lab('양',q));
-   openSheet(`${n}에 동작 추가`,f,[{label:'추가',cls:'primary',keep:true,fn:()=>{if(!a.value.trim()){toast('동작 이름을 적어 주세요');return false}list.push([a.value.trim(),q.value.trim()||'-']);setTypes(getTypes());renderWorkout()}},{label:'취소',cls:'plain'}])}),
-   )}
- c.append(eb);if(!ed)eb.remove();b.append(c);if(sk)b.append(stCard(sk,ed));
+   a.onchange=()=>{x[0]=a.value.trim()||x[0];saveRts()};q.onchange=()=>{x[1]=q.value.trim()||'-';saveRts()};t.append(a,q);row.append(t,btn('x','×',()=>{r.items.splice(i,1);saveRts();renderWorkout()},`${x[0]} 빼기`))}
+  else{const t=el('div',null,x[0]);row.append(t,el('small',null,x[1]))}l.append(row)});
+ d.append(l);
+ if(ed){const eb=el('div','edbar');eb.append(btn('','+ 동작 추가',()=>{const f=el('div','form'),lab=(t,y)=>{const q=el('label',null,t);q.append(y);return q};
+   const a=el('input','field');a.placeholder='예: 배영';const q=el('input','field');q.placeholder='예: 200m, 30분, 10회 × 3';f.append(lab('동작',a),lab('양',q));
+   openSheet(`${r.title}에 동작 추가`,f,[{label:'추가',cls:'primary',keep:true,fn:()=>{if(!a.value.trim()){toast('동작 이름을 적어 주세요');return false}r.items.push([a.value.trim(),q.value.trim()||'-']);saveRts();renderWorkout()}},{label:'취소',cls:'plain'}])}));d.append(eb)}
+ c.append(d);return c;
 }
 /* 오늘 운동: 계획을 보여 주고 바로 시작 */
 function workHero(){
@@ -2439,10 +2469,11 @@ function workHero(){
  const top=el('div','plan-top');top.append(el('span','label',"TODAY'S PLAN"));
  const done=mode&&doneSum[mode];
  if(!done){const cb=btn('more',SWAP_ICON+'오늘 계획 바꾸기',changeSheet);cb.id='wChange';cb.querySelector('svg').style.cssText='width:13px;height:13px';top.append(cb)}
- const tt=el('div','plan-title',p.title);tt.append(kindTag(p.kind));
+ const tt=el('div','plan-title',p.title);tt.append(kindTag(p.kind,p.kind==='etc'?p.type:p.kind==='meet'?planType(p):null));
  const sub=el('div','plan-sub');fillSub(sub,p,true);
  c.append(top,tt,sub);
  if(p.kind==='rest'){c.append(btn('cta-lime','그래도 운동하고 싶어요',kindSheet))}
+ else if(!done&&p.kind==='etc'){const sb=btn('cta-lime',ICON.check+`${p.type} 기록하기`,()=>etcSheet(p));sb.querySelector('svg').style.cssText='width:16px;height:16px';sb.id='startWork';c.append(sb)}
  else if(!done){const lab=mode==='gym'?`${p.title} 시작하기`:mode==='run'?'러닝 시작하기':`${group.sport} 시작하기`;
   const sb=btn('cta-lime',ICON.play+lab,()=>startSess(mode));sb.querySelector('svg').style.cssText='width:16px;height:16px';sb.id='startWork';c.append(sb)}
  return c;
@@ -2452,7 +2483,23 @@ let rOpen;   /* 펼친 루틴 제목. undefined면 오늘 루틴을 펼친다 */
 /* 상단 ∨ 메뉴: wView는 'today'(오늘의 운동) 또는 운동 종류 이름. myTypes는 내가 하는 운동 종류 (기본 헬스) */
 let wView='today',wMenuOn=false,wEdit=null;
 let myTypes=null;   /* null이면 계획에서 정한다 */
-const typeItems={};  /* 직접 추가한 종류의 루틴 (스트레칭·수영 등) */
+const typeItems={};  /* 예전 저장값(종류마다 루틴 하나). 이제는 typeRts로 옮겨 쓴다 */
+/* 헬스 말고 다른 종류의 루틴 (종류마다 여러 개): {종류: [{id,title,sub,items:[[동작,양]]}]} */
+const typeRts={};
+const RUN_RTS=[{id:'run',title:'러닝 5km',sub:"목표 페이스 6'10\"",items:[['달리기',"5km · 6'10\"/km"]]},
+ {id:'interval',title:'러닝 인터벌',sub:'400m × 6',items:[['빠르게 달리기','400m × 6'],['걷거나 천천히','200m × 6']]},
+ {id:'easy',title:'러닝 3km',sub:'천천히 · 걷기와 섞어도 돼요',items:[['가볍게 달리기','3km']]}];
+function rtList(n){if(!typeRts[n]){const T=W_TYPES[n]||{},base=(typeItems[n]||T.items||[]).map(x=>[...x]);
+ typeRts[n]=n==='러닝'?RUN_RTS.map(r=>({...r,items:r.items.map(x=>[...x])})):[{id:n+'-1',title:T.kind==='meet'?`${n} 경기`:`${n} 기본`,sub:T.sub||'',items:base}]}return typeRts[n]}
+function saveRts(){setup.trt=typeRts;saveSetup()}
+/* 종류 → 계획 종류(kind). 헬스 workout · 러닝 run · 구기 meet · 그 밖(수영·요가 등) etc */
+const typeKindOf=n=>n==='헬스'?'workout':n==='러닝'?'run':(W_TYPES[n]||{}).kind==='meet'?'meet':'etc';
+/* 그 종류에서 고를 수 있는 루틴 (계획에 넣을 때) */
+function catalog(n){const k=typeKindOf(n);
+ if(k==='workout')return Object.entries(ROUTINES).map(([rk,r])=>({kind:k,title:r.title,sub:r.sub,rk}));
+ return rtList(n).map(r=>({kind:k,title:r.title,sub:r.sub||'',...(k==='meet'?{sport:n}:k==='etc'?{type:n}:{})}))}
+/* 계획 한 칸이 어느 종류인지 */
+const planType=w=>w.kind==='workout'?'헬스':w.kind==='run'?'러닝':w.kind==='meet'?(w.sport||TEAM_SPORTS.find(x=>w.title.includes(x))||group.sport):w.kind==='etc'?w.type:null;
 function getTypes(){
  if(myTypes)return myTypes;
  const t=['헬스'];if(routineSet){if(WEEK.some(w=>w.kind==='run'))t.push('러닝');if(WEEK.some(w=>w.kind==='meet'))t.push(group.sport)}
@@ -2463,12 +2510,13 @@ function itemsOf(n){if(!typeItems[n]){const sv=n==='스트레칭'&&typeof savedR
 const KIND_IC={
  workout:'<path d="M6.5 6.5l11 11M4 9l5-5M15 20l5-5M2.5 11.5 4 10M20 14l1.5-1.5M12.5 2.5 11 4M10 20l-1.5 1.5"/>',
  run:'<circle cx="14" cy="4.5" r="1.8"/><path d="M8 21l3-6 3 2v5M6 12l3-3 4 1 2 3h3M11 15l-1-4"/>',
+ etc:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z"/>',
  meet:'<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3.5 19c.6-3 2.8-4.6 5.5-4.6s4.9 1.6 5.5 4.6M15 14.6c2.6-.3 4.6 1.2 5.2 3.9"/>'
 };
 function routineList(b){
  const items=[];
  WEEK.forEach(w=>{if(w.kind==='rest')return;let it=items.find(x=>x.title===w.title);
-  if(!it){it={title:w.title,kind:w.kind,sub:w.sub,days:[],today:false};items.push(it)}
+  if(!it){it={title:w.title,kind:w.kind,sub:w.sub,type:w.type,sport:w.sport,days:[],today:false};items.push(it)}
   it.days.push(DOW[pd(w.date).getDay()]);if(w.date===TODAY)it.today=true});
  items.sort((a,b)=>b.today-a.today);
  const open=rOpen===undefined?(items.find(x=>x.today)||{}).title:rOpen;
@@ -2481,8 +2529,8 @@ function routineList(b){
   tx.append(nm,el('small',null,`${it.days.join(' · ')} · ${it.sub}`));
   const ch=el('span','chev');ch.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
   h.append(ic,tx,ch);h.onclick=()=>{rOpen=on?'':it.title;renderWorkout()};c.append(h);
-  if(on){const d=el('div','rbody'),rk=Object.keys(ROUTINES).find(k=>ROUTINES[k].title===it.title),sk=it.kind==='workout'?(rk?stKeyGym(rk):'s:기본'):it.kind==='run'?'s:러닝':'s:'+group.sport;
-   d.append(stSection(sk,'warm',false),el('div','stmain','본 운동'));({workout:gymDetail,run:runDetail,meet:meetDetail})[it.kind](d,it);d.append(stSection(sk,'cool',false));c.append(d)}
+  if(on){const d=el('div','rbody'),rk=Object.keys(ROUTINES).find(k=>ROUTINES[k].title===it.title),sk=it.kind==='workout'?(rk?stKeyGym(rk):'s:기본'):'s:'+planType(it);
+   d.append(stSection(sk,'warm',false),el('div','stmain','본 운동'));({workout:gymDetail,run:runDetail,meet:meetDetail,etc:etcDetail})[it.kind](d,it);d.append(stSection(sk,'cool',false));c.append(d)}
   b.append(c)});
 }
 function gymDetail(d,it){
@@ -2502,6 +2550,9 @@ function runDetail(d,it){
  d.append(box);
  if(it.today){const v=voiceCard();v.style.background='var(--bg)';d.append(v,el('div','note','GPS는 실제 앱에서 연결돼요. 여기서는 시연용으로 시간이 10배 빠르게 흘러가요.'))}
 }
+function etcDetail(d,it){const r=rtList(it.type).find(x=>x.title===it.title)||rtList(it.type)[0],l=el('div','rlist');
+ (r?r.items:[]).forEach(x=>{const row=el('div','ri');row.append(el('span',null,x[0]),el('small',null,x[1]));l.append(row)});
+ d.append(l,el('div','note','끝나면 오늘의 운동 위에서 "기록하기"를 눌러 시간을 남겨요.'))}
 function meetDetail(d,it){
  if(it.today){const c=el('div');c.id='groupStart';
   const h=el('div','card-h');h.append(el('h2',null,'어떤 종목을 하나요?'),el('span','more','유산소로도 기록돼요'));c.append(h);
@@ -2531,6 +2582,15 @@ function doSwap(i,ex){
  const from=ROUTINE[i].name;ROUTINE[i]=ex;log[i]=fillSets(ex);render();
  toast(ex.orig?`${from} → ${jo(ex.name,'으로','로')} 바꿨어요`:`${jo(ex.name,'으로','로')} 되돌렸어요`);
 }
+/* 실시간 화면이 없는 종류(수영·요가 등): 끝난 뒤 시간(수영은 거리도)을 적어 기록한다 */
+function etcSheet(p){
+ const f=el('div','form'),lab=(t,x)=>{const l=el('label',null,t);l.append(x);return l},mi=el('input','field num'),di=el('input','field num');
+ mi.type=di.type='number';mi.value='40';di.value='1000';di.step='50';f.append(lab('운동 시간 (분)',mi));if(p.type==='수영')f.append(lab('수영 거리 (m)',di));
+ openSheet(`${p.title} 기록`,f,[{label:'저장',cls:'primary',keep:true,fn:()=>{const m=Math.round(+mi.value),dm=Math.round(+di.value);if(!(m>0)){toast('운동 시간을 적어 주세요');return false}
+  const sw=p.type==='수영',rec={date:TODAY,kind:sw?'swim':'etc',type:p.type,title:sw?`수영 ${dm.toLocaleString()}m`:p.title,meta:`${m}분`};records.push(rec);
+  doneSum.etc={title:p.title,cells:[[`${m}분`,'운동 시간'],...(sw?[[`${dm.toLocaleString()}m`,'거리']]:[]),[p.type,'종류']]};
+  toast(`저장했어요 · 오늘 계획 달성! ${streakInfo().cur}일 연속`);render()}},{label:'취소',cls:'plain'}]);
+}
 function liveCard(right,extra){
  const paused=sess.state==='paused',c=el('div','dark live');
  const l=el('div');const st=el('div','st'+(paused?' paused':''));st.append(el('i'),el('span',null,paused?'일시정지':'운동 중'));
@@ -2558,7 +2618,8 @@ function gymLive(b){
  b.append(liveCard([`${openEx+1} / ${ROUTINE.length} 운동`,`${doneSets()} / ${allSets()}세트 완료`]));
  b.append(stLiveCard('warm',stOpen('warm',doneSets()===0)));
  if(paused)b.append(el('div','paused-banner','일시정지 중이에요. 다시 시작하면 이어서 기록돼요.'));
- const nm=el('div','exname');nm.append(el('h2',null,ex.name),el('span','num',cs<0?'완료':`${sets.filter(s=>s.done).length} / ${sets.length}세트`));b.append(nm);
+ const nm=el('div','exname');nm.append(el('h2',null,ex.name),el('span','num',cs<0?'완료':`${sets.filter(s=>s.done).length} / ${sets.length}세트`));
+ if(!sets.some(s=>s.done))nm.append(btn('swap',SWAP_ICON+'교체',()=>swapSheet(openEx),`${ex.name} 다른 종목으로 교체`));b.append(nm);
  b.append(el('div','exsub',lastTxt(ex)));
  /* 핵심 기능 자리: 세트를 하는 동안 자세 영상을 함께 보여 준다 (2026-11-20) */
  {const c=exCues(ex.name),[,bad]=exInfo(ex.name),cue=cs<0?'이 운동은 끝났어요':(c[cs%Math.max(1,c.length)]||bad||'자세를 확인하며 천천히');
@@ -3018,11 +3079,11 @@ const G_TYPES={
 function goalPct(g){const T=G_TYPES[g.t],c=T.cur();if(c==null)return null;const st=T.zero?0:g.start;
  if(g.target===st)return c===g.target?100:0;return Math.max(0,Math.min(100,Math.round((c-st)/(g.target-st)*100)))}
 function saveBodyGoals(){setup.bodyrec=bodyRecs;setup.goals=goals;saveSetup()}
-const EXK=['workout','run','swim','meet'];
+const EXK=['workout','run','swim','meet','etc'];
 /* 기록 탭의 운동 종류: 헬스(하체·상체·전신 루틴은 묶는다)·러닝·수영, 구기 종목은 종목 이름 그대로 (풋살 모임 → 풋살) */
-const exType=r=>r.kind==='workout'?'헬스':r.kind==='run'?'러닝':r.kind==='swim'?'수영':r.title.replace(/\s*모임$/,'');
+const exType=r=>r.kind==='workout'?'헬스':r.kind==='run'?'러닝':r.kind==='swim'?'수영':r.kind==='etc'?(r.type||r.title):r.title.replace(/\s*모임$/,'');
 const typeKind=t=>{const r=records.find(x=>EXK.includes(x.kind)&&exType(x)===t);return r?r.kind:'meet'};
-const K_COL={workout:['var(--green)','var(--green-soft)'],run:['var(--run)','var(--run-soft)'],swim:['var(--blue)','var(--blue-soft)'],meet:['var(--purple)','var(--purple-soft)'],meal:['var(--tan)','var(--tan-soft)']};
+const K_COL={workout:['var(--green)','var(--green-soft)'],run:['var(--run)','var(--run-soft)'],swim:['var(--blue)','var(--blue-soft)'],etc:['var(--tan)','var(--tan-soft)'],meet:['var(--purple)','var(--purple-soft)'],meal:['var(--tan)','var(--tan-soft)']};
 const hsh=x=>{let h=0;for(const c of x)h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)};
 /* 헬스 기록의 종목별 세트: 저장한 기록은 그대로, 예시·무작위 기록은 루틴의 지난 무게에서 거꾸로 만든다 */
 function exDetail(r){
@@ -3268,6 +3329,7 @@ function recDetail(r){const box=el('div','rdet'),hd=el('div','rhd');hd.append(el
   if(S.st.length)box.append(barChart('영법별 거리','m',S.st.map(([n,v])=>[n,v,`${v}m`])));
   const pv=prevOf(r);if(pv){const P=swimStats(pv),dm=S.m-P.m,dp=P.pace-S.pace;
    box.append(cmpCard(`지난 수영 ${md(pv.date)}와 비교`,`거리 ${dm>=0?'+':'−'}${Math.abs(dm)}m · 100m ${dp>=0?`${dp}초 빨라짐`:`${-dp}초 느려짐`}`))}
+ }else if(r.kind==='etc'){const x=r.meta.match(/^(\d+)분/);box.append(hero(x?x[1]:'-','분','운동 시간'));
  }else if(r.kind==='workout'){const ex=exDetail(r),vol=ex.reduce((a,[n,ss])=>a+setVol(n,ss),0),sets=ex.reduce((a,[,ss])=>a+ss.length,0),m=r.meta.match(/(\d+)분/);
   box.append(hero(Math.round(vol).toLocaleString(),'kg','총 볼륨 (무게 × 횟수)'),statRow([['운동 시간',m?`${m[1]}분`:'-'],['종목',`${ex.length}개`],['세트',`${sets}세트`]]));
   if(ex.length)box.append(barChart('종목별 볼륨','kg',ex.map(([n,ss])=>{const v=setVol(n,ss),sm=ss.reduce((b,[,rp])=>b+rp,0);return [n,v,v?Math.round(v).toLocaleString():isCardio(n)?`${sm}분`:`${sm}회`]})));
@@ -3306,6 +3368,7 @@ const XM={
  run:{vol:['거리',v=>`${+v.toFixed(1)}km`,v=>+v.toFixed(1)],skill:['평균 페이스',v=>`${paceS(v)}/km`,true,'페이스 /km'],axis:'km'},
  swim:{vol:['거리',v=>`${Math.round(v).toLocaleString()}m`,v=>Math.round(v).toLocaleString()],skill:['100m 페이스',v=>`${paceS(v)}/100m`,true,'페이스 /100m'],axis:'m'},
  meet:{vol:['뛴 시간',v=>`${Math.round(v)}분`,v=>Math.round(v)],skill:['이동 거리',v=>`${+v.toFixed(1)}km`,false,'이동 거리'],axis:'분'},
+ etc:{vol:['운동 시간',v=>`${Math.round(v)}분`,v=>Math.round(v)],axis:'분'},
  workout:{vol:['볼륨',v=>`${Math.round(v).toLocaleString()}kg`,v=>v>=1e3?`${+(v/1e3).toFixed(1)}k`:Math.round(v)],axis:'kg · 무게×횟수'}
 };
 const setVol=(n,ss)=>isCardio(n)?0:ss.reduce((b,[w,rp])=>b+w*rp,0);
@@ -3314,6 +3377,7 @@ const exVol=r=>exDetail(r).reduce((a,[n,ss])=>a+setVol(n,ss),0);
 function xVal(r){
  if(r.kind==='run'){const S=runStats(r),has=/\d+'\d+"/.test(r.meta)||/\d+분/.test(r.meta);return {vol:S.km,skill:has?S.pace:null}}
  if(r.kind==='swim'){const S=swimStats(r);return {vol:S.m,skill:S.pace||null}}
+ if(r.kind==='etc'){const x=r.meta.match(/^(\d+)분/);return {vol:x?+x[1]:0,skill:null}}
  if(r.kind==='meet'){const n=re=>{const x=r.meta.match(re);return x?+x[1]:null};return {vol:n(/뛴 시간\s*(\d+)/)||0,skill:n(/이동\s*([\d.]+)/)}}
  return {vol:exVol(r),skill:null};
 }
@@ -3417,6 +3481,7 @@ function pbCard(kind,all){
  const add=(lab,b,f)=>{if(b)rows.push([lab,f(b.v),b.r.date])};
  if(kind==='run'){add('가장 긴 거리',best(all,r=>runStats(r).km),v=>`${v.toFixed(1)}km`);add('가장 빠른 평균 페이스',best(all,r=>xVal(r).skill,true),v=>`${paceS(v)}/km`);add('가장 오래 달린 시간',best(all,r=>{const t=r.meta.match(/(\d+)분\s*(\d+)?초?/);return t?+t[1]*60+(+t[2]||0):null}),v=>mmss(v))}
  if(kind==='swim'){add('가장 긴 거리',best(all,r=>swimStats(r).m),v=>`${v.toLocaleString()}m`);add('가장 빠른 100m 페이스',best(all,r=>swimStats(r).pace,true),v=>`${paceS(v)}/100m`);add('가장 오래 수영한 시간',best(all,r=>swimStats(r).min),v=>`${v}분`)}
+ if(kind==='etc')add('가장 오래 한 시간',best(all,r=>xVal(r).vol),v=>`${v}분`);
  if(kind==='meet'){add('가장 오래 뛴 시간',best(all,r=>xVal(r).vol),v=>`${v}분`);add('가장 많이 이동한 거리',best(all,r=>xVal(r).skill),v=>`${v}km`)}
  if(kind==='workout'){const by={};all.forEach(r=>exDetail(r).forEach(([n,ss])=>{ss.forEach(([w,rp])=>{if(!w||isCardio(n))return;const b=by[n];if(!b||w>b.v||(w===b.v&&rp>b.rp))by[n]={v:w,rp,r}})}));
   Object.entries(by).sort((a,b)=>b[1].v-a[1].v).slice(0,4).forEach(([n,b])=>rows.push([n,`${b.v}kg × ${b.rp}회`,b.r.date]));
@@ -3761,10 +3826,16 @@ function drawRec(o,pi,skip){
   const box=el('div','rt-day'+(rt.open===i?' open':'')),row=el('button','rt-row'+(p.kind==='rest'?' is-rest':''));row.type='button';row.setAttribute('aria-expanded',rt.open===i);
   const dd=el('div','d',DOW[pd(p.date).getDay()]);dd.append(el('small',null,md(p.date)));
   const tt=el('div','t',p.title);tt.append(el('small',null,[p.time,p.sub].filter(Boolean).join(' · ')));
-  const ed=el('div','edit');if(p.kind!=='rest')ed.append(kindTag(p.kind));ed.append(rt.open===i?'닫기':'바꾸기');
-  row.append(dd,tt,ed);row.onclick=()=>{rt.open=rt.open===i?-1:i;drawRt()};box.append(row);
-  if(rt.open===i){const pk=el('div','rt-pick');Object.keys(SESS_LABEL).forEach(k=>pk.append(btn(p.key===k?'on':'',SESS_LABEL[k],()=>{
-    const x=SESS[k];Object.assign(p,{key:k,kind:x.kind,title:x.title,sub:x.sub,time:k==='rest'?'':(p.time||rt.a.time)});rt.open=-1;drawRt()})));box.append(pk)}
+  const ed=el('div','edit');if(p.kind!=='rest')ed.append(kindTag(p.kind,planType(p)));ed.append(rt.open===i?'닫기':'바꾸기');
+  row.append(dd,tt,ed);row.onclick=()=>{rt.open=rt.open===i?-1:i;rt.ptype=null;drawRt()};box.append(row);
+  /* 바꾸기: 1단계 운동 종류 → 2단계 그 종류의 루틴 */
+  if(rt.open===i){const pk=el('div','rt-step'),cur=p.kind==='rest'?'쉬기':planType(p);
+   if(!rt.ptype){pk.append(el('div','rt-sh','1. 운동 종류'));const tl=el('div','rt-pick');
+    [...getTypes(),'쉬기'].forEach(n=>tl.append(btn(cur===n?'on':'',n,()=>{if(n==='쉬기'){Object.keys(p).forEach(k=>{if(k!=='date')delete p[k]});Object.assign(p,{key:'rest',kind:'rest',title:'쉬는 날',sub:'가볍게 걷기',time:''});rt.open=-1;drawRt();return}rt.ptype=n;drawRt()})));pk.append(tl)}
+   else{const sh=el('div','rt-sh');sh.append(btn('rt-back','‹ 종류',()=>{rt.ptype=null;drawRt()}),`2. ${rt.ptype} 루틴`);pk.append(sh);const rl=el('div','rt-pick');
+    catalog(rt.ptype).forEach(c=>rl.append(btn(cur===rt.ptype&&p.title===c.title?'on':'',c.title,()=>{const t0=p.time;Object.keys(p).forEach(k=>{if(k!=='date')delete p[k]});
+     Object.assign(p,{key:c.rk||null,kind:c.kind,title:c.title,sub:c.sub,time:t0||rt.a.time||'19:00'},c.type?{type:c.type}:{},c.sport?{sport:c.sport}:{});rt.open=-1;rt.ptype=null;drawRt()})));pk.append(rl)}
+   box.append(pk)}
   o.append(box)});
  const f=el('div','ob-foot');
  if(rt.edit)f.append(btn('cta','이대로 저장하기',confirmRt));
@@ -3773,15 +3844,15 @@ function drawRec(o,pi,skip){
 /* 7일 계획을 이번 주 계획으로 적용 */
 /* plan은 요일별 7칸 (0=일요일) */
 function applyPlan(plan){
- WEEK.forEach(w=>{const p=plan[pd(w.date).getDay()];Object.keys(w).forEach(k=>{if(k!=='date')delete w[k]});Object.assign(w,{kind:p.kind,time:p.time,title:p.title,sub:p.sub})});
- const t=todayPlan();Object.keys(PLAN0).forEach(k=>delete PLAN0[k]);Object.assign(PLAN0,{...t});
+ WEEK.forEach(w=>{const p=plan[pd(w.date).getDay()];Object.keys(w).forEach(k=>{if(k!=='date')delete w[k]});Object.assign(w,{kind:p.kind,time:p.time,title:p.title,sub:p.sub},p.type?{type:p.type}:{},p.sport?{sport:p.sport}:{})});
+ const t=todayPlan();if(t.sport)group.sport=t.sport;Object.keys(PLAN0).forEach(k=>delete PLAN0[k]);Object.assign(PLAN0,{...t});
  const rk=Object.keys(ROUTINES).find(k=>ROUTINES[k].title===t.title);if(rk)loadRoutine(rk);
  Object.keys(doneSum).forEach(k=>delete doneSum[k]);moving=null;planDay=TODAY;routineSet=true;rOpen=undefined;
 }
 /* 예시 데이터로 채우기: 예시 계획·식단 목표와 지난 기록을 함께 넣는다 */
 function useDemo(){
  const wasFresh=setup.fresh||!!setup.sample;delete setup.sample;   /* 무작위 데이터는 지우고 예시로 */
- applyPlan(DEMO_WEEK);setup.plan=DEMO_WEEK.map(w=>({kind:w.kind,time:w.time,title:w.title,sub:w.sub}));
+ applyPlan(DEMO_WEEK);setup.plan=DEMO_WEEK.map(planOf);
  kcalGoal=KCAL_GOAL;macroGoal={...MACRO_GOAL};setup.diet={kcal:KCAL_GOAL,macro:{...MACRO_GOAL},demo:true};setup.fresh=false;saveSetup();
  if(wasFresh){location.reload();return}   /* 비워 둔 지난 기록을 다시 불러오려면 새로 연다 */
  render();
@@ -3793,7 +3864,7 @@ const R_MENU={아침:[['그릭요거트와 바나나',290,40,15,7],['달걀 2개
  저녁:[['닭가슴살 스테이크와 채소',430,22,48,15],['소고기 샤브샤브',520,30,42,22],['연어구이와 현미밥',580,55,36,22],['두부 스테이크',320,18,24,16],['토마토 달걀 볶음과 밥',470,60,18,16]]};
 function confirmRt(){
  if(sess){toast('진행 중인 운동을 먼저 끝내 주세요');return}
- const byDow=[];WEEK.forEach((w,i)=>{const p=rt.plan.plan[i];byDow[pd(w.date).getDay()]={kind:p.kind,time:p.time,title:p.title,sub:p.sub}});   /* 추천은 이번 주 순서 → 요일별로 */
+ const byDow=[];WEEK.forEach((w,i)=>{const p=rt.plan.plan[i];byDow[pd(w.date).getDay()]=planOf(p)});   /* 추천은 이번 주 순서 → 요일별로 */
  applyPlan(byDow);setup.plan=byDow;setup.rtA=rt.a;saveSetup();
  $('rt').classList.remove('on');
  const ed=rt.edit;rt.edit=false;
@@ -3890,6 +3961,7 @@ function initSetup(){
  if(setup.drink){const d=JSON.parse(JSON.stringify(setup.drink));if((d.day||DEMO_BASE)!==TODAY){d.log=[];(d.supps||[]).forEach(x=>x.took=null)}delete d.day;Object.assign(drink,d)}   /* 물·영양제는 하루 단위 */
  if(setup.bodyrec)bodyRecs.splice(0,bodyRecs.length,...setup.bodyrec);if(setup.goals)goals.splice(0,goals.length,...setup.goals);
  if(setup.stretch)Object.assign(stOv,setup.stretch);
+ if(setup.trt)Object.assign(typeRts,setup.trt);
  if(setup.wtypes)myTypes=[...new Set(setup.wtypes.map(n=>n==='단체 운동'?group.sport:n).filter(n=>n!=='스트레칭'))];   /* 예전 저장값: 단체 운동 → 종목, 스트레칭 종류는 뺀다 */if(setup.witems)Object.assign(typeItems,setup.witems);
 }
 initSetup();
