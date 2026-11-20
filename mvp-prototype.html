@@ -155,16 +155,16 @@ const ST_DB = [
   ["밴드 옆걸음","엉덩이·고관절","고무 밴드","st_side","warm",["glute"],["무릎 위에 밴드를 걸어요","무릎이 안으로 모이지 않게 옆으로 걸어요"],"좌우 10걸음"],
   ["폼롤러 허벅지 앞 풀기","다리","폼롤러","st_roll","warm",["quad"],["엎드려 허벅지 앞을 폼롤러에 올려요","골반부터 무릎 위까지 천천히 굴려요"],"좌우 1분"],
   ["폼롤러 등 풀기","가슴·등","폼롤러","st_roll","warm",["lat","trap"],["등 위쪽에 폼롤러를 대고 누워요","엉덩이를 들고 날개뼈 아래까지 굴려요"],"1분"],
-  ["가볍게 걷기 · 제자리 뛰기","전신","맨몸",null,"gen",[],[],"3분"],
-  ["가볍게 걷기 · 조깅","전신","맨몸",null,"gen",[],[],"5분"],
-  ["가볍게 뛰기","전신","맨몸",null,"gen",[],[],"5분"],
-  ["줄넘기 가볍게","전신","맨몸",null,"gen",[],[],"3분"],
-  ["가볍게 페달 돌리기","전신","맨몸",null,"gen",[],[],"5분"],
-  ["물속에서 가볍게 걷기","전신","맨몸",null,"gen",[],[],"2분"],
-  ["천천히 걷기","전신","맨몸",null,"gen",[],[],"5분"],
-  ["짧게 치고 나가기","전신","맨몸",null,"gen",[],[],"20m × 4"],
-  ["방향 바꿔 달리기","전신","맨몸",null,"gen",[],[],"5m × 6"],
-  ["쉬운 문제 가볍게","전신","맨몸",null,"gen",[],[],"2개"],
+  ["가볍게 걷기 · 제자리 뛰기","전신","맨몸","st_jog","gen",["quad","calf"],["화면 속 속도에 맞춰 몸을 데워요","숨이 조금 찰 정도로"],"3분"],
+  ["가볍게 걷기 · 조깅","전신","맨몸","st_jog","gen",["quad","calf"],["화면 속 속도에 맞춰 몸을 데워요","숨이 조금 찰 정도로"],"5분"],
+  ["가볍게 뛰기","전신","맨몸","st_jog","gen",["quad","calf"],["화면 속 속도에 맞춰 몸을 데워요","숨이 조금 찰 정도로"],"5분"],
+  ["줄넘기 가볍게","전신","맨몸","rope","gen",["quad","calf"],["화면 속 속도에 맞춰 몸을 데워요","숨이 조금 찰 정도로"],"3분"],
+  ["가볍게 페달 돌리기","전신","맨몸","bike","gen",["quad","calf"],["화면 속 속도에 맞춰 몸을 데워요","숨이 조금 찰 정도로"],"5분"],
+  ["물속에서 가볍게 걷기","전신","맨몸","st_walk","gen",["quad","calf"],["화면 속 속도에 맞춰 몸을 데워요","숨이 조금 찰 정도로"],"2분"],
+  ["천천히 걷기","전신","맨몸","st_walk","gen",["quad","calf"],["화면 속 속도에 맞춰 몸을 데워요","숨이 조금 찰 정도로"],"5분"],
+  ["짧게 치고 나가기","전신","맨몸","st_jog","gen",["quad","calf"],["화면 속 속도에 맞춰 몸을 데워요","숨이 조금 찰 정도로"],"20m × 4"],
+  ["방향 바꿔 달리기","전신","맨몸","st_side","gen",["quad","calf"],["화면 속 속도에 맞춰 몸을 데워요","숨이 조금 찰 정도로"],"5m × 6"],
+  ["쉬운 문제 가볍게","전신","맨몸","st_climb","gen",["quad","calf"],["화면 속 속도에 맞춰 몸을 데워요","숨이 조금 찰 정도로"],"2개"],
   ["허벅지 앞 늘리기","다리","맨몸","st_quad","cool",["quad"],["벽을 짚고 한 발을 뒤로 잡아요","무릎을 모으고 골반을 앞으로 밀어요"],"좌우 30초"],
   ["엉덩이 늘리기 (4자 자세)","엉덩이·고관절","맨몸","st_fig4","cool",["glute"],["누워서 발목을 반대 무릎 위에 올려요","아래 다리를 가슴 쪽으로 당겨요"],"좌우 30초"],
   ["햄스트링 늘리기","다리","맨몸","st_seat","cool",["ham"],["한 다리를 펴고 앉아요","등을 편 채 배꼽을 허벅지 쪽으로 숙여요"],"좌우 30초"],
@@ -800,6 +800,13 @@ button.more:hover{color:var(--ink)}
 .sti.on .stn{font-weight:700}
 .stpose{padding:4px 0 10px}
 .stpose .fvid{margin-top:4px}
+.stsec.flat{background:none;border-radius:0;margin-top:12px}
+.stsec.flat .sth{padding:0 0 4px}
+.stsec.flat .stl{padding:0}
+.stsec.flat .sti{border-color:var(--line)}
+.stcard.in{background:var(--bg);margin-top:14px;padding:14px}
+.stcard.in .stsec.flat .sti{border-color:var(--line2)}
+.stcard .stnote{margin-top:4px}
 .stmain{font-size:12px;font-weight:700;color:var(--mut);margin:14px 2px 0}
 .rbody .stmain+.rlist,.card .stmain+.rlist{margin-top:4px}
 .stlive .stck{display:grid;grid-template-columns:28px 1fr auto auto;align-items:center;gap:8px;padding:9px 18px;border-top:1px solid var(--line);font-size:14px;color:var(--ink)}
@@ -857,6 +864,23 @@ button.more:hover{color:var(--ink)}
 .fvid.live{margin-top:12px}
 .fv-top{position:absolute;left:12px;right:12px;top:10px;display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700}
 .fv-tag{font-size:10.5px;background:rgba(255,255,255,.14);border-radius:6px;padding:2px 7px;font-weight:700}
+.fv-anim{position:absolute;left:50%;top:48%;width:96px;height:96px;margin:-48px 0 0 -48px;color:#EEF1EA;transform-origin:50% 100%}
+.fv-anim svg{width:100%;height:100%;display:block}
+.mv-updown .fv-anim{animation:mvUp 2.4s ease-in-out infinite}
+.mv-bob .fv-anim{animation:mvBob .6s ease-in-out infinite}
+.mv-sway .fv-anim{animation:mvSway 1.6s ease-in-out infinite;transform-origin:50% 60%}
+.mv-hold .fv-anim{animation:mvHold 4s ease-in-out infinite}
+@keyframes mvUp{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.78) translateY(4px)}}
+@keyframes mvBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes mvSway{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
+@keyframes mvHold{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.fv-beat{position:absolute;left:12px;right:12px;bottom:52px;display:flex;align-items:center;gap:8px;font-size:11px;color:#C9CEC6}
+.fv-beat i{position:relative;flex:none;width:56px;height:4px;border-radius:2px;background:rgba(255,255,255,.18);overflow:hidden}
+.fv-beat i::after{content:'';position:absolute;inset:0;width:30%;border-radius:2px;background:#FF8A4C;animation:mvBeat 2.4s linear infinite}
+.mv-bob .fv-beat i::after{animation-duration:.6s}.mv-sway .fv-beat i::after{animation-duration:1.6s}.mv-hold .fv-beat i::after{animation-duration:4s}
+@keyframes mvBeat{from{transform:translateX(-100%)}to{transform:translateX(340%)}}
+.fvid.still .fv-anim,.fvid.still .fv-beat i::after{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.fv-anim,.fv-beat i::after{animation-duration:6s}}
 .fv-play{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center}
 .fv-play svg{width:22px;height:22px;color:#fff}
 .fvid .bmap{position:absolute;right:10px;top:34px;background:rgba(0,0,0,.35);border-radius:10px;padding:5px 6px}
@@ -1182,10 +1206,18 @@ button.more:hover{color:var(--ink)}
 .bhq::-webkit-scrollbar{display:none}
 .bhq button{flex:none;white-space:nowrap;font-size:12px;font-weight:700;border-radius:999px;padding:6px 11px;background:var(--bg);color:var(--text)}
 .bhq button.on{background:var(--dark);color:var(--on-acc)}
-.bhd{display:grid;grid-template-columns:1fr auto 1fr auto;align-items:center;gap:6px;margin-top:10px}
-.bhd .field{padding:9px 10px;font-size:13px;min-width:0}
-.bhd span{color:var(--mut);font-size:13px}
-.bhd .go{font-size:13px;font-weight:700;border-radius:12px;padding:9px 14px;background:var(--dark);color:var(--on-acc)}
+.bhn{display:grid;gap:8px;margin-top:12px}
+.bhr{display:flex;align-items:center;gap:6px;background:var(--bg);border-radius:14px;padding:6px 12px}
+.bhr .bhl{font-size:12.5px;font-weight:700;color:var(--mut);width:34px}
+.spn{display:flex;flex-direction:column;align-items:center;min-width:44px}
+.spn button{font-size:9px;line-height:1;color:var(--mut);padding:5px 12px;border-radius:8px}
+.spn button:active{background:var(--card)}
+.spn b{font-size:17px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+.bhr .u{font-size:12.5px;color:var(--mut);margin-right:4px}
+.bhw{font-size:12px;color:var(--mut);margin-top:8px;font-variant-numeric:tabular-nums}
+.bhw.on{color:var(--red);font-weight:700}
+.bhw.on::before{content:'⚠ '}
+.card>.go{display:block;width:100%;margin-top:10px;font-size:14px;font-weight:700;border-radius:12px;padding:11px;background:var(--dark);color:var(--on-acc)}
 .bhs{font-size:12px;color:var(--mut);margin-top:12px;font-variant-numeric:tabular-nums}
 .bhist .br{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:6px;padding:9px 0;border-top:1px solid var(--line);font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums}
 .bhist .br:first-child{border-top:0;font-size:11.5px;color:var(--mut);padding-bottom:4px}
@@ -1992,9 +2024,9 @@ function gymTypeView(b){
     if(ed){const e=el('div','ed');e.append(btn('','−',()=>{if(ex.sets>1){ex.sets--;gymChanged(k)}},`${ex.name} 세트 줄이기`),el('span','n',`${ex.sets}세트`),btn('','+',()=>{if(ex.sets<10){ex.sets++;gymChanged(k)}},`${ex.name} 세트 늘리기`),
       btn('x','×',()=>{if(r.list.length<=1){toast('종목이 하나는 있어야 해요');return}r.list.splice(i,1);gymChanged(k);toast(`${ex.name}를 뺐어요`)},`${ex.name} 빼기`));row.append(e)}
     l.append(row)});
-   d.append(stSection(stKeyGym(k),'warm',ed),el('div','stmain','본 운동'),l);
+   d.append(l);
    if(ed){const eb=el('div','edbar');eb.append(btn('','+ 종목 추가',()=>addExSheet(k)));d.append(eb)}
-   d.append(stSection(stKeyGym(k),'cool',ed));if(ed)d.append(stReset(stKeyGym(k)));
+   {const sc=stCard(stKeyGym(k),ed);sc.classList.add('in');d.append(sc)}
    c.append(d)}
   b.append(c)});
  if(all)b.append(btn('cta alt radd','+ 루틴 추가',addRoutine));
@@ -2144,12 +2176,21 @@ const BODY_BASE='<circle cx="30" cy="10" r="7"/><rect x="26" y="16" width="8" he
 function bodyMap(ms,small){const w=el('div','bmap'+(small?' sm':''));
  [['f','앞'],['b','뒤']].forEach(([v,t])=>{const R=BODY_REG[v],all=Object.entries(R).filter(([k])=>!(v==='b'&&k==='delt'&&ms.includes('rdelt'))).map(([k,d])=>`<g class="${ms.includes(k)?'on':''}">${d}</g>`).join('');
   const f=el('figure');f.innerHTML=`<svg viewBox="0 0 60 126"><g class="base">${BODY_BASE}</g><g class="mus">${all}</g></svg>`;if(!small)f.append(el('figcaption',null,t));w.append(f)});return w}
-/* 자세 영상 자리 (실제 앱에서는 3D 자세 영상) */
-function formVideo(name,opt={}){const [ms]=exInfo(name),v=el('div','fvid'+(opt.live?' live':''));
- const top=el('div','fv-top');top.append(el('span','fv-tag',opt.tag||'자세 영상'),el('span',null,name));
- const play=el('div','fv-play');play.innerHTML=ICON.play;
+/* 자세 애니메이션 자리 (실제 앱에서는 3D 자세 애니메이션).
+   재생 버튼 없이 항상 반복 재생된다: 화면 속 동작에 맞춰 운동 속도를 맞추는 게 목적이라서.
+   움직임 종류마다 박자: updown 내려갔다 올라오기(2.4초), bob 제자리 반복(0.6초), sway 크게 돌리기·흔들기(1.6초), hold 멈춰서 늘리기(숨 4초) */
+const MOVE={bob:['tread','bike','ellip','rope','stair','jump','st_knee','st_kick','st_side','st_walk','st_jog','st_calf'],
+ sway:['fly','raise','twist','st_arm','st_hip','st_swing','st_twist','st_open','st_neck','st_wrist','st_cat','st_roll','st_climb','rowm'],
+ hold:['plank','st_quad','st_fig4','st_seat','st_wall','st_lie','st_cobra','st_bend','st_cross','st_tri','st_butterfly','st_ball']};
+const MOVE_TXT={updown:'내려가기 1.2초 · 올라오기 1.2초',bob:'화면과 같은 박자로 가볍게',sway:'한 번 크게 돌리는 데 1.6초',hold:'멈춘 채 4초에 한 번 숨쉬기'};
+const patOf=name=>{const x=EX_DB.find(e=>e[0]===name)||stDb(name);return x?x[3]:null};
+const moveOf=pat=>Object.keys(MOVE).find(k=>MOVE[k].includes(pat))||'updown';
+function formVideo(name,opt={}){const [ms]=exInfo(name),pat=patOf(name),mv=moveOf(pat),v=el('div','fvid mv-'+mv+(opt.live?' live':'')+(opt.live&&sess&&sess.state==='paused'?' still':''));
+ const top=el('div','fv-top');top.append(el('span','fv-tag',opt.tag||'자세 애니메이션'),el('span',null,name));
+ const play=el('div','fv-anim');play.innerHTML=`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${PSVG[pat]||PSVG.squat}</svg>`;
+ const beat=el('div','fv-beat');beat.append(el('i'),el('span',null,MOVE_TXT[mv]));
  const bot=el('div','fv-bot');if(ms.length)bot.append(el('span',null,ms.map(m=>MUSCLE_NAME[m]).join(' · ')));if(opt.cue)bot.append(el('b',null,opt.cue));
- v.append(top,play,bodyMap(ms,true),bot);v.onclick=()=>toast('실제 앱에서는 이 자리에 3D 자세 영상이 재생돼요');return v}
+ v.append(top,play,bodyMap(ms,true),beat,bot);v.onclick=()=>toast('실제 앱에서는 이 자리에 3D 자세 애니메이션이 계속 반복돼요');return v}
 /* 동작 모양 그림 (48×48, 막대 사람) */
 const PSVG={
  squat:'<circle cx="19" cy="9" r="3.5"/><path d="M19 13l4 12h9l-2 13h5M20 16l11 2M7 41h34"/>',
@@ -2206,6 +2247,9 @@ const PSVG={
  st_cross:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v16l-3 13M24 28l3 13M24 16H12M24 19h-8"/>',
  st_tri:'<circle cx="24" cy="9" r="3.5"/><path d="M24 13v15l-3 13M24 28l3 13M24 16l5-10-6-3M24 16l-6-8 4-3"/>',
  st_butterfly:'<circle cx="24" cy="12" r="3.5"/><path d="M24 16v16M24 32l-12 6 10 2M24 32l12 6-10 2M24 20l-6 10M24 20l6 10M6 41h36"/>',
+ st_walk:'<circle cx="24" cy="7" r="3.5"/><path d="M24 11v15l-5 14M24 26l5 14M24 15l-6 9M24 15l6 9M8 42h32"/>',
+ st_jog:'<circle cx="25" cy="7" r="3.5"/><path d="M24 11l-2 14-7 6-2 7M22 25l8 5-2 9M23 15l-7 5 2 5M23 15l8 3 2-5"/>',
+ st_climb:'<path d="M40 3v40"/><circle cx="28" cy="12" r="3.5"/><path d="M28 16v14l-4 10M28 30l6 6M28 18l8-10M28 18l6 6M36 8l3-1M34 24l5 1"/>',
  st_ball:'<circle cx="24" cy="8" r="3.5"/><path d="M24 12v16l-3 12M24 28l6 6 4 6M24 16l-6 8M24 16l6 8"/><circle cx="34" cy="42" r="2.5"/>'
 };
 const exFig=pat=>{const d=el('div','exfig');d.innerHTML=`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${PSVG[pat]||PSVG.squat}</svg>`;return d};
@@ -2271,11 +2315,11 @@ const ST_LAB={warm:['준비 운동','운동 전 · 몸을 움직이며 풀어요
 const CHEV_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
 function stPose(name){const S=stDb(name),d=el('div','stpose');d.append(formVideo(name,{tag:'스트레칭 자세'}));
  const ul=el('ul','excues');(S?S[6]:[]).forEach(t=>{const li=el('li','ok');li.append(el('i',null,'✓'),t);ul.append(li)});d.append(ul);return d}
-function stSection(key,w,ed){
- const list=stOf(key)[w],id=key+'|'+w,open=ed||stOpenS.has(id),c=el('div','stsec'+(open?' open':'')+(ed?' ed':'')+' st-'+w);
- const h=el(ed?'div':'button','sth');if(!ed){h.type='button';h.setAttribute('aria-expanded',open);h.onclick=()=>{open?stOpenS.delete(id):stOpenS.add(id);renderWorkout()}}
+function stSection(key,w,ed,flat){
+ const list=stOf(key)[w],id=key+'|'+w,open=ed||flat||stOpenS.has(id),c=el('div','stsec'+(open?' open':'')+(ed?' ed':'')+(flat?' flat':'')+' st-'+w);
+ const h=el(ed||flat?'div':'button','sth');if(!ed&&!flat){h.type='button';h.setAttribute('aria-expanded',open);h.onclick=()=>{open?stOpenS.delete(id):stOpenS.add(id);renderWorkout()}}
  const tx=el('div');tx.append(el('b',null,ST_LAB[w][0]),el('small',null,`${list.length}동작 · ${ST_LAB[w][1]}`));h.append(tx);
- if(!ed){const ch=el('span','chev');ch.innerHTML=CHEV_SVG;h.append(ch)}c.append(h);
+ if(!ed&&!flat){const ch=el('span','chev');ch.innerHTML=CHEV_SVG;h.append(ch)}c.append(h);
  if(!open)return c;
  const l=el('div','stl');if(!list.length)l.append(el('div','empty','동작이 없어요.'));
  list.forEach((x,i)=>{const S=stDb(x[0]),pose=!!(S&&S[3]),pid=id+'|'+x[0],po=!ed&&pose&&stPoseS.has(pid),r=el('div','sti'+(po?' on':''));
@@ -2288,6 +2332,11 @@ function stSection(key,w,ed){
  if(ed){const eb=el('div','edbar');eb.append(btn('',`+ ${ST_LAB[w][0]} 추가`,()=>stAddSheet(key,w)));l.append(eb)}
  c.append(l);return c;
 }
+/* 운동 종류 화면용: 루틴 아래 따로 놓는 '준비 · 마무리 운동' 카드. 두 목록을 펼쳐 두고, 그 종류의 '루틴 수정' 중이면 함께 고친다 */
+function stCard(key,ed){
+ const c=el('div','card stcard'),h=el('div','card-h');h.append(el('h2',null,'준비 · 마무리 운동'));c.append(h);
+ c.append(el('div','note stnote',stOv[key]?'직접 고친 준비·마무리 운동이에요.':key.startsWith('g:')?'루틴 종목이 쓰는 근육에 맞춰 골랐어요. 종목을 바꾸면 따라 바뀌어요.':'이 종목에 맞춰 골라 둔 준비·마무리 운동이에요.'));
+ c.append(stSection(key,'warm',ed,true),stSection(key,'cool',ed,true));if(ed)c.append(stReset(key));return c}
 function stReset(key){return stOv[key]?btn('smore','준비·마무리 운동을 자동 추천으로 되돌리기',()=>{delete stOv[key];stSave();renderWorkout();toast('자동 추천으로 되돌렸어요')}):el('span')}
 /* 준비·마무리 운동 추가: 헬스 종목 추가와 같은 화면 (부위별 / 기구별, 누르면 자세 자리와 포인트) */
 function stAddSheet(key,w){
@@ -2350,8 +2399,8 @@ function runTypeView(b){
   const l=el('div','rlist');RUN_PLAN.sessions.forEach((x,i)=>{const r=el('div','ri sw-row rrow');const w=el('b',null,`${i+1}주차`),inp=el('input','field');inp.value=x[1];inp.setAttribute('aria-label',`${i+1}주차 내용`);
    inp.onchange=()=>{x[1]=inp.value.trim()||x[1]};r.append(w,inp,btn('x','×',()=>{if(RUN_PLAN.sessions.length<=1){toast('주차가 하나는 있어야 해요');return}RUN_PLAN.sessions.splice(i,1);fixRunWeeks();renderWorkout()},`${i+1}주차 빼기`));l.append(r)});
   const eb=el('div','edbar');eb.append(btn('','+ 주차 추가',()=>{const last=RUN_PLAN.sessions[RUN_PLAN.sessions.length-1];RUN_PLAN.sessions.push(['',last?last[1]:'5km × 3회',false]);fixRunWeeks();renderWorkout()}));
-  c.append(f,stSection('s:러닝','warm',true),el('div','stmain','본 운동'),l,eb,el('div','note','주차마다 거리와 횟수를 적어요. 예: 5km × 3회, 400m × 6'),stSection('s:러닝','cool',true),stReset('s:러닝'));b.append(c);return}
- const d=el('div','card');d.append(stSection('s:러닝','warm',false),el('div','stmain','본 운동'));runDetail(d,{today:false});d.append(stSection('s:러닝','cool',false));b.append(d);
+  c.append(f,l,eb,el('div','note','주차마다 거리와 횟수를 적어요. 예: 5km × 3회, 400m × 6'));b.append(c,stCard('s:러닝',true));return}
+ const d=el('div','card');runDetail(d,{today:false});b.append(d,stCard('s:러닝',false));
  const sh=el('div','sec-h');sh.append(el('h2',null,'러닝 목표 바꾸기'),el('span',null,'5주 계획을 다시 짜요'));b.append(sh);
  const pk=el('div','tchips');Object.entries(RUN_GOALS).forEach(([g,[nm,km]])=>{const b2=btn(RUN_PLAN.name===nm?'on':'',g,()=>{
    if(RUN_PLAN.name===nm)return;Object.assign(RUN_PLAN,{name:nm,week:1,progress:0,todayKm:km[0]});
@@ -2372,7 +2421,6 @@ function customTypeView(b,n){
  const list=itemsOf(n),ed=wEdit===n,sk=n==='요가'?null:stKeySport(n);
  b.append(editHead(`내 ${n} 루틴`,n));
  const c=el('div','card'),l=el('div','rlist');l.style.marginTop='0';
- if(sk)c.append(stSection(sk,'warm',ed),el('div','stmain','본 운동'));
  if(!list.length)l.append(el('div','empty','아직 정한 동작이 없어요. 루틴 수정에서 추가해 보세요.'));
  list.forEach((x,i)=>{const r=el('div','ri sw-row');
   if(ed){const t=el('div','cedit'),a=el('input','field'),q=el('input','field');a.value=x[0];q.value=x[1];a.setAttribute('aria-label','동작');q.setAttribute('aria-label','양');
@@ -2383,7 +2431,7 @@ function customTypeView(b,n){
    const a=el('input','field');a.placeholder='예: 배영';const q=el('input','field');q.placeholder='예: 200m, 좌우 30초, 10회 × 3';f.append(lab('동작',a),lab('양',q));
    openSheet(`${n}에 동작 추가`,f,[{label:'추가',cls:'primary',keep:true,fn:()=>{if(!a.value.trim()){toast('동작 이름을 적어 주세요');return false}list.push([a.value.trim(),q.value.trim()||'-']);setTypes(getTypes());renderWorkout()}},{label:'취소',cls:'plain'}])}),
    )}
- c.append(eb);if(!ed)eb.remove();if(sk){c.append(stSection(sk,'cool',ed));if(ed)c.append(stReset(sk))}b.append(c);
+ c.append(eb);if(!ed)eb.remove();b.append(c);if(sk)b.append(stCard(sk,ed));
 }
 /* 오늘 운동: 계획을 보여 주고 바로 시작 */
 function workHero(){
@@ -3060,17 +3108,27 @@ let bh={k:'recent',from:null,to:null};   /* recent = 기본 (최근 5회, 버튼
 const BH_Q=[['1m','1개월',1],['3m','3개월',3],['custom','직접 설정']];
 const addMonths=(k,n)=>{const d=pd(k);d.setMonth(d.getMonth()+n);return ymd(d)};
 const ymdDot=k=>k.replace(/-/g,'.');
+/* 직접 설정 날짜 한 칸 조절: 년·월은 같은 날로 옮기고 그 달에 없는 날이면 말일로, 일은 하루씩 */
+function bhStep(k,pt,dv){const [y,m,d]=k.split('-').map(Number);if(pt==='d')return addDays(k,dv);
+ const ny=pt==='y'?y+dv:y,nm=pt==='m'?m-1+dv:m-1,last=new Date(ny,nm+1,0).getDate();return ymd(new Date(ny,nm,Math.min(d,last)))}
+const bhWarn=(f,t)=>f>t?'시작 날짜가 끝 날짜보다 늦어요':t>TODAY?'끝 날짜가 오늘보다 뒤예요':t>addMonths(f,3)?'기간이 3개월을 넘어요. 3개월 안으로 맞춰 주세요':'';
 function bodyHist(){
  const c=el('div','card'),h=el('div','card-h');h.append(el('h3',null,'측정 기록'));c.append(h);
  if(!bodyRecs.length){c.append(el('div','empty','아직 측정 기록이 없어요.'));return c}
  const q=el('div','bhq');BH_Q.forEach(([k,t,mm])=>{const b=btn(bh.k===k?'on':'',t,()=>{
-   if(bh.k===k)bh={k:'recent',from:null,to:null};else if(k==='custom')bh={k,from:addMonths(TODAY,-1),to:TODAY};else bh={k,from:addMonths(TODAY,-mm),to:TODAY};renderCal()});
+   if(bh.k===k)bh={k:'recent',from:null,to:null};else if(k==='custom'){const f=addMonths(TODAY,-1);bh={k,from:f,to:TODAY,df:f,dt:TODAY}}else bh={k,from:addMonths(TODAY,-mm),to:TODAY};renderCal()});
   b.setAttribute('aria-pressed',bh.k===k);q.append(b)});c.append(q);
- if(bh.k==='custom'){const f=el('div','bhd'),i1=el('input','field'),i2=el('input','field');i1.type=i2.type='date';i1.value=bh.from;i2.value=bh.to;
-  /* 고를 수 있는 날짜를 서로 3개월 안으로 묶는다 */
-  const lim=()=>{i1.max=i2.value||TODAY;i1.min=i2.value?addMonths(i2.value,-3):'';i2.min=i1.value||'';const mx=i1.value?addMonths(i1.value,3):TODAY;i2.max=mx<TODAY?mx:TODAY};lim();i1.oninput=i2.oninput=lim;
-  i1.setAttribute('aria-label','시작 날짜');i2.setAttribute('aria-label','끝 날짜');
-  f.append(i1,el('span',null,'~'),i2,btn('go','조회',()=>{if(!i1.value||!i2.value){toast('날짜를 골라 주세요');return}if(i1.value>i2.value){toast('시작 날짜가 끝 날짜보다 늦어요');return}if(i2.value>addMonths(i1.value,3)){toast('기간은 최대 3개월까지 정할 수 있어요');return}bh.from=i1.value;bh.to=i2.value;renderCal()}));c.append(f,el('div','bhs','최대 3개월까지 조회할 수 있어요'))}
+ if(bh.k==='custom'){
+  /* 년·월·일을 ▲▼로 조절한다. 고르는 중에는 막지 않고, 잘못되면 아래에 주의를 띄우고 조회를 막는다 */
+  const f=el('div','bhn'),warn=bhWarn(bh.df,bh.dt);
+  [['시작','df'],['끝','dt']].forEach(([lab,key])=>{const row=el('div','bhr');row.append(el('span','bhl',lab));
+   const [y,m,d]=bh[key].split('-').map(Number);
+   [['y',y,'년'],['m',m,'월'],['d',d,'일']].forEach(([pt,v,u])=>{const sp=el('div','spn');
+    sp.append(btn('up','▲',()=>{bh[key]=bhStep(bh[key],pt,1);renderCal()},`${lab} ${u} 올리기`),el('b','num',pt==='y'?v:String(v).padStart(2,'0')),btn('dn','▼',()=>{bh[key]=bhStep(bh[key],pt,-1);renderCal()},`${lab} ${u} 내리기`));
+    row.append(sp,el('span','u',u))});
+   f.append(row)});
+  const go=btn('go','조회',()=>{const w=bhWarn(bh.df,bh.dt);if(w){toast(w);return}bh.from=bh.df;bh.to=bh.dt;renderCal()});
+  c.append(f,el('div','bhw'+(warn?' on':''),warn||`${ymdDot(bh.df)} ~ ${ymdDot(bh.dt)} · 최대 3개월까지 조회할 수 있어요`),go)}
  const all=bodyRecs.slice().reverse(),rs=bh.k==='recent'?all.slice(0,5):all.filter(b=>b.date>=bh.from&&b.date<=bh.to);
  if(bh.k!=='recent')c.append(el('div','bhs',`${ymdDot(bh.from)} ~ ${ymdDot(bh.to)} · ${rs.length}회`));
  if(!rs.length){c.append(el('div','empty','이 기간에는 측정 기록이 없어요.'));return c}
