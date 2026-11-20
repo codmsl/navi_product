@@ -300,7 +300,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .phone{width:390px;height:844px;background:var(--bg);border-radius:44px;border:10px solid #161714;box-shadow:0 24px 60px rgba(30,32,26,.22);display:flex;flex-direction:column;overflow:hidden;position:relative;flex:none}
 .status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:4px 26px 0;font-size:14px;font-weight:700;color:var(--ink);flex:none}
 .status svg{height:12px}
-.screen{flex:1;overflow-y:auto;padding:8px 18px 28px;display:none;scrollbar-width:none}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 18px 28px;display:none;scrollbar-width:none}
 .screen::-webkit-scrollbar{display:none}
 .screen.on{display:block}
 
@@ -784,7 +784,7 @@ button.more:hover{color:var(--ink)}
 .dsec-btn.on{background:var(--dark);color:var(--on-acc)}
 .dsec-btn{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--ink);background:var(--sage);border-radius:999px;padding:4px 12px;letter-spacing:0}
 #dFood{height:0;margin:0;overflow:hidden}   /* 음식은 탭 바로 아래라 제목 생략 (이동 기준점만) */
-.dnav{position:sticky;top:-8px;z-index:6;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px 18px 8px;margin:6px -18px -6px}
+.dnav{position:sticky;top:-8px;z-index:6;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px 0 8px;margin:6px 0 -6px}
 .dnav button{border-radius:12px;padding:10px 0;font-size:14px;font-weight:700;color:var(--ink);background:var(--sage);display:flex;align-items:center;justify-content:center;gap:5px}
 .dnav button span{display:none}
 .dnav button.on{background:var(--dark);color:var(--on-acc)}
@@ -933,10 +933,12 @@ button.more:hover{color:var(--ink)}
 .ctabs{margin-top:0}
 /* 화면을 내리면 맨 위에 붙는 줄 (기록 탭 운동/식단/체성분 + 운동 종류, 식단 탭 바로가기).
    붙기 전에는 배경 없이 화면에 녹아 있고, 붙으면 뒤 내용이 비치는 반투명 막 + 아래 가는 선 하나만 생긴다 */
-.stickbar{position:sticky;top:-8px;z-index:6;margin:4px -18px 0;padding:10px 18px 8px}
-.stickbar,.dnav{transition:background-color .18s,box-shadow .18s}
-.stickbar.stuck,.dnav.stuck{background:color-mix(in srgb,var(--bg) 93%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(16px);backdrop-filter:saturate(1.6) blur(16px);box-shadow:0 1px 0 var(--line)}
-.phone.ipad .stickbar,.phone.ipad .dnav{margin-left:0;margin-right:0;padding-left:0;padding-right:0}
+.stickbar{position:sticky;top:-8px;z-index:6;margin-top:4px;padding:10px 0 8px}
+.stickbar::before,.dnav::before{content:'';position:absolute;inset:0 -100vmax;z-index:-1;opacity:0;transition:opacity .18s;background:color-mix(in srgb,var(--bg) 93%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(16px);backdrop-filter:saturate(1.6) blur(16px);box-shadow:0 1px 0 var(--line)}
+.stickbar.stuck::before,.dnav.stuck::before{opacity:1}
+.phone.ipad .stickbar,.phone.ipad .dnav{top:-16px}
+.phone.ipad .xchart svg{max-height:250px}
+.phone.ipad .route,.phone.ipad .pitch{display:block;width:100%;max-height:340px}
 #calPad{height:0}
 .ctypes{margin-top:12px}
 .ctypes:empty{display:none}
@@ -1051,6 +1053,25 @@ button.more:hover{color:var(--ink)}
 .rchart text{font-size:9.5px;fill:var(--mut);font-family:inherit}
 .rchart .ln{fill:none;stroke:var(--bar);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 .rchart .dt{fill:var(--bar)}
+/* 움직임 그림 */
+.route .map{fill:var(--bg)}
+.route .river{fill:none;stroke:var(--blue-soft);stroke-width:22;stroke-linecap:round}
+.route .road{stroke:var(--line);stroke-width:2}
+.route .field{fill:var(--green-soft)}
+.route .route-under{fill:none;stroke:var(--card);stroke-width:8;stroke-linejoin:round;stroke-linecap:round}
+.route .route-line{fill:none;stroke:var(--run);stroke-width:3.5;stroke-linejoin:round;stroke-linecap:round}
+.route .km{fill:var(--card);stroke:var(--run);stroke-width:2}
+.route .kmt{font-size:8.5px;font-weight:800;fill:var(--ink)}
+.route .st{fill:var(--run);stroke:var(--card);stroke-width:2.5}
+.route .en{fill:var(--ink);stroke:var(--card);stroke-width:2}
+.pitch{display:block;width:100%;height:auto;margin-top:8px}
+.pitch .turf{fill:var(--green-soft)}
+.pitch .heat{fill:var(--red);opacity:.07}
+.pitch .pl-line{fill:none;stroke:#fff;opacity:.9}
+.pitch .pl-line .spot{fill:#fff}
+.phone.theme-dark .pitch .pl-line{opacity:.3}
+.pitch .trail{fill:none;stroke:var(--ink);opacity:.28;stroke-linejoin:round}
+.pstat{background:var(--bg);margin-top:10px;padding:12px 14px}
 .rdet .sets li{grid-template-columns:1fr;gap:1px;padding:6px 0;border-top:1px solid var(--line)}.rdet .sets li:first-child{border-top:0}
 .rdet .sets li span:first-child{font-weight:700;color:var(--ink)}.rdet .sets li span:last-child{color:var(--mut);font-size:12.5px}
 .rbar{display:grid;grid-template-columns:90px 1fr 56px;gap:10px;align-items:center;margin-top:10px;font-size:12.5px;color:var(--text)}
@@ -2717,12 +2738,12 @@ function bodyHist(){
  c.append(t);return c;
 }
 /* 다시 그려도 보던 위치를 지킨다 (내용을 비우는 순간 맨 위로 튀었다가 내려오는 것 방지) */
-function renderCal(){const sc=$('s-cal'),keep=sc.scrollTop;drawCal();sc.scrollTop=keep;stuckMark()}
+function renderCal(){const sc=$('s-cal'),keep=sc.scrollTop;drawCal();const pad=$('calPad');for(let i=0;i<3;i++){const lack=keep-(sc.scrollHeight-sc.clientHeight);if(lack<=0)break;pad.style.height=(pad.offsetHeight+lack)+'px'}sc.scrollTop=keep;stuckMark()}
 function drawCal(){
  renderGoals();
  const y=calView.getFullYear(),m=calView.getMonth();
  const tb=$('calTabs');tb.textContent='';
- [['ex','운동'],['meal','식단'],['body','체성분']].forEach(([k,t])=>{const b=btn(calTab===k?'on':'',t,()=>{if(calTab===k)return;calTab=k;calType=null;selDay=null;renderCal();if(k==='body')calScroll('bar')});
+ [['ex','운동'],['meal','식단'],['body','체성분']].forEach(([k,t])=>{const b=btn(calTab===k?'on':'',t,()=>{if(calTab===k)return;calTab=k;calType=null;selDay=null;renderCal();if(k==='body')calScroll('bar');else if($('s-cal').scrollTop>0)calScroll('top')});
   b.setAttribute('role','tab');b.setAttribute('aria-selected',calTab===k);tb.append(b)});
  const ty=$('calTypes'),sum=$('calSum'),out=$('dayList'),tyX=ty.scrollLeft;ty.textContent='';sum.textContent='';out.textContent='';
  $('calCard').style.display=calTab==='body'?'none':'';
@@ -2761,7 +2782,66 @@ function runStats(r){const km=runKm(r),t=r.meta.match(/(\d+)분\s*(\d+)?초?/),p
 function swimStats(r){const st=[...r.meta.matchAll(/(자유형|평영|배영|접영|킥판|혼영)\s*(\d+)m/g)].map(x=>[x[1],+x[2]]),t=r.meta.match(/^(\d+)분/);
  const m=st.length?st.reduce((a,x)=>a+x[1],0):+((r.title.match(/[\d,]+/)||['0'])[0].replace(/,/g,'')),min=t?+t[1]:0;
  return {st,m,min,pace:m&&min?Math.round(min*60/m*100):0}}
-function prevOf(r,same){return records.filter(x=>x.kind===r.kind&&x.date<r.date&&(!same||x.title===r.title)).sort((a,b)=>b.date.localeCompare(a.date))[0]}
+/* ---- 움직임 그림 (예시: 기록마다 날짜로 정한 난수로 그린다. 실제 앱에서는 휴대폰·워치 GPS 기록) ---- */
+function rng(seed){let a=seed>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+let svgUid=0;
+/* 러닝 이동 경로: 한 바퀴 도는 길 / 한 방향으로 가는 길 / 인터벌은 400m 트랙. 1km마다 표시 */
+function routeCard(r,S){
+ const R=rng(hsh(r.date+r.title)),W=300,H=190,M=22,km=S.km||1,c=el('div','card rchart'),h=el('div','card-h');
+ h.append(el('h3',null,'이동 경로'),el('span','more',`${km.toFixed(1)}km`));c.append(h);
+ const track=/인터벌/.test(r.title),loop=track||R()<.6;let pts=[];
+ if(track){const S=84.4,Rr=36.5,Pm=2*S+2*Math.PI*Rr;for(let i=0;i<=240;i++){let u=i/240*Pm;if(u<S){pts.push([-S/2+u,Rr]);continue}u-=S;if(u<Math.PI*Rr){const t=u/Rr;pts.push([S/2+Rr*Math.sin(t),Rr*Math.cos(t)]);continue}u-=Math.PI*Rr;if(u<S){pts.push([S/2-u,-Rr]);continue}u-=S;const t=u/Rr;pts.push([-S/2-Rr*Math.sin(t),-Rr*Math.cos(t)])}}
+ else if(loop){const hm=[2,3,4].map(k=>[k,.05+R()*.14,R()*6.28]),asp=.55+R()*.4,rot=R()*3.14;
+  for(let i=0;i<=240;i++){const t=i/240*2*Math.PI;let rr=1;hm.forEach(([k,am,ph])=>rr+=am*Math.sin(k*t+ph));const x=Math.cos(t)*rr,y=Math.sin(t)*rr*asp;pts.push([x*Math.cos(rot)-y*Math.sin(rot),x*Math.sin(rot)+y*Math.cos(rot)])}}
+ else{let x=0,y=0,a=R()*6.28;for(let i=0;i<=240;i++){a+=(R()-.5)*.35+Math.sin(i/30)*.04;x+=Math.cos(a);y+=Math.sin(a)*.8;pts.push([x,y])}}
+ const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),sc=Math.min((W-2*M)/(x1-x0||1),(H-2*M)/(y1-y0||1));
+ const ox=(W-(x1-x0)*sc)/2,oy=(H-(y1-y0)*sc)/2,P=pts.map(([x,y])=>[ox+(x-x0)*sc,oy+(y-y0)*sc]);
+ const cum=[0];for(let i=1;i<P.length;i++)cum.push(cum[i-1]+Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]));const L=cum[cum.length-1];
+ const at=f=>{const d=f*L;let i=cum.findIndex(v=>v>=d);if(i<=0)return P[0];const t=(d-cum[i-1])/(cum[i]-cum[i-1]||1);return [P[i-1][0]+(P[i][0]-P[i-1][0])*t,P[i-1][1]+(P[i][1]-P[i-1][1])*t]};
+ const sv0=svgEl('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':`이동 경로 ${km.toFixed(1)}km`,class:'route'}),uid=++svgUid,cp=svgEl('clipPath',{id:'rc'+uid});cp.append(svgEl('rect',{x:0,y:0,width:W,height:H,rx:14}));sv0.append(cp);
+ const sv=svgEl('g',{'clip-path':`url(#rc${uid})`});sv0.append(sv);
+ sv.append(svgEl('rect',{x:0,y:0,width:W,height:H,class:'map'}));
+ /* 지도 느낌: 강 하나와 길 몇 개 */
+ if(!track){const ry=R()<.5?H*(.12+R()*.15):H*(.72+R()*.15);sv.append(svgEl('path',{d:`M-10,${ry} C${W*.3},${ry+(R()-.5)*50} ${W*.6},${ry+(R()-.5)*50} ${W+10},${ry+(R()-.5)*30}`,class:'river'}));
+  for(let i=0;i<5;i++){const v=R()<.5,p=(.1+R()*.8)*(v?W:H);sv.append(svgEl('line',v?{x1:p,x2:p+(R()-.5)*40,y1:0,y2:H,class:'road'}:{x1:0,x2:W,y1:p,y2:p+(R()-.5)*40,class:'road'}))}}
+ const d=P.map((p,i)=>`${i?'L':'M'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join('')+(loop?'Z':'');
+ if(track)sv.append(svgEl('path',{d,class:'field'}));
+ sv.append(svgEl('path',{d,class:'route-under'}),svgEl('path',{d,class:'route-line'}));
+ if(!track)for(let k=1;k<km-.15;k++){const [x,y]=at(k/km),g=svgEl('g');g.append(svgEl('circle',{cx:x,cy:y,r:7.5,class:'km'}));const t=svgEl('text',{x,y:y+3,'text-anchor':'middle',class:'kmt'});t.textContent=k;g.append(t);sv.append(g)}
+ const [sx,sy]=P[0];sv.append(svgEl('circle',{cx:sx,cy:sy,r:6,class:'st'}));
+ if(!loop){const [ex,ey]=P[P.length-1];sv.append(svgEl('rect',{x:ex-5.5,y:ey-5.5,width:11,height:11,rx:2.5,class:'en'}))}
+ const lg=el('div','xcap');lg.textContent=track?`트랙 400m · ${r.meta}`:loop?'● 출발·도착 · 숫자는 km':'● 출발 · ■ 도착 · 숫자는 km';
+ const box=el('div','rsvg');box.append(sv0);c.append(box,lg,el('div','note','예시 경로예요. 실제 앱에서는 휴대폰·워치 GPS 기록으로 그려요.'));return c;
+}
+/* 축구·풋살: 경기장 위 움직임. 많이 머문 곳일수록 진하게(히트맵) + 지나간 길 */
+function pitchCard(r,played,dist){
+ const sp=exType(r),F={축구:[105,68],풋살:[40,20]}[sp];if(!F)return null;
+ const [FW,FH]=F,R=rng(hsh(r.date+sp)),uid=++svgUid,c=el('div','card rchart'),h=el('div','card-h');
+ h.append(el('h3',null,'경기장 위 움직임'),el('span','more','공격 방향 →'));c.append(h);
+ /* 맡은 자리 근처를 오가다 가끔 앞으로 달려 나간다 */
+ const home=[FW*(.35+R()*.3),FH*(.22+R()*.56)];let x=home[0],y=home[1],vx=0,vy=0,spr=0,sprints=0;const pts=[];
+ for(let i=0;i<700;i++){if(!spr&&R()<.012){spr=18+Math.floor(R()*14);sprints++}
+  const tx=spr?FW*.85:home[0],ty=spr?y:home[1],k=spr?.02:.004,sd=FW*(spr?.004:.012);
+  vx=vx*.9+(tx-x)*k+(R()-.5)*sd;vy=vy*.9+(ty-y)*k*1.4+(R()-.5)*sd;x=Math.max(1,Math.min(FW-1,x+vx));y=Math.max(1,Math.min(FH-1,y+vy));if(spr)spr--;pts.push([x,y])}
+ const sv=svgEl('svg',{viewBox:`-2 -2 ${FW+4} ${FH+4}`,role:'img','aria-label':`${sp} 경기장 위 움직임`,class:'pitch'});
+ const defs=svgEl('defs'),fl=svgEl('filter',{id:'hb'+uid,x:'-20%',y:'-20%',width:'140%',height:'140%'});fl.append(svgEl('feGaussianBlur',{stdDeviation:FW*.025}));const cp=svgEl('clipPath',{id:'pc'+uid});cp.append(svgEl('rect',{x:-2,y:-2,width:FW+4,height:FH+4,rx:FW*.03}));defs.append(fl,cp);sv.append(defs);
+ sv.append(svgEl('rect',{x:-2,y:-2,width:FW+4,height:FH+4,rx:FW*.03,class:'turf'}));
+ const heat=svgEl('g',{filter:`url(#hb${uid})`}),hw=svgEl('g',{'clip-path':`url(#pc${uid})`});pts.forEach((p,i)=>{if(i%4)return;heat.append(svgEl('circle',{cx:p[0],cy:p[1],r:FW*.045,class:'heat'}))});hw.append(heat);sv.append(hw);
+ const L=svgEl('g',{class:'pl-line','stroke-width':FW*.004});const ln=(a)=>L.append(svgEl(a[0],a[1]));
+ const bx=FW===105?[16.5,40.3,5.5,18.3,9.15,11]:[6,12,0,0,3,6];
+ ln(['rect',{x:0,y:0,width:FW,height:FH}]);ln(['line',{x1:FW/2,x2:FW/2,y1:0,y2:FH}]);ln(['circle',{cx:FW/2,cy:FH/2,r:bx[4]}]);
+ [0,1].forEach(s=>{const X=v=>s?FW-v:v;ln(['path',{d:`M${X(0)},${(FH-bx[1])/2}H${X(bx[0])}V${(FH+bx[1])/2}H${X(0)}`}]);if(bx[2])ln(['path',{d:`M${X(0)},${(FH-bx[3])/2}H${X(bx[2])}V${(FH+bx[3])/2}H${X(0)}`}]);ln(['circle',{cx:X(bx[5]),cy:FH/2,r:FW*.004,class:'spot'}])});
+ sv.append(L);
+ sv.append(svgEl('polyline',{points:pts.filter((_,i)=>i%2===0).map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' '),class:'trail','stroke-width':FW*.0035}));
+ /* 많이 뛴 곳 (가로 3칸 × 세로 3칸 중 가장 오래 머문 칸) */
+ const cnt={};pts.forEach(([a,b])=>{const k=Math.min(2,Math.floor(a/FW*3))+','+Math.min(2,Math.floor(b/FH*3));cnt[k]=(cnt[k]||0)+1});
+ const [gx,gy]=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0][0].split(',').map(Number);
+ const zone=`${['수비 진영','중앙','공격 진영'][gx]} · ${['왼쪽','가운데','오른쪽'][gy]}`;
+ const box=el('div','rsvg');box.append(sv);c.append(box);
+ const st=el('div','card rstat macro pstat');[['주로 뛴 곳',zone],['전력 질주',`${sprints}번`],['이동 거리',dist!=null?`${dist}km`:'-']].forEach(([l,v])=>{const d=el('div');d.append(el('small',null,l),el('b',null,v));st.append(d)});
+ c.append(st,el('div','note','예시 움직임이에요. 실제 앱에서는 워치 GPS 기록으로 그려요. 진할수록 오래 머문 곳이에요.'));return c;
+}
+function prevOf(r,same){return records.filter(x=>x.kind===r.kind&&x.date<r.date&&(!same||x.title===r.title)&&(r.kind!=='meet'||exType(x)===exType(r))).sort((a,b)=>b.date.localeCompare(a.date))[0]}
 function statRow(cells){const c=el('div','card rstat');cells.forEach(([l,v])=>{const d=el('div');d.append(el('small',null,l),el('b','num',v));c.append(d)});return c}
 function lineChart(title,unit,pts,o={}){const c=el('div','card rchart'),h=el('div','card-h');h.append(el('h3',null,title),el('span','more',unit));c.append(h);
  const W=300,H=110,L=34,R=8,T=8,B=20,vs=pts.map(p=>p.v);let lo=Math.min(...vs),hi=Math.max(...vs);const st=o.step||1;lo=Math.floor(lo/st)*st;hi=Math.ceil(hi/st)*st;if(hi===lo)hi=lo+st;
@@ -2778,6 +2858,7 @@ function recDetail(r){const box=el('div','rdet'),hd=el('div','rhd');hd.append(el
  const hero=(v,u,cap)=>{const h=el('div','rhero');if(cap)h.append(el('small',null,cap));const n=el('div');n.append(el('b','num',v),el('span',null,u));h.append(n);return h};
  if(r.kind==='run'){const S=runStats(r);
   box.append(hero(S.km.toFixed(2),'km'),statRow([['운동 시간',mmss(S.sec)],['평균 페이스',paceS(S.pace)],['최고 페이스',paceS(S.best)]]));
+  box.append(routeCard(r,S));
   if(S.splits.length>1)box.append(lineChart('페이스 추이','분 / km',S.splits.map((v,i)=>({x:`${i+1}km`,v})),{invert:false,step:30,fmt:paceS}));
   const pv=prevOf(r);if(pv){const P=runStats(pv),dk=S.km-P.km,dp=P.pace-S.pace;
    box.append(cmpCard(`지난 러닝 ${md(pv.date)}와 비교`,`거리 ${dk>=0?'+':'−'}${Math.abs(dk).toFixed(1)}km · 페이스 ${dp>=0?`${dp}초 빨라짐`:`${-dp}초 느려짐`}`))}
@@ -2794,6 +2875,7 @@ function recDetail(r){const box=el('div','rdet'),hd=el('div','rhd');hd.append(el
    box.append(cmpCard(`지난 ${r.title} ${md(pv.date)}와 비교`,`총 볼륨 ${Math.round(pvol).toLocaleString()}kg → ${Math.round(vol).toLocaleString()}kg`,`${d>=0?'+':''}${d}%`))}}
  }else{const num=(re)=>{const x=r.meta.match(re);return x?+x[1]:null},tot=num(/^(\d+)분/)||(num(/^(\d+)시간/)||0)*60,pl=num(/뛴 시간\s*(\d+)/),mv=r.meta.match(/이동\s*([\d.]+)/);
   box.append(hero(pl!=null?pl:'-','분','뛴 시간'),statRow([['총 시간',tot?`${tot}분`:'-'],['쉰 시간',tot&&pl!=null?`${tot-pl}분`:'-'],['이동 거리',mv?`${mv[1]}km`:'-']]));
+  {const pc=pitchCard(r,pl,mv?+mv[1]:null);if(pc)box.append(pc)}
   if(tot&&pl!=null)box.append(barChart('시간 나눔','분',[['뛴 시간',pl,`${pl}분`],['쉰 시간',tot-pl,`${tot-pl}분`]]));
   const pv=prevOf(r);if(pv){const pp=(pv.meta.match(/뛴 시간\s*(\d+)/)||[])[1];if(pp&&pl!=null){const d=pl-pp;box.append(cmpCard(`지난 ${pv.title} ${md(pv.date)}와 비교`,`뛴 시간 ${pp}분 → ${pl}분 (${d>=0?'+':''}${d}분)`))}}}
  return box}
@@ -2954,18 +3036,19 @@ function sparkRow(l,col){
  sv.append(mk('line',{x1:P,x2:W-P,y1:H-1,y2:H-1,stroke:'var(--line)','stroke-width':1,'vector-effect':'non-scaling-stroke'}));
  sv.append(mk('polyline',{points:l.pts.map((p,i)=>`${X(i)},${Y(p.v)}`).join(' '),fill:'none',stroke:col,'stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round','vector-effect':'non-scaling-stroke'}));
  const cap=el('div','cap',l.sub||' ');const dots=[];
- l.pts.forEach((p,i)=>{const d=mk('circle',{cx:X(i),cy:Y(p.v),r:4,fill:i===l.pts.length-1?col:'var(--card)',stroke:col,'stroke-width':2,'vector-effect':'non-scaling-stroke'});dots.push(d);sv.append(d);
-  const h=mk('circle',{cx:X(i),cy:Y(p.v),r:14,class:'hit-pt'});const show=()=>{cap.textContent=`${mdw(p.d)} · ${tip(p)}`;dots.forEach((x,j)=>x.setAttribute('r',j===i?5.5:4))};
+ const last=l.pts.length-1,r0=j=>j===last?4:0;
+ l.pts.forEach((p,i)=>{const d=mk('circle',{cx:X(i),cy:Y(p.v),r:r0(i),fill:i===last?col:'var(--card)',stroke:col,'stroke-width':2,'vector-effect':'non-scaling-stroke'});dots.push(d);sv.append(d);
+  const h=mk('circle',{cx:X(i),cy:Y(p.v),r:14,class:'hit-pt'});const show=()=>{cap.textContent=`${mdw(p.d)} · ${tip(p)}`;dots.forEach((x,j)=>x.setAttribute('r',j===i?5.5:r0(j)))};
   h.addEventListener('pointerenter',show);h.addEventListener('click',show);const ti=mk('title',{});ti.textContent=`${md(p.d)} ${tip(p)}`;h.append(ti);sv.append(h)});
- sv.addEventListener('pointerleave',()=>{cap.textContent=l.sub||' ';dots.forEach(x=>x.setAttribute('r',4))});
+ sv.addEventListener('pointerleave',()=>{cap.textContent=l.sub||' ';dots.forEach((x,j)=>x.setAttribute('r',r0(j)))});
  r.append(sv,cap);return r;
 }
-/* 기록 탭 안에서 부드럽게 내린다 (식단 탭 물·영양제 바로가기처럼 지금 위치에서 바로 이동).
-   'bar' → 운동/식단/체성분 줄이 맨 위에 붙는 위치, 그 밖의 id → 그 부분이 붙은 줄 바로 아래.
+/* 기록 탭 안에서 부드럽게 움직인다 (식단 탭 물·영양제 바로가기처럼 지금 위치에서 바로 이동).
+   'top' → 맨 위, 'bar' → 운동/식단/체성분 줄이 맨 위에 붙는 위치, 그 밖의 id → 그 부분이 붙은 줄 바로 아래.
    아래 내용이 짧으면 맨 아래 빈 자리(calPad)를 늘려 끝까지 올라가게 하고, 다 내려간 뒤 필요한 만큼만 남긴다 */
 function calScroll(to){setTimeout(()=>{const sc=$('s-cal');if(!sc.classList.contains('on'))return;
  const sTop=sc.getBoundingClientRect().top,bar=$('calBar'),pad=$('calPad');
- const top=Math.max(0,Math.round(to==='bar'?sc.scrollTop+$('calBarAt').getBoundingClientRect().top-sTop:sc.scrollTop+$(to).getBoundingClientRect().top-sTop-bar.offsetHeight-8));
+ const top=to==='top'?0:Math.max(0,Math.round(to==='bar'?sc.scrollTop+$('calBarAt').getBoundingClientRect().top-sTop:sc.scrollTop+$(to).getBoundingClientRect().top-sTop-bar.offsetHeight-8));
  const ph=pad.offsetHeight,need=Math.max(0,Math.ceil(top+sc.clientHeight-(sc.scrollHeight-ph)));
  if(need>ph)pad.style.height=need+'px';
  const tok=calScroll.tok=(calScroll.tok||0)+1,fin=()=>{if(calScroll.tok===tok)pad.style.height=need+'px'};
