@@ -1241,7 +1241,16 @@ button.more:hover{color:var(--ink)}
 .bvals em{display:block;font-style:normal;font-size:11px;color:var(--mut);margin-top:1px}
 .dayrec h3,.trend h3{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
 .dayrec .sub,.trend .sub{font-size:12.5px;color:var(--mut);margin-top:2px}
-.dayhd{display:flex;justify-content:space-between;align-items:baseline;margin:22px 2px 0}
+/* 그날 기록 날짜: 내리면 운동/식단 줄 바로 아래에 붙고(높이는 --calbar로 맞춤), 누르면 달력으로 올라간다 */
+.dayhd{display:flex;justify-content:space-between;align-items:baseline;margin:14px 2px 0;padding:8px 0;position:sticky;top:calc(var(--calbar,0px) - 8px);z-index:5;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.dayhd::before{content:'';position:absolute;inset:0 -100vmax;z-index:-1;opacity:0;transition:opacity .18s;background:var(--bg);box-shadow:0 1px 0 var(--line)}
+.dayhd.stuck::before{opacity:1}
+.stickbar.under::before{box-shadow:none}
+.phone.ipad .dayhd{top:calc(var(--calbar,0px) - 16px)}
+.dayhd h3{display:flex;align-items:center;gap:4px}
+.dayhd h3 svg{width:15px;height:15px;color:var(--mut);transition:transform .18s}
+.dayhd:hover h3 svg{transform:translateY(-2px)}
+.dayhd:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
 .dayrec>.card.empty{padding:16px 18px}
 .dayrec .card h3{font-size:15px}
 .rdet{margin-top:14px}
@@ -3352,7 +3361,10 @@ function recDetail(r){const box=el('div','rdet'),hd=el('div','rhd');hd.append(el
  return box}
 function dayCard(k){
  const c=el('div','dayrec'),sd=pd(k),rs=calRecs(k);
- const h=el('div','dayhd');h.append(el('h3',null,`${sd.getMonth()+1}월 ${sd.getDate()}일 ${DOW[sd.getDay()]}요일`));c.append(h);
+ const h=el('div','dayhd'),h3=el('h3',null,`${sd.getMonth()+1}월 ${sd.getDate()}일 ${DOW[sd.getDay()]}요일`);
+ h3.insertAdjacentHTML('beforeend','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg>');
+ h.append(h3);h.tabIndex=0;h.setAttribute('role','button');h.setAttribute('aria-label',`${sd.getMonth()+1}월 ${sd.getDate()}일 · 달력으로 올라가기`);h.title='달력으로 올라가기';
+ h.onclick=calToGrid;h.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();calToGrid()}};c.append(h);
  if(calTab==='meal'){
   const ml=mealDetail(k),tot=ml.reduce((a,x)=>a+x.kcal,0);
   if(!ml.length){c.append(el('div','card empty',k>TODAY?'아직 오지 않은 날이에요.':'이날은 식단 기록이 없어요.'));return c}
@@ -3540,7 +3552,14 @@ function smoothTo(sc,top,done){cancelAnimationFrame(sc._anim);const from=sc.scro
  const step=now=>{const t=Math.min(1,(now-t0)/dur);sc.scrollTop=from+d*ease(t);if(t<1)sc._anim=requestAnimationFrame(step);else{off();done&&done()}};sc._anim=requestAnimationFrame(step)}
 /* 붙는 줄: 맨 위에 붙었을 때만 반투명 막과 아래 선을 보인다 */
 function stuckMark(){[['s-cal','calBar'],['s-diet','dNav']].forEach(([s,b])=>{const sc=$(s),e=$(b);if(!sc||!e||!sc.classList.contains('on'))return;
- e.classList.toggle('stuck',sc.scrollTop>0&&e.getBoundingClientRect().top-sc.getBoundingClientRect().top<=.5)})}
+ e.classList.toggle('stuck',sc.scrollTop>0&&e.getBoundingClientRect().top-sc.getBoundingClientRect().top<=.5)});
+ /* 기록 탭 날짜 줄: 탭 줄 높이를 알려 주고, 붙었을 때는 날짜 줄 아래에만 선을 긋는다 */
+ const sc=$('s-cal'),bar=$('calBar');if(!sc.classList.contains('on'))return;sc.style.setProperty('--calbar',bar.offsetHeight+'px');
+ const d=document.querySelector('#dayList .dayhd'),on=!!d&&sc.scrollTop>0&&d.getBoundingClientRect().top-bar.getBoundingClientRect().bottom<=.5;
+ if(d)d.classList.toggle('stuck',on);bar.classList.toggle('under',on)}
+/* 날짜 줄을 누르면 달력이 탭 줄 바로 아래에 오도록 부드럽게 올라간다 */
+function calToGrid(){const sc=$('s-cal'),top=Math.max(0,Math.round(sc.scrollTop+$('calCard').getBoundingClientRect().top-sc.getBoundingClientRect().top-$('calBar').offsetHeight-8));
+ if(top<sc.scrollTop)smoothTo(sc,top,stuckMark)}
 ['s-cal','s-diet'].forEach(id=>$(id).addEventListener('scroll',stuckMark,{passive:true}));
 /* 종류 칩 줄: 넘치면 좌우로 민다. 손가락은 브라우저가, 마우스는 끌기·휠로 */
 (()=>{const ty=$('calTypes');let x0=null,s0=0,moved=false;
