@@ -1357,13 +1357,11 @@ button.more:hover{color:var(--ink)}
 .restart.fill{top:64px;background:var(--card);color:var(--ink);border:1px solid var(--line2)}
 .restart.theme{top:64px}
 .restart.device{top:112px}
-.restart.memo{top:160px}
-.restart.memo.on{background:var(--dark);color:#fff;border-color:var(--dark)}
-.memo-pad{position:fixed;top:208px;left:16px;z-index:50;width:156px;height:420px;min-width:140px;min-height:160px;max-width:calc(100vw - 32px);max-height:calc(100vh - 224px);resize:both;overflow:hidden;display:flex;flex-direction:column;background:#FFFDF4;border:1px solid var(--line2);border-radius:16px;box-shadow:0 10px 28px rgba(30,32,26,.18)}
+.memo-pad{flex:none;width:380px;height:864px;display:flex;flex-direction:column;background:#FFFDF4;border:1px solid var(--line2);border-radius:28px;box-shadow:0 24px 60px rgba(30,32,26,.14);overflow:hidden}
 .memo-pad[hidden]{display:none}
-.memo-pad .mh{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 6px;font-size:13px;font-weight:700;color:var(--ink)}
+.memo-pad .mh{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 8px;font-size:15px;font-weight:700;color:var(--ink)}
 .memo-pad .mh small{font-size:11px;font-weight:600;color:var(--mut)}
-.memo-pad textarea{flex:1;border:0;outline:0;resize:none;background:transparent;padding:4px 14px 14px;font:14px/1.6 Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;color:#2A2D28}
+.memo-pad textarea{flex:1;border:0;outline:0;resize:none;background:transparent;padding:4px 22px 22px;font:15px/1.65 Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;color:#2A2D28}
 .ipad-wrap{--sc:.6;flex:none;width:calc(1218px * var(--sc));height:calc(858px * var(--sc));position:relative}
 .ipad-wrap iframe{position:absolute;left:0;top:0;width:1218px;height:858px;border:0;background:transparent;transform:scale(var(--sc));transform-origin:0 0}
 body.with-ipad{padding-left:180px;align-items:center;min-height:100vh}
@@ -1403,7 +1401,6 @@ html.embed .phone.ipad{box-shadow:none}
 <button class="restart" id="restartBtn" type="button" title="저장된 답을 지우고 앱을 처음 설치한 상태로 다시 열어요"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>처음부터</button>
 <button class="restart fill theme" id="themeBtn" type="button" title="폰 화면을 다크 모드로 바꿔요"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><span>다크 모드</span></button>
 <button class="restart fill device" id="deviceBtn" type="button" title="아이패드 화면으로 바꿔요"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg><span>아이패드</span></button>
-<button class="restart fill memo" id="memoBtn" type="button" title="메모장을 열고 닫아요 (내용은 이 브라우저에 저장돼요)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h10l4 4v13H5z"/><path d="M15 3.5v4h4"/><path d="M8.5 12h7M8.5 16h5"/></svg><span>메모장</span></button>
 <div class="memo-pad" id="memoPad" hidden><div class="mh">메모<small id="memoState">저장됨</small></div><textarea id="memoText" placeholder="여기에 메모를 적어 두세요. 적는 대로 저장돼요." spellcheck="false"></textarea></div>
 <div class="phone" id="phone">
  <div class="status"><span>9:41</span>
@@ -3565,19 +3562,19 @@ document.querySelector('.tabs [data-go=cal]').addEventListener('click',()=>{calT
  try{set(localStorage.getItem(KEY)==='dark')}catch(e){}
  b.onclick=()=>{const d=!ph.classList.contains('theme-dark');set(d);try{localStorage.setItem(KEY,d?'dark':'light')}catch(e){}window.ipadSync&&ipadSync.theme(d)};
 })();
-/* ---- 메모장 (2026-11-23): 버튼으로 열고 닫기, 내용·열림·크기는 이 브라우저에 기억 ('처음부터'로도 지워지지 않음) ---- */
-(()=>{const KEY='mvp-prototype-memo-v1',b=$('memoBtn'),pad=$('memoPad'),ta=$('memoText'),st=$('memoState');
+/* ---- 메모장 (2026-11-23): 아이패드를 숨기면 폰 옆에 나타남, 내용은 이 브라우저에 기억 ('처음부터'로도 지워지지 않음) ---- */
+(()=>{const KEY='mvp-prototype-memo-v1',pad=$('memoPad'),ta=$('memoText'),st=$('memoState');
  /* 아이패드 화면(iframe)은 같은 파일이라 여기서 돌면 예전 내용으로 덮어쓴다 → 폰 쪽에서만 */
- if(!b||new URLSearchParams(location.search).get('device')==='ipad')return;
- let m={text:'',open:false,w:0,h:0};try{m={...m,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){}
- const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(m));st.textContent='저장됨'}catch(e){st.textContent='저장 안 됨'}};
- const set=on=>{m.open=on;pad.hidden=!on;b.classList.toggle('on',on);b.querySelector('span').textContent=on?'메모장 닫기':'메모장';if(on)ta.focus()};
- ta.value=m.text;if(m.w)pad.style.width=m.w+'px';if(m.h)pad.style.height=m.h+'px';set(m.open);if(m.open)ta.blur();
- let t;ta.addEventListener('input',()=>{m.text=ta.value;st.textContent='저장 중…';clearTimeout(t);t=setTimeout(save,300)});
- ta.addEventListener('blur',()=>{clearTimeout(t);m.text=ta.value;save()});
- addEventListener('beforeunload',()=>{m.text=ta.value;save()});
- new ResizeObserver(()=>{if(pad.hidden)return;m.w=pad.offsetWidth;m.h=pad.offsetHeight;clearTimeout(t);t=setTimeout(save,300)}).observe(pad);
- b.onclick=()=>{m.text=ta.value;set(pad.hidden);save()};
+ if(!pad||new URLSearchParams(location.search).get('device')==='ipad')return;
+ $('phone').after(pad);
+ let m={text:''};try{m={...m,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){}
+ const save=()=>{m.text=ta.value;try{localStorage.setItem(KEY,JSON.stringify({text:m.text}));st.textContent='저장됨'}catch(e){st.textContent='저장 안 됨'}};
+ ta.value=m.text;
+ let t;ta.addEventListener('input',()=>{st.textContent='저장 중…';clearTimeout(t);t=setTimeout(save,300)});
+ ta.addEventListener('blur',()=>{clearTimeout(t);save()});
+ addEventListener('beforeunload',save);
+ /* 아이패드를 보이면 메모장은 숨고, 아이패드를 숨기면 그 자리에 메모장 */
+ window.memoShow=on=>{pad.hidden=!on};
 })();
 /* ---- 폰 옆 아이패드 (2026-11-20) ----
    같은 파일을 ?device=ipad 로 한 번 더 띄워 폰 오른쪽에 둔다. 창 폭에 맞춰 줄여 보여 준다.
@@ -3588,7 +3585,7 @@ if(EMBED){document.documentElement.classList.add('embed');$('phone').classList.a
 }else(()=>{const KEY='mvp-prototype-device-v1',b=$('deviceBtn'),w=el('div','ipad-wrap'),f=document.createElement('iframe');
  w.id='ipadWrap';f.id='ipadFrame';f.title='아이패드 화면';f.src=location.href.split('#')[0].split('?')[0]+'?device=ipad';w.append(f);$('phone').after(w);
  const fit=()=>{const sc=Math.max(.45,Math.min(.8,(innerWidth-180-410-36-32)/1218));w.style.setProperty('--sc',sc.toFixed(3))};
- const set=on=>{w.hidden=!on;document.body.classList.toggle('with-ipad',on);b.querySelector('span').textContent=on?'아이패드 숨기기':'아이패드 보기';fit()};
+ const set=on=>{w.hidden=!on;window.memoShow&&memoShow(!on);document.body.classList.toggle('with-ipad',on);b.querySelector('span').textContent=on?'메모장 보기':'아이패드 보기';fit()};
  let on=true;try{on=localStorage.getItem(KEY)!=='hide'}catch(e){}set(on);
  b.onclick=()=>{on=w.hidden;set(on);try{localStorage.setItem(KEY,on?'show':'hide')}catch(e){}};
  addEventListener('resize',fit);
